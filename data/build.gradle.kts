@@ -33,7 +33,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.jottie.data"
+    namespace = "com.jotte.data"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

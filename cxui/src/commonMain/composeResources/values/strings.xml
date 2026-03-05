@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">jottie</string>
+    <string name="app_name">jotte</string>
     <string name="default_room_name">my room</string>
     <string name="draft_hint">Say anything</string>
     <string name="empty_note_room_title">looks empty</string>
     <string name="empty_note_room_body">jot down your first note to get started</string>
-    <string name="empty_rooms_title">Welcome, to jottie</string>
-    <string name="empty_rooms_body">jottie is an offline-only note take companion that is forever free and forever ad-free.</string>
+    <string name="empty_rooms_title">Welcome, to jotte</string>
+    <string name="empty_rooms_body">jotte is an offline-only note take companion that is forever free and forever ad-free.</string>
     <string name="create_my_first_room">create my first room</string>
     <string name="rooms">rooms</string>
     <string name="search">search</string>
@@ -20,9 +20,9 @@
     <string name="save">save</string>
     <string name="rename_room_dialog_title">enter your rooms name</string>
     <string name="delete_note_dialog_title">delete this note?</string>
-    <string name="delete_note_dialog_body">jottie is offline-only. If you delete this note you can not recover it.</string>
+    <string name="delete_note_dialog_body">jotte is offline-only. If you delete this note you can not recover it.</string>
     <string name="delete_room_dialog_title">delete room</string>
-    <string name="delete_room_dialog_body">jottie is offline-only. If you delete this room you can not recover it.</string>
+    <string name="delete_room_dialog_body">jotte is offline-only. If you delete this room you can not recover it.</string>
     <string name="view_fullscreen">view fullscreen</string>
     <string name="exit_fullscreen">exit fullscreen</string>
     <string name="yes">yes</string>
@@ -79,5 +79,5 @@
     <string name="remove_link_dialog_title">remove link?</string>
     <string name="remove_link_dialog_body">this link is unsaved. remove?</string>
     <string name="delete_media_dialog_title">delete this media?</string>
-    <string name="delete_media_dialog_body">jottie is offline only. if you delete this you will not be able to recover.</string>
+    <string name="delete_media_dialog_body">jotte is offline only. if you delete this you will not be able to recover.</string>
 </resources>

@@ -59,11 +59,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.jottie.app"
+    namespace = "com.jotte.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.jottie.app"
+        applicationId = "com.jotte.app"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1

@@ -52,7 +52,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.jottie.cxui"
+    namespace = "com.jotte.cxui"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -65,6 +65,6 @@ android {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "com.jottie.cxui"
+    packageOfResClass = "com.jotte.cxui"
     generateResClass = auto
 }

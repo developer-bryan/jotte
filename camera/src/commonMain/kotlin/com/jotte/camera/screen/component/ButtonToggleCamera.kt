@@ -1,0 +1,23 @@
+package com.jotte.camera.screen.component
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.jotte.cxui.Res
+import com.jotte.cxui.component.CXButtonIcon
+import com.jotte.cxui.icon_flip
+import com.jotte.cxui.theme.iconSizes
+
+@Composable
+internal fun ButtonToggleCamera(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+
+    CXButtonIcon(
+        icon = Res.drawable.icon_flip,
+        iconSize = iconSizes.medium,
+        modifier = modifier,
+        onClick = onClick
+    )
+
+}

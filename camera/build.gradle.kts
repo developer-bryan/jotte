@@ -46,7 +46,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.jottie.camera"
+    namespace = "com.jotte.camera"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

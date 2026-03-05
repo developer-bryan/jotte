@@ -41,7 +41,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.jottie.room"
+    namespace = "com.jotte.room"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

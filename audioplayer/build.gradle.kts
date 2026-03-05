@@ -40,7 +40,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.jottie.audioplayer"
+    namespace = "com.jotte.audioplayer"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

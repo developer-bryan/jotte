@@ -40,7 +40,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.jottie.editor"
+    namespace = "com.jotte.editor"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

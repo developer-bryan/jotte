@@ -48,7 +48,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.jottie.core"
+    namespace = "com.jotte.core"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -61,12 +61,12 @@ android {
 
 buildConfig {
     val props = Properties().apply {
-        file("$rootDir/jottie.properties")
+        file("$rootDir/jotte.properties")
             .inputStream()
             .use(this::load)
     }
 
-    packageName("com.jottie.core")
+    packageName("com.jotte.core")
     useKotlinOutput { internalVisibility = false }
 
     buildConfigField("APP_VERSION", props.getProperty("VERSION_STRING"))
