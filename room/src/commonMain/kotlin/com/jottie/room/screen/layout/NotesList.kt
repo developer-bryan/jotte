@@ -1,0 +1,95 @@
+package com.jottie.room.screen.layout
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.jottie.cxui.extension.ColumnExtension.LazySpace
+import com.jottie.cxui.component.CXScrollbar
+import com.jottie.cxui.theme.sizes
+import com.jottie.room.model.state.NoteState
+import com.jottie.room.screen.component.NoteComponent
+import com.jottie.room.screen.component.NoteListQuickScrollButton
+import com.jottie.room.screen.controller.NoteController
+import com.jottie.room.screen.controller.rememberNoteController
+import kotlinx.coroutines.launch
+
+@Composable
+internal fun NotesList(
+    notes: List<NoteState>,
+    modifier: Modifier = Modifier,
+    isFullscreen: Boolean = false,
+    onMediaClicked: (notestate: NoteState, mediaIndex: Int) -> Unit,
+    onPlayAudioClicked: (audioId: String) -> Unit,
+    onEditNote: (noteId: Long) -> Unit,
+    onDeleteNote: (id: Long) -> Unit
+) {
+
+    val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+
+    val showQuickScrollButton by remember {
+        derivedStateOf { listState.firstVisibleItemIndex > 1 }
+    }
+
+    LaunchedEffect(notes.size) {
+        if (listState.firstVisibleItemIndex > 0) {
+            listState.animateScrollToItem(0)
+        }
+    }
+
+    CXScrollbar(listState) {
+        LazyColumn(
+            modifier = modifier.fillMaxSize(),
+            state = listState,
+            contentPadding = PaddingValues(vertical = sizes.small),
+            verticalArrangement = Arrangement.spacedBy(sizes.small),
+            reverseLayout = true,
+            content = {
+
+                LazySpace { 98.dp }
+
+                itemsIndexed(
+                    items = notes,
+                    key = { _, item -> item.noteId },
+                    itemContent = { _, noteState ->
+                        NoteComponent(
+                            noteState = noteState,
+                            controller = rememberNoteController(noteState),
+                            onImageClicked = { onMediaClicked(noteState, it) },
+                            onPlayAudioClicked = onPlayAudioClicked,
+                            onEditNoteClicked = { onEditNote(noteState.noteId) },
+                            onDeleteNoteClicked = { onDeleteNote(noteState.noteId) }
+                        )
+                    }
+                )
+
+                if (isFullscreen) {
+                    LazySpace { huge }
+                }
+            }
+        )
+
+        NoteListQuickScrollButton(
+            isVisible = !isFullscreen && showQuickScrollButton,
+            modifier = Modifier
+                .padding(sizes.regular)
+                .align(Alignment.BottomCenter),
+            onClick = { scope.launch { listState.animateScrollToItem(0) } }
+        )
+
+    }
+
+}

@@ -1,0 +1,1 @@
+./gradlew :cxui:generateResourceAccessorsForCommonMain

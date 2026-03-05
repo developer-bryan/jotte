@@ -1,0 +1,6 @@
+<resources>
+    <string name="note_long_click_desc">show the note context menu</string>
+    <string name="input_form_onclick_accessibility">tap to edit</string>
+    <string name="close_drawer">close drawer</string>
+    <string name="create_new_room">create a new room</string>
+</resources>

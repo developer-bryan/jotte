@@ -1,0 +1,99 @@
+package com.jottie.room.screen.controller
+
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import com.jottie.core.FileDownloader
+import com.jottie.core.LocalFileDownloader
+import com.jottie.cxui.Res
+import com.jottie.cxui.controller.CXToastController
+import com.jottie.cxui.composition.LocalToastController
+import com.jottie.cxui.controller.CXPagerController
+import com.jottie.cxui.controller.rememberPagerController
+import com.jottie.cxui.media_deleted
+import com.jottie.cxui.media_download
+import com.jottie.message.data.MediaDto
+import com.jottie.room.model.data.FilePagerItem
+import io.github.vinceglb.filekit.PlatformFile
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+
+internal class RoomScreenController(
+    val sheetState: ModalBottomSheetState,
+    val filePagerController: CXPagerController<FilePagerItem>,
+    private val toastState: CXToastController,
+    private val fileDownloader: FileDownloader,
+    private val scope: CoroutineScope
+) {
+
+    var isFullscreen by mutableStateOf(false)
+
+    val pagerHasItems by derivedStateOf { filePagerController.hasItems }
+
+    fun onMediaDeleted(itemId: String) {
+        toastState.show(Res.string.media_deleted)
+        filePagerController.removeItemById(itemId)
+    }
+
+    fun onMediaItemClicked(allItems: List<MediaDto>, selectedIndex: Int) {
+        filePagerController.setItems(
+            items = allItems.map { FilePagerItem(it) },
+            initialIndex = selectedIndex
+        )
+    }
+
+    fun downloadImageMedia(path: String) {
+        scope.launch {
+            fileDownloader.downloadImageFile(
+                file = PlatformFile(path),
+                onSuccess = { if (it) toastState.show(Res.string.media_download) },
+                onFailure = { toastState.showError() }
+            )
+        }
+    }
+
+    fun clearPagerItems() {
+        filePagerController.clear()
+    }
+
+    fun hideSheet() {
+        scope.launch { sheetState.hide() }
+    }
+
+    fun showSheet() {
+        scope.launch { sheetState.show() }
+    }
+
+    fun enterFullscreen() { this.isFullscreen = true }
+
+    fun exitFullscreen() { this.isFullscreen = false }
+
+}
+
+@Composable
+internal fun rememberRoomScreenController(roomId: Long): RoomScreenController {
+
+    val scope = rememberCoroutineScope()
+    val pagerController = rememberPagerController<FilePagerItem>(roomId)
+    val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val toastState = LocalToastController.current
+    val fileDownloader = LocalFileDownloader.current
+
+    return remember(roomId) {
+        RoomScreenController(
+            sheetState = sheetState,
+            filePagerController = pagerController,
+            toastState = toastState,
+            fileDownloader = fileDownloader,
+            scope = scope
+        )
+    }
+
+}
