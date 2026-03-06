@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		AC46F4B3E8055A88DFA91EC0 /* Jottie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jottie.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC46F4B3E8055A88DFA91EC0 /* Jotte.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jotte.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -50,7 +50,7 @@
 		11F54549A4F99FA62FC8B5B9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AC46F4B3E8055A88DFA91EC0 /* Jottie.app */,
+				AC46F4B3E8055A88DFA91EC0 /* Jotte.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -87,7 +87,7 @@
 			packageProductDependencies = (
 			);
 			productName = iosApp;
-			productReference = AC46F4B3E8055A88DFA91EC0 /* Jottie.app */;
+			productReference = AC46F4B3E8055A88DFA91EC0 /* Jotte.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
