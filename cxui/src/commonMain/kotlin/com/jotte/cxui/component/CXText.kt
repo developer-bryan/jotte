@@ -11,6 +11,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.typography
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CXText(
@@ -28,6 +30,33 @@ fun CXText(
 
     Text(
         text = text,
+        style = style,
+        modifier = modifier,
+        color = color.copy(alpha = alpha),
+        maxLines = maxLines,
+        textAlign = textAlign,
+        overflow = overflow,
+        softWrap = softWrap,
+        onTextLayout = onTextLayout
+    )
+}
+
+@Composable
+fun CXText(
+    textId: StringResource,
+    style: TextStyle,
+    alpha: Float = 1F,
+    modifier: Modifier = Modifier,
+    color: Color = colors.contentPrimary,
+    maxLines: Int = Int.MAX_VALUE,
+    textAlign: TextAlign = TextAlign.Start,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
+    softWrap: Boolean = true,
+    onTextLayout: ((TextLayoutResult) -> Unit)? = null
+) {
+
+    CXText(
+        text = stringResource(textId),
         style = style,
         modifier = modifier,
         color = color.copy(alpha = alpha),

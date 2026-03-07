@@ -16,7 +16,10 @@ import com.jotte.app.screen.EmptyRoomsScreen
 import com.jotte.app.screen.MainScreen
 import org.koin.compose.viewmodel.koinViewModel
 
-internal fun NavGraphBuilder.MainDestination(navController: NavController) = composable(
+internal fun NavGraphBuilder.MainDestination(
+    navController: NavController,
+    graphController: NavController
+) = composable(
     route = Route.MainScreen.destination,
     enterTransition = { EnterTransition.None },
     exitTransition = { ExitTransition.None },
@@ -39,7 +42,8 @@ internal fun NavGraphBuilder.MainDestination(navController: NavController) = com
                         onEditorClicked = { roomId, noteId ->
                             val editorRoute = Route.Editor(roomId, noteId)
                             navController.navigate(editorRoute)
-                        }
+                        },
+                        onWhiteboardClicked = { graphController.navigate(Route.WhiteboardGraph.destination) }
                     )
 
                     false -> EmptyRoomsScreen(viewModel::createNewRoom)

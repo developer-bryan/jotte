@@ -12,18 +12,19 @@ import androidx.navigation.compose.rememberNavController
 import com.jotte.app.navigation.destination.AudioNoteDestination
 import com.jotte.app.navigation.destination.EditorDestination
 import com.jotte.app.navigation.destination.MainDestination
+import com.jotte.app.navigation.destination.WhiteboardDestination
 import com.jotte.app.navigation.route.Route
 
 @Composable
-internal fun NavigationGraph(graphController: NavController) {
+internal fun WhiteboardGraph(graphController: NavController) {
     val navController = rememberNavController()
 
     Box(
         modifier = Modifier.fillMaxSize(),
         content = {
             NavHost(
-                route = Route.MainGraph.destination,
-                startDestination = Route.MainScreen.destination,
+                route = Route.WhiteboardGraph.destination,
+                startDestination = Route.Whiteboard.destination,
                 navController = navController,
                 modifier = Modifier.fillMaxSize(),
                 enterTransition = { EnterTransition.None },
@@ -31,9 +32,7 @@ internal fun NavigationGraph(graphController: NavController) {
                 popEnterTransition = { EnterTransition.None },
                 popExitTransition = { ExitTransition.None }
             ) {
-                this.MainDestination(navController, graphController)
-                this.AudioNoteDestination(navController)
-                this.EditorDestination(navController)
+                this.WhiteboardDestination(graphController)
             }
         }
     )

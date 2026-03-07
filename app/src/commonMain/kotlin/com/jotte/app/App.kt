@@ -42,6 +42,7 @@ import com.jotte.cxui.theme.CXTheme
 import com.jotte.cxui.theme.sizes
 import com.jotte.message.di.provideNotesModule
 import com.jotte.app.navigation.graph.NavigationGraph
+import com.jotte.app.navigation.graph.WhiteboardGraph
 import com.jotte.app.navigation.route.Route
 import com.jotte.audioplayer.di.provideAudioNoteModule
 import com.jotte.cxui.composition.LocalSoundEffectPlayer
@@ -89,14 +90,19 @@ fun App() {
                     LocalFileDownloader.provides(koinInject()),
                     LocalSoundEffectPlayer.provides(koinInject()),
                     content = {
+                        val graphController = rememberNavController()
                         NavHost(
-                            navController = rememberNavController(),
+                            navController = graphController,
                             startDestination = Route.MainGraph.destination,
                             route = "root",
                             builder = {
                                 composable(
                                     route = Route.MainGraph.destination,
-                                    content = { NavigationGraph() }
+                                    content = { NavigationGraph(graphController) }
+                                )
+                                composable(
+                                    route = Route.WhiteboardGraph.destination,
+                                    content = { WhiteboardGraph(graphController) }
                                 )
                             }
                         )

@@ -32,7 +32,8 @@ import kotlinx.coroutines.launch
 internal fun MainScreen(
     viewModel: MainViewModel,
     onAudioClicked: (audioId: String) -> Unit,
-    onEditorClicked: (roomId: Long, noteId: Long?) -> Unit
+    onEditorClicked: (roomId: Long, noteId: Long?) -> Unit,
+    onWhiteboardClicked: () -> Unit
 ) {
 
     val scope = rememberCoroutineScope()
@@ -84,7 +85,8 @@ internal fun MainScreen(
                             scope.launch { draggableState.animateTo(CLOSED) }
                         },
                         onDeleteRoom = deleteRoomDialog::show,
-                        onRenameRoom = { id, name -> renameRoomDialogController.show(id to name) }
+                        onRenameRoom = { id, name -> renameRoomDialogController.show(id to name) },
+                        onWhiteboardClicked = onWhiteboardClicked
                     )
                 }
             },
