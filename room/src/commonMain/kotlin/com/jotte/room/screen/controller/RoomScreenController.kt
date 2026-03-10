@@ -10,8 +10,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import com.jotte.core.FileDownloader
-import com.jotte.core.LocalFileDownloader
+import com.jotte.core.usecase.DownloadMediaUseCase
+import com.jotte.core.usecase.LocalDownloadMediaUseCase
 import com.jotte.cxui.Res
 import com.jotte.cxui.controller.CXToastController
 import com.jotte.cxui.composition.LocalToastController
@@ -29,7 +29,7 @@ internal class RoomScreenController(
     val sheetState: ModalBottomSheetState,
     val filePagerController: CXPagerController<FilePagerItem>,
     private val toastState: CXToastController,
-    private val fileDownloader: FileDownloader,
+    private val downloadMediaUseCase: DownloadMediaUseCase,
     private val scope: CoroutineScope
 ) {
 
@@ -51,7 +51,7 @@ internal class RoomScreenController(
 
     fun downloadImageMedia(path: String) {
         scope.launch {
-            fileDownloader.downloadImageFile(
+            downloadMediaUseCase.invoke(
                 file = PlatformFile(path),
                 onSuccess = { if (it) toastState.show(Res.string.media_download) },
                 onFailure = { toastState.showError() }
@@ -84,14 +84,14 @@ internal fun rememberRoomScreenController(roomId: Long): RoomScreenController {
     val pagerController = rememberPagerController<FilePagerItem>(roomId)
     val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val toastState = LocalToastController.current
-    val fileDownloader = LocalFileDownloader.current
+    val fileDownloader = LocalDownloadMediaUseCase.current
 
     return remember(roomId) {
         RoomScreenController(
             sheetState = sheetState,
             filePagerController = pagerController,
             toastState = toastState,
-            fileDownloader = fileDownloader,
+            downloadMediaUseCase = fileDownloader,
             scope = scope
         )
     }

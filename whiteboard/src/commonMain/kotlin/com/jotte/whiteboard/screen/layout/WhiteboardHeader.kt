@@ -9,7 +9,9 @@ import androidx.compose.ui.Modifier
 import com.jotte.cxui.Res
 import com.jotte.cxui.component.CXButtonIcon
 import com.jotte.cxui.component.CXText
+import com.jotte.cxui.extension.RowExtension.FillSpace
 import com.jotte.cxui.icon_back
+import com.jotte.cxui.icon_save
 import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.theme.typography
 import com.jotte.cxui.whiteboard
@@ -17,7 +19,8 @@ import com.jotte.cxui.whiteboard
 @Composable
 internal fun WhiteboardHeader(
     modifier: Modifier = Modifier,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
+    onSaveClicked: () -> Unit
 ) {
 
     Row(
@@ -34,6 +37,13 @@ internal fun WhiteboardHeader(
             CXText(
                 textId = Res.string.whiteboard,
                 style = typography.headerOne
+            )
+
+            FillSpace()
+
+            CXButtonIcon(
+                icon = Res.drawable.icon_save,
+                onClick = onSaveClicked
             )
 
         }

@@ -1,6 +1,6 @@
 package com.jotte.core.di
 
-import com.jotte.core.FileDownloader
+import com.jotte.core.usecase.DownloadMediaUseCase
 import com.jotte.core.permission.PermissionManager
 import com.jotte.core.permission.PermissionManagerImpl
 import org.koin.core.qualifier.StringQualifier
@@ -34,5 +34,5 @@ fun provideCoreModule() = module {
     )
 
     single<PermissionManager> { PermissionManagerImpl() }
-    single<FileDownloader> { FileDownloader(get(imageRegex())) }
+    single<DownloadMediaUseCase> { DownloadMediaUseCase(get(imageRegex())) }
 }
