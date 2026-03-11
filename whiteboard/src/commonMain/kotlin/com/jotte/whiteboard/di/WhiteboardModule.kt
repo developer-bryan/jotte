@@ -1,6 +1,7 @@
 package com.jotte.whiteboard.di
 
 import com.jotte.whiteboard.usecase.MapWhiteboardPathUseCase
+import com.jotte.whiteboard.usecase.UpdateWhiteboardUseCase
 import com.jotte.whiteboard.viewmodel.WhiteboardViewModel
 import org.koin.dsl.module
 import org.koin.core.module.dsl.viewModel
@@ -18,6 +19,7 @@ fun provideWhiteboardModule() = module {
     viewModel<WhiteboardViewModel> {
         WhiteboardViewModel(
             getWhiteboardUseCase = get(),
+            updateWhiteboardUseCase = get(),
             mapWhiteboardPathUseCase = get(),
             downloadMediaUseCase = get(),
             downloadFileName = get(whiteboardDownloadFileName())
@@ -25,5 +27,6 @@ fun provideWhiteboardModule() = module {
     }
 
     factory<MapWhiteboardPathUseCase> { MapWhiteboardPathUseCase() }
+    factory<UpdateWhiteboardUseCase> { UpdateWhiteboardUseCase(get()) }
 
 }

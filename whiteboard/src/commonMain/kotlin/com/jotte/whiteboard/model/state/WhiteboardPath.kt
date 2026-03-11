@@ -4,7 +4,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 
-internal class WhiteboardPath(
+internal data class WhiteboardPath(
     val points: List<Offset>,
     val size: Dp,
     val color: Color,

@@ -83,4 +83,5 @@
     <string name="whiteboard">whiteboard</string>
     <string name="exit_whiteboard_dialog_title">exit whiteboard?</string>
     <string name="exit_whiteboard_dialog_body">you have unsaved changes. do you wish to exit?</string>
+    <string name="whiteboard_updated">whiteboard successfully updated!</string>
 </resources>

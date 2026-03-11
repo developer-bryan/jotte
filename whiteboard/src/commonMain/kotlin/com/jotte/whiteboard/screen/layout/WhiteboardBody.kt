@@ -25,7 +25,7 @@ import com.jotte.whiteboard.screen.modifier.painterGestures
 internal fun WhiteboardBody(
     controller: PathController,
     graphicsLayer: GraphicsLayer,
-    paints: List<WhiteboardPath>,
+    paths: List<WhiteboardPath>,
     modifier: Modifier = Modifier,
     canConsumePaintTouches: Boolean = true,
 ) {
@@ -52,7 +52,7 @@ internal fun WhiteboardBody(
             Canvas(
                 modifier = modifier.fillMaxSize(),
                 onDraw = {
-                    paints.forEach {
+                    paths.forEach {
                         if (it.points.size == 1) {
                             drawCircle(
                                 color = it.color,

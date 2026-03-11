@@ -26,6 +26,7 @@ import com.jotte.cxui.extension.asEffect
 import com.jotte.cxui.grant_gallery_access
 import com.jotte.cxui.media_download
 import com.jotte.cxui.no
+import com.jotte.cxui.whiteboard_updated
 import com.jotte.cxui.yes
 import com.jotte.whiteboard.model.event.WhiteboardEvent
 import com.jotte.whiteboard.screen.controller.PathController
@@ -60,7 +61,7 @@ fun WhiteboardScreen(
     )
 
     val paths by viewModel.paths.collectAsState(emptyList())
-    val hasUnsavedChanges by viewModel.hasUnsavedPaths.collectAsState(false)
+    val hasUnsavedChanges by viewModel.hasUnsavedChanges.collectAsState(false)
 
     LaunchedEffect(Unit) {
         viewModel.loadPaths()
@@ -69,15 +70,17 @@ fun WhiteboardScreen(
     viewModel.event.consumeAsFlow().asEffect { event ->
         when (event) {
             WhiteboardEvent.OnMediaDownloaded -> toastController.show(Res.string.media_download)
+            WhiteboardEvent.OnWhiteboardUpdated -> toastController.show(Res.string.whiteboard_updated)
             WhiteboardEvent.OnMediaDownloadFailure -> toastController.showError()
             WhiteboardEvent.OnWhiteboardLoadError -> toastController.showError()
+            WhiteboardEvent.OnSaveError -> toastController.showError()
         }
     }
 
     fun saveWhiteboardSnapshot() {
         scope.launch {
             val whiteboard = captureGraphicsLayer.toImageBitmap()
-            viewModel.saveWhiteboardSnapshot(whiteboard)
+            viewModel.saveWhiteboardToGallery(whiteboard)
         }
     }
 
@@ -113,13 +116,13 @@ fun WhiteboardScreen(
                             .weight(1F),
                         controller = controller,
                         graphicsLayer = captureGraphicsLayer,
-                        paints = paths,
+                        paths = paths,
                     )
 
                     WhiteboardFooter(
                         saveEnabled = hasUnsavedChanges,
-                        onMoreClicked = {},
-                        onSaveClicked = {}
+                        onMoreClicked = { scope.launch { sheetState.show() } },
+                        onSaveClicked = viewModel::updateWhiteboard
                     )
                 }
             )
