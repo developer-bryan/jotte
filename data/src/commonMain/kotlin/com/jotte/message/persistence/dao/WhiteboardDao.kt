@@ -13,6 +13,6 @@ interface WhiteboardDao {
     suspend fun queryWhiteboard(): WhiteboardDto
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateWhiteboard(whiteboardDto: WhiteboardDto): Int
+    suspend fun updateWhiteboard(whiteboardDto: WhiteboardDto): Long
 
 }

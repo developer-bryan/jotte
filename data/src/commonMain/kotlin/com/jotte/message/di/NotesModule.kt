@@ -22,6 +22,7 @@ import com.jotte.message.usecase.DeleteMediaUseCase
 import com.jotte.message.usecase.DeleteNoteUseCase
 import com.jotte.message.usecase.DeleteRoomUseCase
 import com.jotte.message.usecase.GetNoteUseCase
+import com.jotte.message.usecase.GetWhiteboardUseCase
 import com.jotte.message.usecase.RenameRoomUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -61,6 +62,7 @@ fun provideNotesModule() = module {
     factory<DeleteRoomUseCase> { DeleteRoomUseCase(get(), get(), get()) }
     factory<RenameRoomUseCase> { RenameRoomUseCase(get()) }
     factory<GetNoteUseCase> { GetNoteUseCase(get()) }
+    factory<GetWhiteboardUseCase> { GetWhiteboardUseCase(get()) }
 
     factory<CheckShouldDeleteNoteUseCase> { CheckShouldDeleteNoteUseCase() }
 }

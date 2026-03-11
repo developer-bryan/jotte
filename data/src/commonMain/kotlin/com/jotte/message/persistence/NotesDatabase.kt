@@ -12,9 +12,11 @@ import com.jotte.message.data.WhiteboardDto
 import com.jotte.message.data.join.MediaJoin
 import com.jotte.message.data.join.LinkJoin
 import com.jotte.message.persistence.converter.LinkTypeConverter
+import com.jotte.message.persistence.converter.PathConverter
 import com.jotte.message.persistence.dao.MediaDao
 import com.jotte.message.persistence.dao.NoteDao
 import com.jotte.message.persistence.dao.RoomDao
+import com.jotte.message.persistence.dao.WhiteboardDao
 
 @Database(
     entities = [
@@ -29,10 +31,10 @@ import com.jotte.message.persistence.dao.RoomDao
     version = 1
 )
 @ConstructedBy(NotesDatabaseConstructor::class)
-@TypeConverters(LinkTypeConverter::class)
+@TypeConverters(LinkTypeConverter::class, PathConverter::class)
 abstract class NotesDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
     abstract fun fileDao(): MediaDao
     abstract fun roomDao(): RoomDao
-    abstract fun whiteboardDao(): RoomDao
+    abstract fun whiteboardDao(): WhiteboardDao
 }

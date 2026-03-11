@@ -9,7 +9,7 @@ class WhiteboardRepositoryImpl(private val dao: WhiteboardDao): WhiteboardReposi
         return dao.queryWhiteboard()
     }
 
-    override suspend fun updateWhiteboard(whiteboardDto: WhiteboardDto): Int {
+    override suspend fun updateWhiteboard(whiteboardDto: WhiteboardDto): Long {
         return dao.updateWhiteboard(whiteboardDto)
     }
 }
