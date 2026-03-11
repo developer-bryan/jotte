@@ -12,9 +12,9 @@ data class WhiteboardDto(
 
     @Serializable
     data class Path(
-        val path: List<PathOffset>,
+        val offsets: List<PathOffset>,
         val color: Int,
-        val widthScale: Float // relative
+        val width: Float
     )
 
     @Serializable

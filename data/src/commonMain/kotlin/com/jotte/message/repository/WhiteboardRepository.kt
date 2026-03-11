@@ -4,7 +4,7 @@ import com.jotte.message.data.WhiteboardDto
 
 interface WhiteboardRepository {
 
-    suspend fun queryWhiteboard(): WhiteboardDto
+    suspend fun queryWhiteboard(): WhiteboardDto?
 
     suspend fun updateWhiteboard(whiteboardDto: WhiteboardDto): Long
 

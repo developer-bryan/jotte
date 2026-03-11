@@ -1,25 +1,22 @@
-package com.lint.editor.painter.modifier
+package com.jotte.whiteboard.screen.modifier
 
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import com.lint.editor.painter.model.PainterState
+import com.jotte.whiteboard.screen.controller.PathController
 
-internal fun Modifier.painterGestures(
-    state: PainterState,
-    onPaintFinished: () -> Unit
-) = this.pointerInput(
+internal fun Modifier.painterGestures(controller: PathController) = this.pointerInput(
     key1 = "tap",
-    block = { detectTapGestures(onTap = { state.beginPaint(it); onPaintFinished() }) }
+    block = { detectTapGestures(onTap = { controller.beginPaint(it) }) }
 ).pointerInput(
     key1 = "drag",
     block = {
         detectDragGestures(
-            onDragStart = state::beginPaint,
-            onDrag = { change, _ -> state.updatePaint(change.position) },
-            onDragEnd = onPaintFinished,
-            onDragCancel = onPaintFinished
+            onDragStart = controller::beginPaint,
+            onDrag = { change, _ -> controller.updatePaint(change.position) },
+            onDragEnd = controller::endPaint,
+            onDragCancel = controller::cancelPaint
         )
     }
 )

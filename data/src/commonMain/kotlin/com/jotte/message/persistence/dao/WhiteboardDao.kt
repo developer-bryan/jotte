@@ -10,7 +10,7 @@ import com.jotte.message.data.WhiteboardDto
 interface WhiteboardDao {
 
     @Query("SELECT * FROM WHITEBOARD_DTO WHERE id = 1")
-    suspend fun queryWhiteboard(): WhiteboardDto
+    suspend fun queryWhiteboard(): WhiteboardDto?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateWhiteboard(whiteboardDto: WhiteboardDto): Long

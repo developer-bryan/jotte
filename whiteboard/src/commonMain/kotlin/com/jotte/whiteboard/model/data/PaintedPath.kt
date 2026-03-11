@@ -1,4 +1,4 @@
-package com.jotte.whiteboard.model
+package com.jotte.whiteboard.model.data
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path

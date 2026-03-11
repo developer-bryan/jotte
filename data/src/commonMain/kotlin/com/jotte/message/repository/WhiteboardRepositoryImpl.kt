@@ -5,7 +5,7 @@ import com.jotte.message.persistence.dao.WhiteboardDao
 
 class WhiteboardRepositoryImpl(private val dao: WhiteboardDao): WhiteboardRepository {
 
-    override suspend fun queryWhiteboard(): WhiteboardDto {
+    override suspend fun queryWhiteboard(): WhiteboardDto? {
         return dao.queryWhiteboard()
     }
 
