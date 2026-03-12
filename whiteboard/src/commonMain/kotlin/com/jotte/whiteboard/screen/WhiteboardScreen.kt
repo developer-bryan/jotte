@@ -62,6 +62,7 @@ fun WhiteboardScreen(
 
     val paths by viewModel.paths.collectAsState(emptyList())
     val hasUnsavedChanges by viewModel.hasUnsavedChanges.collectAsState(false)
+    val undoEnabled by viewModel.undoEnabled.collectAsState(false)
 
     LaunchedEffect(Unit) {
         viewModel.loadPaths()
@@ -121,7 +122,9 @@ fun WhiteboardScreen(
 
                     WhiteboardFooter(
                         saveEnabled = hasUnsavedChanges,
+                        undoEnabled = undoEnabled,
                         onMoreClicked = { scope.launch { sheetState.show() } },
+                        onUndoClicked = viewModel::undo,
                         onSaveClicked = viewModel::updateWhiteboard
                     )
                 }

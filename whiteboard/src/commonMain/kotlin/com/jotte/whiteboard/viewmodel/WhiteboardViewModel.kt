@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -37,13 +38,15 @@ internal class WhiteboardViewModel(
     private var snapshot = MutableStateFlow<ArrayDeque<WhiteboardPath>>(ArrayDeque())
 
     private val _paths = MutableStateFlow<ArrayDeque<WhiteboardPath>>(ArrayDeque())
-    val paths : Flow<ArrayDeque<WhiteboardPath>> = _paths
+    val paths: Flow<ArrayDeque<WhiteboardPath>> = _paths
 
     val hasUnsavedChanges = combine(
         flow = snapshot,
         flow2 = paths,
         transform = { snapshot, current -> current.lastOrNull() != snapshot.lastOrNull() }
     )
+
+    val undoEnabled = paths.map { it.isNotEmpty() }
 
     fun saveWhiteboardToGallery(snapshot: ImageBitmap) {
         viewModelScope.launch(
@@ -90,6 +93,17 @@ internal class WhiteboardViewModel(
             context = CoroutineExceptionHandler { _, error -> println(error) },
             block = {
                 _paths.update { ArrayDeque(it).also { it.addLast(path) } }
+            }
+        )
+    }
+
+    fun undo() {
+        viewModelScope.launch(
+            context = CoroutineExceptionHandler { _, error -> println(error) },
+            block = {
+                if (_paths.value.isNotEmpty()) {
+                    _paths.update { ArrayDeque(it).also { it.removeLastOrNull() } }
+                }
             }
         )
     }

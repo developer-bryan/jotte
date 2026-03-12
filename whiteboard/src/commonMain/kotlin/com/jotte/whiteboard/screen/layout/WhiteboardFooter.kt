@@ -10,6 +10,7 @@ import com.jotte.cxui.Res
 import com.jotte.cxui.component.CXButton
 import com.jotte.cxui.component.CXButtonIcon
 import com.jotte.cxui.icon_chevron_up
+import com.jotte.cxui.icon_undo
 import com.jotte.cxui.save
 import com.jotte.cxui.theme.sizes
 import org.jetbrains.compose.resources.stringResource
@@ -18,7 +19,9 @@ import org.jetbrains.compose.resources.stringResource
 internal fun WhiteboardFooter(
     modifier: Modifier = Modifier,
     saveEnabled: Boolean = false,
+    undoEnabled: Boolean = false,
     onMoreClicked: () -> Unit,
+    onUndoClicked: () -> Unit,
     onSaveClicked: () -> Unit
 ) {
 
@@ -33,6 +36,11 @@ internal fun WhiteboardFooter(
             CXButtonIcon(
                 icon = Res.drawable.icon_chevron_up,
                 onClick = onMoreClicked
+            )
+
+            CXButtonIcon(
+                icon = Res.drawable.icon_undo,
+                onClick = onUndoClicked
             )
 
             CXButton(
