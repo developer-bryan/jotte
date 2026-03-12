@@ -35,6 +35,7 @@ import com.jotte.whiteboard.screen.controller.rememberPathController
 import com.jotte.whiteboard.screen.layout.WhiteboardBody
 import com.jotte.whiteboard.screen.layout.WhiteboardFooter
 import com.jotte.whiteboard.screen.layout.WhiteboardHeader
+import com.jotte.whiteboard.screen.sheet.PaintStyleSheet
 import com.jotte.whiteboard.viewmodel.WhiteboardViewModel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
@@ -96,7 +97,14 @@ fun WhiteboardScreen(
 
     ModalBottomSheetLayout(
         sheetState = sheetState,
-        sheetContent = {},
+        sheetContent = {
+            PaintStyleSheet(
+                onColorSelected = {
+                    scope.launch { sheetState.hide() }
+                    controller.updatePaintColor(it)
+                }
+            )
+        },
         content = {
             CXThemeBox {
                 Column(

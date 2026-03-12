@@ -55,7 +55,7 @@ internal fun WhiteboardBody(
                     paths.forEach {
                         if (it.points.size == 1) {
                             drawCircle(
-                                color = it.color,
+                                color = it.color.color,
                                 radius = with(density) { it.size.toPx() } * 0.5F,
                                 center = it.points.first()
                             )
@@ -63,7 +63,7 @@ internal fun WhiteboardBody(
                             drawPaintedPath(
                                 points = it.points,
                                 size = with(density) { it.size.toPx() },
-                                color = it.color
+                                color = it.color.color
                             )
                         }
                     }
@@ -72,7 +72,7 @@ internal fun WhiteboardBody(
                         drawPaintedPath(
                             points = controller.activeOffsets,
                             size = controller.activeSize.toPx(),
-                            color = controller.activeColor
+                            color = controller.activeColor.color
                         )
                     }
                 }

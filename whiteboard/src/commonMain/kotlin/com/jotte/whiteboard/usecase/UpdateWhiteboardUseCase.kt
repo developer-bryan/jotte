@@ -13,7 +13,7 @@ internal class UpdateWhiteboardUseCase(private val repository: WhiteboardReposit
             val offsets = it.points.map { WhiteboardDto.PathOffset(it.x, it.y) }
             WhiteboardDto.Path(
                 offsets = offsets,
-                color = it.color.toArgb(),
+                color = it.color.color.toArgb(),
                 width = it.size.value
             )
         }
