@@ -26,6 +26,7 @@ import com.jotte.cxui.extension.asEffect
 import com.jotte.cxui.grant_gallery_access
 import com.jotte.cxui.media_download
 import com.jotte.cxui.no
+import com.jotte.cxui.theme.CXThemeBox
 import com.jotte.cxui.whiteboard_updated
 import com.jotte.cxui.yes
 import com.jotte.whiteboard.model.event.WhiteboardEvent
@@ -97,38 +98,40 @@ fun WhiteboardScreen(
         sheetState = sheetState,
         sheetContent = {},
         content = {
-            Column(
-                modifier = modifier.fillMaxSize(),
-                content = {
-                    WhiteboardHeader(
-                        onBackClicked = {
-                            if (hasUnsavedChanges) {
-                                confirmBackDialogController.show()
-                            } else {
-                                onBackClicked()
-                            }
-                        },
-                        onSaveClicked = { shouldCheckPhotoWritePermission.value = true }
-                    )
+            CXThemeBox {
+                Column(
+                    modifier = modifier.fillMaxSize(),
+                    content = {
+                        WhiteboardHeader(
+                            onBackClicked = {
+                                if (hasUnsavedChanges) {
+                                    confirmBackDialogController.show()
+                                } else {
+                                    onBackClicked()
+                                }
+                            },
+                            onSaveClicked = { shouldCheckPhotoWritePermission.value = true }
+                        )
 
-                    WhiteboardBody(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1F),
-                        controller = controller,
-                        graphicsLayer = captureGraphicsLayer,
-                        paths = paths,
-                    )
+                        WhiteboardBody(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1F),
+                            controller = controller,
+                            graphicsLayer = captureGraphicsLayer,
+                            paths = paths,
+                        )
 
-                    WhiteboardFooter(
-                        saveEnabled = hasUnsavedChanges,
-                        undoEnabled = undoEnabled,
-                        onMoreClicked = { scope.launch { sheetState.show() } },
-                        onUndoClicked = viewModel::undo,
-                        onSaveClicked = viewModel::updateWhiteboard
-                    )
-                }
-            )
+                        WhiteboardFooter(
+                            saveEnabled = hasUnsavedChanges,
+                            undoEnabled = undoEnabled,
+                            onMoreClicked = { scope.launch { sheetState.show() } },
+                            onUndoClicked = viewModel::undo,
+                            onSaveClicked = viewModel::updateWhiteboard
+                        )
+                    }
+                )
+            }
         }
     )
 
