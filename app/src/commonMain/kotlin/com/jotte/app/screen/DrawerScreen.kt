@@ -29,7 +29,8 @@ internal fun DrawerScreen(
     onNewRoomClicked: () -> Unit,
     onRoomSelected: (roomId: Long) -> Unit,
     onDeleteRoom: (roomId: Long) -> Unit,
-    onRenameRoom: (roomId: Long, name: String) -> Unit
+    onRenameRoom: (roomId: Long, name: String) -> Unit,
+    onWhiteboardClicked: () -> Unit
 ) {
 
     Column(
@@ -52,7 +53,8 @@ internal fun DrawerScreen(
                 onRoomSelected = onRoomSelected,
                 onRenameRoomClicked = onRenameRoom,
                 onDeleteRoomClicked = onDeleteRoom,
-                onNewRoomClicked = onNewRoomClicked
+                onNewRoomClicked = onNewRoomClicked,
+                onWhiteboardClicked = onWhiteboardClicked
             )
 
             CXText(
@@ -84,7 +86,8 @@ private fun Preview() {
             onNewRoomClicked = {},
             onRoomSelected = {},
             onDeleteRoom = {},
-            onRenameRoom = { _, _ -> }
+            onRenameRoom = { _, _ -> },
+            onWhiteboardClicked = {}
         )
     }
 }

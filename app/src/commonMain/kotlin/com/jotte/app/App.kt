@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jotte.app.di.provideMainModule
 import com.jotte.core.LinkHandler
-import com.jotte.core.LocalFileDownloader
+import com.jotte.core.usecase.LocalDownloadMediaUseCase
 import com.jotte.core.LocalLinkHandler
 import com.jotte.core.datetime.DateTimeStrings
 import com.jotte.core.di.provideCoreModule
@@ -42,11 +42,13 @@ import com.jotte.cxui.theme.CXTheme
 import com.jotte.cxui.theme.sizes
 import com.jotte.message.di.provideNotesModule
 import com.jotte.app.navigation.graph.NavigationGraph
+import com.jotte.app.navigation.graph.WhiteboardGraph
 import com.jotte.app.navigation.route.Route
 import com.jotte.audioplayer.di.provideAudioNoteModule
 import com.jotte.cxui.composition.LocalSoundEffectPlayer
 import com.jotte.editor.di.provideEditorModule
 import com.jotte.room.di.provideRoomModule
+import com.jotte.whiteboard.di.provideWhiteboardModule
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
@@ -63,6 +65,7 @@ fun App() {
     val roomModule = remember { provideRoomModule() }
     val audioNoteModule = remember { provideAudioNoteModule() }
     val editorModule = remember { provideEditorModule() }
+    val whiteboardModule = remember { provideWhiteboardModule() }
 
     val toastState = rememberCXToastController()
     val clipboardState = rememberClipboardController(toastState)
@@ -77,7 +80,8 @@ fun App() {
                 cxuiModule,
                 roomModule,
                 audioNoteModule,
-                editorModule
+                editorModule,
+                whiteboardModule
             )
         },
         content = {
@@ -86,17 +90,22 @@ fun App() {
                     LocalToastController.provides(toastState),
                     LocalClipboardController.provides(clipboardState),
                     LocalLinkHandler.provides(LinkHandler()),
-                    LocalFileDownloader.provides(koinInject()),
+                    LocalDownloadMediaUseCase.provides(koinInject()),
                     LocalSoundEffectPlayer.provides(koinInject()),
                     content = {
+                        val graphController = rememberNavController()
                         NavHost(
-                            navController = rememberNavController(),
+                            navController = graphController,
                             startDestination = Route.MainGraph.destination,
                             route = "root",
                             builder = {
                                 composable(
                                     route = Route.MainGraph.destination,
-                                    content = { NavigationGraph() }
+                                    content = { NavigationGraph(graphController) }
+                                )
+                                composable(
+                                    route = Route.WhiteboardGraph.destination,
+                                    content = { WhiteboardGraph(graphController) }
                                 )
                             }
                         )

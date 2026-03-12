@@ -80,4 +80,8 @@
     <string name="remove_link_dialog_body">this link is unsaved. remove?</string>
     <string name="delete_media_dialog_title">delete this media?</string>
     <string name="delete_media_dialog_body">jotte is offline only. if you delete this you will not be able to recover.</string>
+    <string name="whiteboard">whiteboard</string>
+    <string name="exit_whiteboard_dialog_title">exit whiteboard?</string>
+    <string name="exit_whiteboard_dialog_body">you have unsaved changes. do you wish to exit?</string>
+    <string name="whiteboard_updated">whiteboard successfully updated!</string>
 </resources>
