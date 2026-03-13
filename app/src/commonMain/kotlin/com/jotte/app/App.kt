@@ -42,6 +42,7 @@ import com.jotte.cxui.theme.CXTheme
 import com.jotte.cxui.theme.sizes
 import com.jotte.message.di.provideNotesModule
 import com.jotte.app.navigation.graph.NavigationGraph
+import com.jotte.app.navigation.graph.SettingsGraph
 import com.jotte.app.navigation.graph.WhiteboardGraph
 import com.jotte.app.navigation.route.Route
 import com.jotte.audioplayer.di.provideAudioNoteModule
@@ -106,6 +107,10 @@ fun App() {
                                 composable(
                                     route = Route.WhiteboardGraph.destination,
                                     content = { WhiteboardGraph(graphController) }
+                                )
+                                composable(
+                                    route = Route.SettingsGraph.destination,
+                                    content = { SettingsGraph(graphController) }
                                 )
                             }
                         )

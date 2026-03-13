@@ -43,7 +43,8 @@ internal fun NavGraphBuilder.MainDestination(
                             val editorRoute = Route.Editor(roomId, noteId)
                             navController.navigate(editorRoute)
                         },
-                        onWhiteboardClicked = { graphController.navigate(Route.WhiteboardGraph.destination) }
+                        onWhiteboardClicked = { graphController.navigate(Route.WhiteboardGraph.destination) },
+                        onSettingsCLicked = { graphController.navigate(Route.SettingsGraph.destination) }
                     )
 
                     false -> EmptyRoomsScreen(viewModel::createNewRoom)

@@ -33,7 +33,8 @@ internal fun MainScreen(
     viewModel: MainViewModel,
     onAudioClicked: (audioId: String) -> Unit,
     onEditorClicked: (roomId: Long, noteId: Long?) -> Unit,
-    onWhiteboardClicked: () -> Unit
+    onWhiteboardClicked: () -> Unit,
+    onSettingsCLicked: () -> Unit
 ) {
 
     val scope = rememberCoroutineScope()
@@ -86,7 +87,8 @@ internal fun MainScreen(
                         },
                         onDeleteRoom = deleteRoomDialog::show,
                         onRenameRoom = { id, name -> renameRoomDialogController.show(id to name) },
-                        onWhiteboardClicked = onWhiteboardClicked
+                        onWhiteboardClicked = onWhiteboardClicked,
+                        onSettingsClicked = onSettingsCLicked
                     )
                 }
             },
