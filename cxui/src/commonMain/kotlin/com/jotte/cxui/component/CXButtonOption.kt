@@ -14,10 +14,32 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import com.jotte.cxui.extension.RowExtension.FillSpace
 import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.theme.typography
 import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+fun CXButtonOption(
+    labelResId: StringResource,
+    modifier: Modifier = Modifier,
+    icon: DrawableResource? = null,
+    contentTint: Color = colors.contentPrimary,
+    onClick: () -> Unit,
+    trailingContent: (@Composable () -> Unit)? = null
+) {
+    CXButtonOption(
+        label = stringResource(labelResId),
+        modifier = modifier,
+        icon = icon,
+        contentTint = contentTint,
+        onClick = onClick,
+        trailingContent = trailingContent
+    )
+}
 
 @Composable
 fun CXButtonOption(
@@ -25,7 +47,8 @@ fun CXButtonOption(
     modifier: Modifier = Modifier,
     icon: DrawableResource? = null,
     contentTint: Color = colors.contentPrimary,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    trailingContent: (@Composable () -> Unit)? = null
 ) {
 
     Row(
@@ -55,6 +78,10 @@ fun CXButtonOption(
                 style = typography.bodyOne,
                 color = contentTint
             )
+            trailingContent?.let {
+                FillSpace()
+                it()
+            }
         }
     )
 }

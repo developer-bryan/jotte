@@ -49,6 +49,7 @@ import com.jotte.audioplayer.di.provideAudioNoteModule
 import com.jotte.cxui.composition.LocalSoundEffectPlayer
 import com.jotte.editor.di.provideEditorModule
 import com.jotte.room.di.provideRoomModule
+import com.jotte.settings.di.provideSettingsModule
 import com.jotte.whiteboard.di.provideWhiteboardModule
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinApplication
@@ -67,6 +68,7 @@ fun App() {
     val audioNoteModule = remember { provideAudioNoteModule() }
     val editorModule = remember { provideEditorModule() }
     val whiteboardModule = remember { provideWhiteboardModule() }
+    val settingsModule = remember { provideSettingsModule() }
 
     val toastState = rememberCXToastController()
     val clipboardState = rememberClipboardController(toastState)
@@ -82,7 +84,8 @@ fun App() {
                 roomModule,
                 audioNoteModule,
                 editorModule,
-                whiteboardModule
+                whiteboardModule,
+                settingsModule
             )
         },
         content = {

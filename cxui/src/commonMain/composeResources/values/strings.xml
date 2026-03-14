@@ -85,4 +85,6 @@
     <string name="exit_whiteboard_dialog_body">you have unsaved changes. do you wish to exit?</string>
     <string name="whiteboard_updated">whiteboard successfully updated!</string>
     <string name="settings">settings</string>
+    <string name="appearance">appearance</string>
+    <string name="sound_effects">sound effects</string>
 </resources>
