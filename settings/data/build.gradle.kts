@@ -22,15 +22,16 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core"))
-            implementation(project(":cxui"))
-            implementation(project(":settings:data"))
+            implementation(libs.datastore)
+            api(libs.koin.core)
+            api(libs.koin.compose)
+            api(libs.koin.compose.viewmodel)
         }
     }
 }
 
 android {
-    namespace = "com.jotte.settings"
+    namespace = "com.jotte.settings.data"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
