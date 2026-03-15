@@ -1,5 +1,6 @@
 package com.jotte.app
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -47,10 +48,12 @@ import com.jotte.app.navigation.graph.WhiteboardGraph
 import com.jotte.app.navigation.route.Route
 import com.jotte.audioplayer.di.provideAudioNoteModule
 import com.jotte.cxui.composition.LocalSoundEffectPlayer
+import com.jotte.settings.data.model.AppAppearance
 import com.jotte.editor.di.provideEditorModule
 import com.jotte.room.di.provideRoomModule
 import com.jotte.settings.data.SettingsContextProvider
 import com.jotte.settings.data.di.provideSettingsDataModule
+import com.jotte.settings.data.repository.SettingsRepository
 import com.jotte.settings.di.provideSettingsModule
 import com.jotte.whiteboard.di.provideWhiteboardModule
 import org.jetbrains.compose.resources.stringResource
@@ -93,43 +96,58 @@ fun App(settingsContextProvider: SettingsContextProvider = SettingsContextProvid
             )
         },
         content = {
-            CXTheme {
-                CompositionLocalProvider(
-                    LocalToastController.provides(toastState),
-                    LocalClipboardController.provides(clipboardState),
-                    LocalLinkHandler.provides(LinkHandler()),
-                    LocalDownloadMediaUseCase.provides(koinInject()),
-                    LocalSoundEffectPlayer.provides(koinInject()),
-                    content = {
-                        val graphController = rememberNavController()
-                        NavHost(
-                            navController = graphController,
-                            startDestination = Route.MainGraph.destination,
-                            route = "root",
-                            builder = {
-                                composable(
-                                    route = Route.MainGraph.destination,
-                                    content = { NavigationGraph(graphController) }
-                                )
-                                composable(
-                                    route = Route.WhiteboardGraph.destination,
-                                    content = { WhiteboardGraph(graphController) }
-                                )
-                                composable(
-                                    route = Route.SettingsGraph.destination,
-                                    content = { SettingsGraph(graphController) }
-                                )
-                            }
-                        )
 
-                        CXToast(
-                            state = toastState,
-                            modifier = Modifier
-                                .padding(bottom = sizes.huge.times(2))
-                        )
-                    }
-                )
+            val settings: SettingsRepository = koinInject<SettingsRepository>()
+            val appearance by settings.readAppAppearance().collectAsState(AppAppearance.SYSTEM)
+
+            val isDarkMode = remember(appearance) {
+                when (appearance) {
+                    AppAppearance.LIGHT -> false
+                    AppAppearance.DARK -> true
+                    else -> null
+                }
             }
+
+            CXTheme(
+                isDarkMode = isDarkMode ?: isSystemInDarkTheme(),
+                content = {
+                    CompositionLocalProvider(
+                        LocalToastController.provides(toastState),
+                        LocalClipboardController.provides(clipboardState),
+                        LocalLinkHandler.provides(LinkHandler()),
+                        LocalDownloadMediaUseCase.provides(koinInject()),
+                        LocalSoundEffectPlayer.provides(koinInject()),
+                        content = {
+                            val graphController = rememberNavController()
+                            NavHost(
+                                navController = graphController,
+                                startDestination = Route.MainGraph.destination,
+                                route = "root",
+                                builder = {
+                                    composable(
+                                        route = Route.MainGraph.destination,
+                                        content = { NavigationGraph(graphController) }
+                                    )
+                                    composable(
+                                        route = Route.WhiteboardGraph.destination,
+                                        content = { WhiteboardGraph(graphController) }
+                                    )
+                                    composable(
+                                        route = Route.SettingsGraph.destination,
+                                        content = { SettingsGraph(graphController) }
+                                    )
+                                }
+                            )
+
+                            CXToast(
+                                state = toastState,
+                                modifier = Modifier
+                                    .padding(bottom = sizes.huge.times(2))
+                            )
+                        }
+                    )
+                }
+            )
         }
     )
 

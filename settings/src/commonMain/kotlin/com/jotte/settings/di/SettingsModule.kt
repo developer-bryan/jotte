@@ -6,6 +6,6 @@ import org.koin.core.module.dsl.viewModel
 
 fun provideSettingsModule() = module {
 
-    viewModel<SettingsViewModel> { SettingsViewModel() }
+    viewModel<SettingsViewModel> { SettingsViewModel(get()) }
 
 }
