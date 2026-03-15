@@ -1,6 +1,7 @@
 package com.jotte.settings.screen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
@@ -15,12 +16,14 @@ import androidx.compose.ui.Modifier
 import com.jotte.cxui.theme.CXThemeBox
 import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.shapes
+import com.jotte.cxui.theme.sizes
 import com.jotte.settings.model.data.SettingOption
 import com.jotte.settings.model.state.SettingSheet
 import com.jotte.settings.model.state.SettingsState
 import com.jotte.settings.screen.layout.SettingsHeader
 import com.jotte.settings.screen.layout.SettingsList
 import com.jotte.settings.screen.sheet.AppearanceSettingsSheet
+import com.jotte.settings.screen.sheet.SoundEffectsSettingsSheet
 import com.jotte.settings.viewmodel.SettingsViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -49,7 +52,10 @@ fun SettingsScreen(
                     appAppearance = settingsState.appearance,
                     onClick = viewModel::updateAppAppearance
                 )
-                SettingSheet.SoundEffectSheet -> {}
+                SettingSheet.SoundEffectSheet -> SoundEffectsSettingsSheet(
+                    soundEffectsEnabled = settingsState.soundEffectsEnabled,
+                    onClick = viewModel::updateSoundEffects
+                )
                 else -> {}
             }
         },
@@ -64,6 +70,7 @@ fun SettingsScreen(
                         SettingsList(
                             settings = settings,
                             state = settingsState,
+                            modifier = Modifier.padding(top = sizes.small),
                             onSettingClicked = {
                                 settingSheet = when (it) {
                                     SettingOption.Appearance -> SettingSheet.AppearanceSheet

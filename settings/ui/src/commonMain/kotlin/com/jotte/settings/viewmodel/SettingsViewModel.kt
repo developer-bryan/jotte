@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jotte.settings.data.model.AppAppearance
 import com.jotte.settings.data.model.AppearanceKey
+import com.jotte.settings.data.model.SoundEffectsKey
 import com.jotte.settings.data.repository.SettingsRepository
 import com.jotte.settings.model.event.SettingsEvent
 import com.jotte.settings.model.state.SettingsState
@@ -33,6 +34,15 @@ internal class SettingsViewModel(private val repository: SettingsRepository) : V
             repository.putValue(
                 key = AppearanceKey,
                 value = appAppearance.name
+            )
+        }
+    }
+
+    fun updateSoundEffects(enabled: Boolean) {
+        viewModelScope.launch {
+            repository.putValue(
+                key = SoundEffectsKey,
+                value = enabled
             )
         }
     }
