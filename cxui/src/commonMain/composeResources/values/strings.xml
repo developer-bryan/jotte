@@ -92,4 +92,7 @@
     <string name="system_theme">system theme</string>
     <string name="enabled">enabled</string>
     <string name="disabled">disabled</string>
+    <string name="system_theme_option_description">always default to the system theme.</string>
+    <string name="light_theme_option_description">always default to the light theme.</string>
+    <string name="dark_theme_option_description">always default to the dark theme.</string>
 </resources>

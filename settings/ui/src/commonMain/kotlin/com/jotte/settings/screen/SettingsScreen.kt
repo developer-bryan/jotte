@@ -13,11 +13,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.jotte.cxui.theme.CXThemeBox
+import com.jotte.cxui.theme.colors
+import com.jotte.cxui.theme.shapes
 import com.jotte.settings.model.data.SettingOption
 import com.jotte.settings.model.state.SettingSheet
 import com.jotte.settings.model.state.SettingsState
 import com.jotte.settings.screen.layout.SettingsHeader
 import com.jotte.settings.screen.layout.SettingsList
+import com.jotte.settings.screen.sheet.AppearanceSettingsSheet
 import com.jotte.settings.viewmodel.SettingsViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -38,9 +41,14 @@ fun SettingsScreen(
 
     ModalBottomSheetLayout(
         sheetState = sheetState,
+        sheetBackgroundColor = colors.backgroundPrimary,
+        sheetShape = shapes.roundedSheetShape,
         sheetContent = {
             when (settingSheet) {
-                SettingSheet.AppearanceSheet -> {}
+                SettingSheet.AppearanceSheet -> AppearanceSettingsSheet(
+                    appAppearance = settingsState.appearance,
+                    onClick = viewModel::updateAppAppearance
+                )
                 SettingSheet.SoundEffectSheet -> {}
                 else -> {}
             }
