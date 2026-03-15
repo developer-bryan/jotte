@@ -59,7 +59,7 @@ fun CXButtonOption(
                 role = Role.Button,
                 onClick = onClick
             )
-            .padding(start = sizes.regular)
+            .padding(horizontal = sizes.regular)
             .semantics(
                 mergeDescendants = true,
                 properties = { contentDescription = label; role = Role.Button }

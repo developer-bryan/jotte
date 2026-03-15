@@ -19,7 +19,7 @@ internal class SettingsViewModel(private val repository: SettingsRepository) : V
         transform = { appearance, soundEffects ->
             SettingsState(
                 appearance = appearance ?: AppAppearance.SYSTEM,
-                soundEffectsEnabled = soundEffects ?: false
+                soundEffectsEnabled = soundEffects ?: true
             )
         }
     )

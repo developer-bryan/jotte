@@ -87,4 +87,9 @@
     <string name="settings">settings</string>
     <string name="appearance">appearance</string>
     <string name="sound_effects">sound effects</string>
+    <string name="light_theme">light theme</string>
+    <string name="dark_theme">dark theme</string>
+    <string name="system_theme">system theme</string>
+    <string name="enabled">enabled</string>
+    <string name="disabled">disabled</string>
 </resources>
