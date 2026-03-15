@@ -2,12 +2,12 @@ package com.jotte.settings.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jotte.settings.data.model.AppAppearance
 import com.jotte.settings.data.model.AppearanceKey
 import com.jotte.settings.data.model.SoundEffectsKey
 import com.jotte.settings.data.repository.SettingsRepository
 import com.jotte.settings.model.event.SettingsEvent
+import com.jotte.settings.model.event.SettingsEvent.*
 import com.jotte.settings.model.state.SettingsState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
@@ -44,6 +44,9 @@ internal class SettingsViewModel(private val repository: SettingsRepository) : V
                 key = SoundEffectsKey,
                 value = enabled
             )
+        }.invokeOnCompletion {
+            val soundEffectsEvent = if (enabled) OnSoundEffectsEnabled else OnSoundEffectsDisabled
+            event.trySend(soundEffectsEvent)
         }
     }
 

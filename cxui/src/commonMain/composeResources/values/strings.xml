@@ -97,4 +97,6 @@
     <string name="system_theme_option_description">always default to the system theme.</string>
     <string name="light_theme_option_description">always default to the light theme.</string>
     <string name="dark_theme_option_description">always default to the dark theme.</string>
+    <string name="sound_effects_enabled">sound effects enabled</string>
+    <string name="sound_effects_disabled">sound effects disabled</string>
 </resources>
