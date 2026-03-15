@@ -30,7 +30,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.jotte.settings"
+    namespace = "com.jotte.settings.ui"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

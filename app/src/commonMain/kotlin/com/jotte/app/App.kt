@@ -54,7 +54,7 @@ import com.jotte.room.di.provideRoomModule
 import com.jotte.settings.data.SettingsContextProvider
 import com.jotte.settings.data.di.provideSettingsDataModule
 import com.jotte.settings.data.repository.SettingsRepository
-import com.jotte.settings.di.provideSettingsModule
+import com.jotte.settings.di.provideSettingsUIModule
 import com.jotte.whiteboard.di.provideWhiteboardModule
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinApplication
@@ -73,7 +73,7 @@ fun App(settingsContextProvider: SettingsContextProvider = SettingsContextProvid
     val audioNoteModule = remember { provideAudioNoteModule() }
     val editorModule = remember { provideEditorModule() }
     val whiteboardModule = remember { provideWhiteboardModule() }
-    val settingsModule = remember { provideSettingsModule() }
+    val settingsModule = remember { provideSettingsUIModule() }
     val settingsDataModule = remember { provideSettingsDataModule(settingsContextProvider) }
 
     val toastState = rememberCXToastController()

@@ -42,7 +42,7 @@ kotlin {
             implementation(project(":audioplayer"))
             implementation(project(":editor"))
             implementation(project(":whiteboard"))
-            implementation(project(":settings"))
+            implementation(project(":settings:ui"))
             implementation(project(":settings:data"))
             implementation(compose.runtime)
             implementation(compose.foundation)
