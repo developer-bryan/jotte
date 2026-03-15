@@ -6,11 +6,11 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import platform.AVFAudio.AVAudioPlayer
 import platform.Foundation.NSURL
 
-actual class SoundEffectsPlayer {
+actual class SoundEffectsPlayerImpl: SoundEffectsPlayer {
 
     private val players = HashMap<NSURL, AVAudioPlayer>()
 
-    actual fun playSound(soundEffect: SoundEffect) {
+    actual override fun playSound(soundEffect: SoundEffect) {
         try {
             NSURL.URLWithString(URLString = soundEffect.uri)?.let { media ->
 
@@ -30,7 +30,7 @@ actual class SoundEffectsPlayer {
         }
     }
 
-    actual fun release() {
+    actual override fun release() {
         players.values.forEach { it.stop() }
         players.clear()
     }

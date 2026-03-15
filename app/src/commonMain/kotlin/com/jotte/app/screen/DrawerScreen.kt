@@ -30,7 +30,8 @@ internal fun DrawerScreen(
     onRoomSelected: (roomId: Long) -> Unit,
     onDeleteRoom: (roomId: Long) -> Unit,
     onRenameRoom: (roomId: Long, name: String) -> Unit,
-    onWhiteboardClicked: () -> Unit
+    onWhiteboardClicked: () -> Unit,
+    onSettingsClicked: () -> Unit
 ) {
 
     Column(
@@ -42,7 +43,7 @@ internal fun DrawerScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         content = {
 
-            DrawerHeader {}
+            DrawerHeader(onSettingsClicked = onSettingsClicked)
 
             DrawerList(
                 rooms = rooms,
@@ -87,7 +88,8 @@ private fun Preview() {
             onRoomSelected = {},
             onDeleteRoom = {},
             onRenameRoom = { _, _ -> },
-            onWhiteboardClicked = {}
+            onWhiteboardClicked = {},
+            onSettingsClicked = {}
         )
     }
 }

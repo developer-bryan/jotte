@@ -1,6 +1,6 @@
 package com.jotte.cxui.soundeffect
 
-expect class SoundEffectsPlayer() {
+interface SoundEffectsPlayer {
     fun playSound(soundEffect: SoundEffect)
     fun release()
 }

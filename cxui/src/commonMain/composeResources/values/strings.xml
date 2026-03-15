@@ -84,4 +84,19 @@
     <string name="exit_whiteboard_dialog_title">exit whiteboard?</string>
     <string name="exit_whiteboard_dialog_body">you have unsaved changes. do you wish to exit?</string>
     <string name="whiteboard_updated">whiteboard successfully updated!</string>
+    <string name="settings">settings</string>
+    <string name="appearance">appearance</string>
+    <string name="sound_effects">sound effects</string>
+    <string name="light_theme">light theme</string>
+    <string name="dark_theme">dark theme</string>
+    <string name="system_theme">system theme</string>
+    <string name="enabled">enabled</string>
+    <string name="disabled">disabled</string>
+    <string name="sound_effects_enabled_option_description">enable app sound effects.</string>
+    <string name="sound_effects_disabled_option_description">disable app sound effects.</string>
+    <string name="system_theme_option_description">always default to the system theme.</string>
+    <string name="light_theme_option_description">always default to the light theme.</string>
+    <string name="dark_theme_option_description">always default to the dark theme.</string>
+    <string name="sound_effects_enabled">sound effects enabled</string>
+    <string name="sound_effects_disabled">sound effects disabled</string>
 </resources>

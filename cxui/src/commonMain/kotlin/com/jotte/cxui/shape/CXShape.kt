@@ -19,4 +19,5 @@ class CXShape {
         bottomEnd = 10.dp
     )
     val toastShape = RoundedCornerShape(8.dp)
+    val roundedSettingsValueButtonShape = RoundedCornerShape(12.dp)
 }
