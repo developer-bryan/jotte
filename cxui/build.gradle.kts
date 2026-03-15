@@ -31,6 +31,7 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(project(":core"))
+            implementation(project(":settings:data"))
             api(compose.runtime)
             api(compose.foundation)
             api(compose.material)

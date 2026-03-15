@@ -4,7 +4,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.jotte.core.ApplicationProvider
 
-actual class SoundEffectsPlayer {
+actual class SoundEffectsPlayerImpl: SoundEffectsPlayer {
 
     private var mediaPlayer: ExoPlayer? = null
 
@@ -15,14 +15,14 @@ actual class SoundEffectsPlayer {
         }
     }
 
-    actual fun playSound(soundEffect: SoundEffect) {
+    actual override fun playSound(soundEffect: SoundEffect) {
         val media = MediaItem.fromUri(soundEffect.uri)
         mediaPlayer?.setMediaItem(media)
         mediaPlayer?.prepare()
         mediaPlayer?.play()
     }
 
-    actual fun release() {
+    actual override fun release() {
         mediaPlayer?.release()
     }
 }
