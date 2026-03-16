@@ -14,6 +14,7 @@ fun provideRoomModule() = module {
             roomRepository = get(),
             noteRepository = get(),
             mapNoteUseCase = get(),
+            getFullDateUseCase = get(),
             deleteNoteUseCase = get(),
             deleteMediaUseCase = get(),
             soundEffectsPlayer = get()

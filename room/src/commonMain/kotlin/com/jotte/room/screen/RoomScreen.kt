@@ -14,6 +14,8 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.jotte.cxui.Res
@@ -22,6 +24,8 @@ import com.jotte.cxui.extension.asEffect
 import com.jotte.cxui.default_room_name
 import com.jotte.cxui.theme.shapes
 import com.jotte.room.model.event.RoomEvent
+import com.jotte.room.model.state.RoomMetricsState
+import com.jotte.room.model.state.RoomScreenSheet
 import com.jotte.room.screen.component.ExitFullscreenPill
 import com.jotte.room.screen.controller.rememberRoomScreenController
 import com.jotte.room.screen.layout.NotesEmptyLayout
@@ -29,6 +33,7 @@ import com.jotte.room.screen.layout.NotesList
 import com.jotte.room.screen.layout.RoomBottomButtons
 import com.jotte.room.screen.layout.RoomToolbar
 import com.jotte.room.screen.sheet.RoomActionsSheet
+import com.jotte.room.screen.sheet.RoomMetricsSheet
 import com.jotte.room.viewmodel.NoteViewModel
 import kotlinx.coroutines.flow.receiveAsFlow
 import org.jetbrains.compose.resources.stringResource
@@ -49,7 +54,8 @@ fun RoomScreen(
     val controller = rememberRoomScreenController(roomId)
     val viewModel = koinViewModel<NoteViewModel>(key = roomId.toString()) { parametersOf(roomId) }
 
-    val room by viewModel.roomState.collectAsState(null)
+    val roomName by viewModel.roomName.collectAsState(null)
+    val metrics by viewModel.roomMetricsState.collectAsState(RoomMetricsState())
     val messages by viewModel.notes.collectAsState(emptyList())
 
     viewModel.event.receiveAsFlow().asEffect { event ->
@@ -63,21 +69,27 @@ fun RoomScreen(
         sheetState = controller.sheetState,
         sheetShape = shapes.roundedSheetShape,
         sheetContent = {
-            RoomActionsSheet(
-                onRenameRoomClicked = {
-                    onRenameRoomClicked()
-                    controller.hideSheet()
-                },
-                onFullScreenClicked = {
-                    controller.enterFullscreen()
-                    controller.hideSheet()
-                },
-                onViewMetricsClicked = {},
-                onDeleteClicked = {
-                    onDeleteRoomClicked()
-                    controller.hideSheet()
-                }
-            )
+            when (controller.screenSheet) {
+                RoomScreenSheet.RoomActionsSheet -> RoomActionsSheet(
+                    onRenameRoomClicked = {
+                        onRenameRoomClicked()
+                        controller.hideSheet()
+                    },
+                    onFullScreenClicked = {
+                        controller.enterFullscreen()
+                        controller.hideSheet()
+                    },
+                    onViewMetricsClicked = {
+                        controller.showSheet(RoomScreenSheet.RoomMetricsSheet)
+                    },
+                    onDeleteClicked = {
+                        onDeleteRoomClicked()
+                        controller.hideSheet()
+                    }
+                )
+
+                RoomScreenSheet.RoomMetricsSheet -> RoomMetricsSheet(metrics)
+            }
         },
         content = {
             Box(Modifier.fillMaxSize()) {
@@ -87,7 +99,7 @@ fun RoomScreen(
                         visible = !controller.isFullscreen,
                         content = {
                             RoomToolbar(
-                                roomTitle = room?.name
+                                roomTitle = roomName
                                     ?: stringResource(Res.string.default_room_name),
                                 onDrawerClicked = onDrawerClicked
                             )
@@ -123,7 +135,9 @@ fun RoomScreen(
                         content = {
                             RoomBottomButtons(
                                 onNewNoteClicked = { onEditorClicked(null) },
-                                onMoreClicked = controller::showSheet
+                                onMoreClicked = {
+                                    controller.showSheet(RoomScreenSheet.RoomActionsSheet)
+                                }
                             )
                         }
                     )
