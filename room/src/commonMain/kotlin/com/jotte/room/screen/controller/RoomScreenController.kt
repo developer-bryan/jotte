@@ -21,6 +21,7 @@ import com.jotte.cxui.media_deleted
 import com.jotte.cxui.media_download
 import com.jotte.message.data.MediaDto
 import com.jotte.room.model.data.FilePagerItem
+import com.jotte.room.model.state.RoomScreenSheet
 import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -36,6 +37,8 @@ internal class RoomScreenController(
     var isFullscreen by mutableStateOf(false)
 
     val pagerHasItems by derivedStateOf { filePagerController.hasItems }
+
+    var screenSheet by mutableStateOf<RoomScreenSheet>(RoomScreenSheet.RoomActionsSheet)
 
     fun onMediaDeleted(itemId: String) {
         toastState.show(Res.string.media_deleted)
@@ -67,13 +70,23 @@ internal class RoomScreenController(
         scope.launch { sheetState.hide() }
     }
 
-    fun showSheet() {
-        scope.launch { sheetState.show() }
+    fun showSheet(sheet: RoomScreenSheet) {
+        scope.launch {
+            if (sheetState.isVisible) {
+                sheetState.hide()
+            }
+            this@RoomScreenController.screenSheet = sheet
+            sheetState.show()
+        }
     }
 
-    fun enterFullscreen() { this.isFullscreen = true }
+    fun enterFullscreen() {
+        this.isFullscreen = true
+    }
 
-    fun exitFullscreen() { this.isFullscreen = false }
+    fun exitFullscreen() {
+        this.isFullscreen = false
+    }
 
 }
 
