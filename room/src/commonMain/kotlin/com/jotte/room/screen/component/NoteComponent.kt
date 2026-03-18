@@ -103,7 +103,8 @@ internal fun NoteComponent(
 
                 noteState.audio?.let { audio ->
                     NoteAudioComponent(
-                        audioState = audio,
+                        audio = audio,
+                        modifier = Modifier.align(Alignment.End),
                         onClick = { onPlayAudioClicked(audio.id) },
                         onLongClick = controller::showPopup
                     )

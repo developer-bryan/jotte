@@ -60,6 +60,7 @@ import com.jotte.editor.viewmodel.EditorViewModel
 import com.jotte.editor.viewmodel.NoteId
 import com.jotte.editor.viewmodel.RoomId
 import io.github.vinceglb.filekit.dialogs.compose.rememberFileSaverLauncher
+import io.github.vinceglb.filekit.nameWithoutExtension
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -86,9 +87,7 @@ fun EditorScreen(
     val scope = rememberCoroutineScope()
     val toastController = LocalToastController.current
 
-    val audioController = rememberRecordAudioController(
-        onRecordingFinished = viewModel::addAudioFile
-    )
+    val audioController = rememberRecordAudioController(viewModel::addAudioFile)
 
     val draft by viewModel.draft.collectAsState(null)
     val contentValue by viewModel.contentValue.collectAsState("")
@@ -198,10 +197,14 @@ fun EditorScreen(
                         onRemoveMedia = removeAttachmentDialogController::show,
                         onRenameAudio = audioTitleDialogController::show,
                         onSaveAudio = {
-                            audioFileSaver.launch(
-                                suggestedName = draft?.audio?.title ?: "jotte audio",
-                                extension = draft?.audio?.file?.getExtension()
-                            )
+                            val fileName = draft?.audio?.title ?:
+                            draft?.audio?.file?.asFile()?.nameWithoutExtension
+                            fileName?.let {
+                                audioFileSaver.launch(
+                                    suggestedName = it,
+                                    extension = draft?.audio?.file?.getExtension()
+                                )
+                            }
                         },
                         onRemoveAudio = removeAudioDialogController::show,
                         onRemoveLink = viewModel::removeLink,
