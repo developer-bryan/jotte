@@ -14,8 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.jotte.core.datetime.toFormattedRuntime
 import com.jotte.cxui.Res
+import com.jotte.cxui.cancel_recording_dialog_body
+import com.jotte.cxui.cancel_recording_dialog_title
 import com.jotte.cxui.component.CXButtonIcon
 import com.jotte.cxui.component.CXText
+import com.jotte.cxui.controller.rememberDialogController
 import com.jotte.cxui.icon_check_circle
 import com.jotte.cxui.icon_close
 import com.jotte.cxui.theme.colors
@@ -32,6 +35,12 @@ internal fun AudioRecordingChip(
 
     val isRecording by controller.isRecording.collectAsState(false)
     val duration by controller.durationConverted.collectAsState(0L.toFormattedRuntime())
+
+    val cancelRecordingDialogController = rememberDialogController<Nothing>(
+        title = Res.string.cancel_recording_dialog_title,
+        body = Res.string.cancel_recording_dialog_body,
+        onPositiveButtonClick = { controller.cancelRecording() }
+    )
 
     LaunchedEffect(Unit) {
         controller.beginRecording()
@@ -51,7 +60,13 @@ internal fun AudioRecordingChip(
                 size = sizes.interactableHeightSmall,
                 backgroundColor = colors.negativeColor,
                 iconColor = colors.onAccentColor,
-                onClick = controller::cancelRecording
+                onClick = {
+                    if (isRecording) {
+                        cancelRecordingDialogController.show()
+                    } else {
+                        controller.cancelRecording()
+                    }
+                }
             )
 
             CXText(
@@ -64,7 +79,7 @@ internal fun AudioRecordingChip(
                 icon = Res.drawable.icon_check_circle,
                 iconSize = sizes.interactableHeightSmall,
                 iconColor = colors.onAccentColor,
-                onClick = controller::cancelRecording
+                onClick = { }
             )
         }
     )
