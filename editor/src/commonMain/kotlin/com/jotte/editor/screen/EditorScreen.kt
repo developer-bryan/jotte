@@ -86,7 +86,9 @@ fun EditorScreen(
     val scope = rememberCoroutineScope()
     val toastController = LocalToastController.current
 
-    val audioController = rememberRecordAudioController()
+    val audioController = rememberRecordAudioController(
+        onRecordingFinished = viewModel::addAudioFile
+    )
 
     val draft by viewModel.draft.collectAsState(null)
     val contentValue by viewModel.contentValue.collectAsState("")

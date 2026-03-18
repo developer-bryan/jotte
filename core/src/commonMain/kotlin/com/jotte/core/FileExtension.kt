@@ -4,11 +4,12 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.decodeToImageBitmap
 import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.PlatformFile
+import io.github.vinceglb.filekit.absolutePath
 import io.github.vinceglb.filekit.cacheDir
 import io.github.vinceglb.filekit.copyTo
 import io.github.vinceglb.filekit.delete
-import io.github.vinceglb.filekit.extension
 import io.github.vinceglb.filekit.filesDir
+import io.github.vinceglb.filekit.name
 import io.github.vinceglb.filekit.path
 import io.github.vinceglb.filekit.readBytes
 import io.github.vinceglb.filekit.saveImageToGallery
@@ -17,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 
+@Deprecated("Use PlatformFile#isCacheFile() instead")
 data class VirtualFile(val fileName: String, val fromCache: Boolean) {
     fun asFile() = if (fromCache) FileKit.cacheFile(fileName) else FileKit.storageFile(fileName)
     fun asVirtualPath() = asFile().path
@@ -40,6 +42,19 @@ suspend fun FileKit.copyCacheToStorage(fileName: String): Result<Boolean> {
             true
         }
     }
+}
+
+fun PlatformFile.asVirtualFile(): VirtualFile {
+    val fileName = this.name
+    val isCachedFile = this.path.contains(FileKit.cacheDir.path)
+
+    return VirtualFile(fileName, isCachedFile)
+}
+
+fun PlatformFile.isCacheFile(): Boolean {
+    val cachePath = FileKit.cacheDir.absolutePath()
+    val filePath = this.absolutePath()
+    return filePath.startsWith(cachePath)
 }
 
 fun FileKit.toStoragePath(fileName: String): String {

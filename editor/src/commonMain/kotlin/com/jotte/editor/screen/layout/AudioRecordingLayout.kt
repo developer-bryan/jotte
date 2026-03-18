@@ -79,7 +79,7 @@ internal fun AudioRecordingChip(
                 icon = Res.drawable.icon_check_circle,
                 iconSize = sizes.interactableHeightSmall,
                 iconColor = colors.onAccentColor,
-                onClick = { }
+                onClick = controller::finishRecording
             )
         }
     )

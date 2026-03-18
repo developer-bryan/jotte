@@ -8,7 +8,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.jotte.cxui.soundeffect.SoundEffectsPlayer
-import com.jotte.core.VirtualFile
 import com.jotte.core.audio.AudioRecorder
 import com.jotte.core.datetime.CoroutineTimer
 import com.jotte.core.datetime.toFormattedRuntime
@@ -20,18 +19,19 @@ import com.jotte.cxui.composition.LocalToastController
 import com.jotte.cxui.generic_error_message
 import com.jotte.cxui.missing_audio_permission
 import com.jotte.cxui.soundeffect.SoundEffect
+import io.github.vinceglb.filekit.PlatformFile
 import org.koin.compose.koinInject
 
 internal class RecordAudioController(
     private val recorder: AudioRecorder,
     private val toastController: CXToastController,
-    private val soundEffectsPlayer: SoundEffectsPlayer
+    private val soundEffectsPlayer: SoundEffectsPlayer,
+    private val onRecordingFinished: (file: PlatformFile, duration: Long) -> Unit
 ) {
 
     val shouldRequestAudioPermission = mutableStateOf(false)
     val isRecording = recorder.isRecording
 
-    val hasActiveRecording = recorder.hasActiveRecording
     val durationMillis = recorder.timer.rawElapsed
     val durationConverted = recorder.timer.convertedElapsed
 
@@ -43,9 +43,12 @@ internal class RecordAudioController(
             .onFailure { toastController.show(Res.string.generic_error_message) }
     }
 
-    fun stopRecording(callback: (file: VirtualFile, runtime: Long) -> Unit) {
-        recorder.stopRecording()
-            .onSuccess { callback(it, durationMillis.value) }
+    fun finishRecording() {
+        recorder.finishRecording()
+            .onSuccess {
+                onRecordingFinished(it, durationMillis.value)
+                closeAudioRecorder()
+            }
             .onFailure { toastController.show(Res.string.generic_error_message) }
     }
 
@@ -57,15 +60,21 @@ internal class RecordAudioController(
         this.isAudioRecorderOpen = true
     }
 
+    fun closeAudioRecorder() {
+        this.isAudioRecorderOpen = false
+    }
+
     fun cancelRecording() {
-        stopRecording { _, _ -> /* NO-OP */ }
+        recorder.cancelRecording()
         isAudioRecorderOpen = false
     }
 
 }
 
 @Composable
-internal fun rememberRecordAudioController(): RecordAudioController {
+internal fun rememberRecordAudioController(
+    onRecordingFinished: (file: PlatformFile, duration: Long) -> Unit
+): RecordAudioController {
 
     val soundEffectsPlayer: SoundEffectsPlayer = koinInject()
     val scope = rememberCoroutineScope()
@@ -73,13 +82,14 @@ internal fun rememberRecordAudioController(): RecordAudioController {
     val recorder = remember { AudioRecorder(timer) }
     val toastController = LocalToastController.current
 
-    DisposableEffect(Unit) { onDispose { recorder.stopRecording() } }
+    DisposableEffect(Unit) { onDispose { recorder.finishRecording() } }
 
     val controller = remember(recorder) {
         RecordAudioController(
             recorder = recorder,
             toastController = toastController,
-            soundEffectsPlayer = soundEffectsPlayer
+            soundEffectsPlayer = soundEffectsPlayer,
+            onRecordingFinished = onRecordingFinished
         )
     }
 
