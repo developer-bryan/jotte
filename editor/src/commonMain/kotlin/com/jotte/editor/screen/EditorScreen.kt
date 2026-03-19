@@ -29,10 +29,10 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import com.jotte.camera.screen.CameraScreen
 import com.jotte.core.VirtualFile
-import com.jotte.core.permission.Permission
-import com.jotte.core.permission.rememberPermission
 import com.jotte.core.safeWrite
 import com.jotte.cxui.Res
+import com.jotte.cxui.cancel_recording_dialog_body
+import com.jotte.cxui.cancel_recording_dialog_title
 import com.jotte.cxui.composition.LocalSoundEffectPlayer
 import com.jotte.cxui.composition.LocalToastController
 import com.jotte.cxui.confirm_editor_exit_dialog_body
@@ -91,6 +91,7 @@ fun EditorScreen(
 
     val draft by viewModel.draft.collectAsState(null)
     val contentValue by viewModel.contentValue.collectAsState("")
+    val isAudioRecording by audioController.isRecording.collectAsState(false)
 
     val soundEffectsPlayer: SoundEffectsPlayer? = LocalSoundEffectPlayer.current
 
@@ -149,6 +150,12 @@ fun EditorScreen(
         )
     }
 
+    val cancelAudioRecordingAndCloseDialogController = rememberDialogController<Nothing>(
+        title = Res.string.cancel_recording_dialog_title,
+        body = Res.string.cancel_recording_dialog_body,
+        onPositiveButtonClick = { onCloseClicked() }
+    )
+
     viewModel.event.consumeAsFlow().asEffect {
         when (it) {
             EditorEvent.OnDraftSubmitted -> {
@@ -175,7 +182,9 @@ fun EditorScreen(
                 canSubmit = draft?.canSubmit ?: false,
                 onSubmitClicked = viewModel::submit,
                 onCloseClicked = {
-                    if (draft?.canSubmit == true) {
+                    if (isAudioRecording) {
+                        cancelAudioRecordingAndCloseDialogController.show()
+                    } else if (draft?.canSubmit == true) {
                         clearDraftDialogController.show()
                     } else {
                         onCloseClicked()

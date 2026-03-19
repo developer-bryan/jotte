@@ -77,6 +77,7 @@ actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
         return runCatching {
             recorder?.stop()
             timer.stop()
+            _isRecording.tryEmit(false)
             val output = destination
             checkNotNull(output)
             output
@@ -86,6 +87,7 @@ actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
     actual fun cancelRecording() {
         recorder?.stop()
         timer.stop()
+        _isRecording.tryEmit(false)
     }
 
     private fun getFileName(): String {

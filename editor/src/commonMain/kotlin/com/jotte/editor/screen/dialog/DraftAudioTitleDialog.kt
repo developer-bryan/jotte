@@ -28,6 +28,7 @@ import com.jotte.cxui.component.CXButton
 import com.jotte.cxui.component.CXText
 import com.jotte.cxui.controller.DialogController
 import com.jotte.cxui.extension.ColumnExtension.Space
+import com.jotte.cxui.rename_audio_dialog_title
 import com.jotte.cxui.rename_room_dialog_title
 import com.jotte.cxui.save
 import com.jotte.cxui.theme.colors
@@ -63,7 +64,7 @@ internal fun DialogController<Nothing>.DraftAudioTitleDialog(
                     .padding(vertical = sizes.medium),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
-                    DialogTitle(stringResource(Res.string.rename_room_dialog_title))
+                    DialogTitle(stringResource(Res.string.rename_audio_dialog_title))
                     Spacer(Modifier.height(sizes.regular))
                     Box(
                         modifier = Modifier

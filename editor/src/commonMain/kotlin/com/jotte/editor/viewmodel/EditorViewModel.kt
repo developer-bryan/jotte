@@ -80,7 +80,6 @@ internal class EditorViewModel(
             DraftState(
                 roomId = roomId.value,
                 noteId = noteId.value,
-                isExistingNote = note != null,
                 canSubmit = canSubmit,
                 content = draftContent,
                 audio = audio,
