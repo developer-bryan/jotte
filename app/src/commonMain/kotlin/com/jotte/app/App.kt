@@ -51,7 +51,6 @@ import com.jotte.cxui.composition.LocalSoundEffectPlayer
 import com.jotte.settings.data.model.AppAppearance
 import com.jotte.editor.di.provideEditorModule
 import com.jotte.room.di.provideRoomModule
-import com.jotte.settings.data.SettingsContextProvider
 import com.jotte.settings.data.di.provideSettingsDataModule
 import com.jotte.settings.data.repository.SettingsRepository
 import com.jotte.settings.di.provideSettingsUIModule
@@ -61,7 +60,7 @@ import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 
 @Composable
-fun App(settingsContextProvider: SettingsContextProvider = SettingsContextProvider()) {
+fun App() {
 
     val dateTimeStrings = loadDateTimeStrings()
     val notesModule = remember { provideNotesModule() }
@@ -74,7 +73,7 @@ fun App(settingsContextProvider: SettingsContextProvider = SettingsContextProvid
     val editorModule = remember { provideEditorModule() }
     val whiteboardModule = remember { provideWhiteboardModule() }
     val settingsModule = remember { provideSettingsUIModule() }
-    val settingsDataModule = remember { provideSettingsDataModule(settingsContextProvider) }
+    val settingsDataModule = remember { provideSettingsDataModule() }
 
     val toastState = rememberCXToastController()
     val clipboardState = rememberClipboardController(toastState)

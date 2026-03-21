@@ -22,7 +22,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.datastore)
+            api(libs.datastore)
             api(libs.koin.core)
             api(libs.koin.compose)
             api(libs.koin.compose.viewmodel)
