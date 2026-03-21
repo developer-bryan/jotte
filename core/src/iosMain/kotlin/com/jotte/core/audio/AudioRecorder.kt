@@ -30,6 +30,7 @@ import kotlin.Any
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
+// TODO: Add Metering
 actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
 
     actual val timer = _timer
