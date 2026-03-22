@@ -2,12 +2,14 @@ package com.jotte.room.screen.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +20,7 @@ import com.jotte.cxui.component.CXIcon
 import com.jotte.cxui.component.CXText
 import com.jotte.cxui.extension.RowExtension.FillSpace
 import com.jotte.cxui.icon_audio_note
+import com.jotte.cxui.icon_audio_wave
 import com.jotte.cxui.theme.CXTheme
 import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.shapes
@@ -25,39 +28,32 @@ import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.theme.typography
 import com.jotte.room.model.state.NoteState
 import io.github.vinceglb.filekit.PlatformFile
+import io.github.vinceglb.filekit.name
 
 @Composable
 internal fun NoteAudioComponent(
-    audioState: NoteState.AudioState,
+    audio: NoteState.AudioState,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     onLongClick: () -> Unit
 ) {
+
     Row(
         modifier = modifier
-            .fillMaxWidth()
             .height(sizes.interactableHeight)
-            .background(
-                color = colors.backgroundSecondary,
-                shape = shapes.mediaPreviewShape
-            )
+            .background(colors.backgroundSecondary, CircleShape)
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick
             )
-            .padding(horizontal = sizes.small),
+            .padding(sizes.small),
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(sizes.extraSmall),
         content = {
-            CXIcon(Res.drawable.icon_audio_note)
-            Spacer(Modifier.width(sizes.extraSmall))
+            CXIcon(Res.drawable.icon_audio_wave)
             CXText(
-                text = audioState.title ?: "audio note",
-                typography.bodyOne
-            )
-            FillSpace()
-            CXText(
-                text = audioState.duration.toFormattedRuntime(),
-                style = typography.bodyTwo
+                text = audio.title ?: audio.file.name,
+                style = typography.bodyOne
             )
         }
     )
@@ -68,7 +64,7 @@ internal fun NoteAudioComponent(
 private fun Preview() {
     CXTheme(isDarkMode = true) {
         NoteAudioComponent(
-            audioState = NoteState.AudioState(
+            audio = NoteState.AudioState(
                 id = "",
                 file = PlatformFile(""),
                 duration = 1000,

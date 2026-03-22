@@ -3,6 +3,7 @@ package com.jotte.editor.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jotte.core.VirtualFile
+import com.jotte.core.asVirtualFile
 import com.jotte.cxui.soundeffect.SoundEffect
 import com.jotte.cxui.soundeffect.SoundEffectsPlayer
 import com.jotte.editor.model.event.EditorEvent
@@ -14,6 +15,7 @@ import com.jotte.editor.usecase.CreateNoteUseCase
 import com.jotte.editor.usecase.UpdateNoteUseCase
 import com.jotte.message.data.FullNote
 import com.jotte.message.usecase.GetNoteUseCase
+import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
@@ -78,7 +80,6 @@ internal class EditorViewModel(
             DraftState(
                 roomId = roomId.value,
                 noteId = noteId.value,
-                isExistingNote = note != null,
                 canSubmit = canSubmit,
                 content = draftContent,
                 audio = audio,
@@ -151,8 +152,9 @@ internal class EditorViewModel(
         attachments.emit(newAttachmentsList as ArrayList)
     }
 
-    fun setAudioFile(file: VirtualFile, duration: Long) = viewModelScope.launch {
-        val newAudio = audio.value?.copy(file, duration) ?: DraftAudioState(file, duration)
+    fun addAudioFile(file: PlatformFile, duration: Long) = viewModelScope.launch {
+        val virtualFile = file.asVirtualFile()
+        val newAudio = audio.value?.copy(virtualFile, duration) ?: DraftAudioState(virtualFile, duration)
         audio.emit(newAudio)
     }
 

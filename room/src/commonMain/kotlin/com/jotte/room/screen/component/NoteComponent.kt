@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.jotte.core.rememberFileSaverPicker
 import com.jotte.cxui.Res
 import com.jotte.cxui.component.CXActionPopup
 import com.jotte.cxui.component.CXMediaCarousel
@@ -30,7 +31,6 @@ import com.jotte.cxui.theme.typography
 import com.jotte.room.model.data.NotePopupActions
 import com.jotte.room.model.state.NoteState
 import com.jotte.room.screen.controller.NoteController
-import io.github.vinceglb.filekit.dialogs.compose.rememberFileSaverLauncher
 import io.github.vinceglb.filekit.extension
 import org.jetbrains.compose.resources.stringResource
 
@@ -45,11 +45,11 @@ internal fun NoteComponent(
     onDeleteNoteClicked: () -> Unit
 ) {
 
-    val audioFileSaver = rememberFileSaverLauncher { file ->
-        if (file != null) {
-            controller.saveAudio(file)
-        }
-    }
+    val audioFileSaver = rememberFileSaverPicker(
+        src = noteState.audio?.file,
+        onSuccess = { controller.onAudioFileSaved() },
+        onFailure = { _, _ -> controller.onAudioFileSaveFailure() }
+    )
 
     val deleteNoteDialogController = rememberDialogController<Nothing>(
         title = Res.string.delete_note_dialog_title,
@@ -103,7 +103,8 @@ internal fun NoteComponent(
 
                 noteState.audio?.let { audio ->
                     NoteAudioComponent(
-                        audioState = audio,
+                        audio = audio,
+                        modifier = Modifier.align(Alignment.End),
                         onClick = { onPlayAudioClicked(audio.id) },
                         onLongClick = controller::showPopup
                     )

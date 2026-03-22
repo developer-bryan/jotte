@@ -2,7 +2,6 @@ package com.jotte.settings.data.di
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.jotte.settings.data.SettingsContextProvider
 import com.jotte.settings.data.createDataStore
 import com.jotte.settings.data.repository.SettingsRepository
 import com.jotte.settings.data.repository.SettingsRepositoryImpl
@@ -11,7 +10,7 @@ import org.koin.dsl.module
 
 fun settingsFileName() = StringQualifier("settingsFileName")
 
-fun provideSettingsDataModule(settingsContextProvider: SettingsContextProvider) = module {
+fun provideSettingsDataModule() = module {
 
     single<String>(
         qualifier = settingsFileName(),
@@ -19,10 +18,7 @@ fun provideSettingsDataModule(settingsContextProvider: SettingsContextProvider) 
     )
 
     single<DataStore<Preferences>> {
-        createDataStore(
-            settingsContextProvider = settingsContextProvider,
-            fileName = get<String>(settingsFileName())
-        )
+        createDataStore(get<String>(settingsFileName()))
     }
 
     factory<SettingsRepository> { SettingsRepositoryImpl(get()) }

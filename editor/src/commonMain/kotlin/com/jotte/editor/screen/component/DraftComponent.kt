@@ -82,6 +82,7 @@ internal fun DraftComponent(
             draft?.audio?.let {
                 DraftAudioComponent(
                     audio = it,
+                    modifier = modifier.align(Alignment.End),
                     onRenameClicked = onRenameAudio,
                     onSaveClicked = onSaveAudio,
                     onRemoveClicked = onRemoveAudio
@@ -98,6 +99,7 @@ internal fun DraftComponent(
             if (mediaCarouselItems?.isNotEmpty() == true) {
                 CXMediaCarousel(
                     items = mediaCarouselItems,
+                    modifier = Modifier.align(Alignment.End),
                     itemDrawOver = { carouselItem ->
                         CXButtonIcon(
                             icon = Res.drawable.icon_trash,

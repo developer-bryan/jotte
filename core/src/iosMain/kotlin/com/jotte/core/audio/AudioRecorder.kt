@@ -2,8 +2,10 @@
 
 package com.jotte.core.audio
 
-import com.jotte.core.VirtualFile
+import com.jotte.core.cacheFile
 import com.jotte.core.datetime.CoroutineTimer
+import io.github.vinceglb.filekit.FileKit
+import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCObjectVar
 import kotlinx.cinterop.alloc
@@ -28,22 +30,15 @@ import kotlin.Any
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
+// TODO: Add Metering
 actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
 
     actual val timer = _timer
     private val _isRecording = MutableStateFlow(false)
     actual val isRecording: Flow<Boolean> = _isRecording
 
-    actual val hasActiveRecording: Flow<Boolean> = combine(
-        flow = isRecording,
-        flow2 = timer.rawElapsed,
-        transform = { isRecording, duration ->
-            isRecording && duration > 0
-        }
-    )
-
     private var recorder: AVAudioRecorder? = null
-    private var destination: VirtualFile? = null
+    private var destination: PlatformFile? = null
 
     actual fun beginRecording() {
         val settings = mapOf<Any?, Any>(
@@ -67,8 +62,8 @@ actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
             audioSession.setActive(true, activateErrorPtr.ptr)
         }
 
-        destination = VirtualFile(getFileName(), true)
-        val nsurl = destination!!.asFile().nsUrl
+        destination = FileKit.cacheFile(getFileName())
+        val nsurl = destination!!.nsUrl
         recorder = AVAudioRecorder(nsurl, settings, null)
 
         if (recorder?.prepareToRecord() == true && recorder?.record() == true) {
@@ -79,23 +74,21 @@ actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
         }
     }
 
-    actual fun pauseRecording() {
-        recorder?.pause()
-        timer.stop()
-    }
-
-    actual fun resumeRecording() {
-        recorder?.record()
-        timer.start()
-    }
-
-    actual fun stopRecording(): Result<VirtualFile> {
+    actual fun finishRecording(): Result<PlatformFile> {
         return runCatching {
             recorder?.stop()
+            timer.stop()
+            _isRecording.tryEmit(false)
             val output = destination
             checkNotNull(output)
             output
         }
+    }
+
+    actual fun cancelRecording() {
+        recorder?.stop()
+        timer.stop()
+        _isRecording.tryEmit(false)
     }
 
     private fun getFileName(): String {

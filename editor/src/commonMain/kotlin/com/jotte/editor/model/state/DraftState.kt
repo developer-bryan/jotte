@@ -8,7 +8,6 @@ import io.github.vinceglb.filekit.FileKit
 internal class DraftState(
     val roomId: Long,
     val noteId: Long? = null,
-    val isExistingNote: Boolean = false,
     val canSubmit: Boolean = false,
     val content: DraftContentState? = null,
     val audio: DraftAudioState? = null,

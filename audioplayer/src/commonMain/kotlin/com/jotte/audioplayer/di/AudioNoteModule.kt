@@ -7,7 +7,7 @@ import org.koin.dsl.module
 fun provideAudioNoteModule() = module {
 
     viewModel<AudioNoteViewModel> {
-        AudioNoteViewModel(get(), get(), get())
+        AudioNoteViewModel(get(), get(), get(), get())
     }
 
 }

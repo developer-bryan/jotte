@@ -22,7 +22,6 @@ import com.jotte.cxui.theme.sizes
 import com.jotte.room.model.state.NoteState
 import com.jotte.room.screen.component.NoteComponent
 import com.jotte.room.screen.component.NoteListQuickScrollButton
-import com.jotte.room.screen.controller.NoteController
 import com.jotte.room.screen.controller.rememberNoteController
 import kotlinx.coroutines.launch
 

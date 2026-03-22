@@ -10,9 +10,7 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
-/**
- * TODO: Refactor to support various configurations for short date, long date, various locales, etc
- */
+@Deprecated("Use GetFullDateUseCase instead")
 class GetDateUseCase(private val dateTimeStrings: DateTimeStrings) {
 
     operator fun invoke(timestamp: Long = Clock.System.now().toEpochMilliseconds()): String {

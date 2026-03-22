@@ -1,13 +1,8 @@
-package com.jotte.audioplayer.model.state
+package com.jotte.core
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberCoroutineScope
-import com.jotte.core.safeWrite
-import com.jotte.cxui.Res
-import com.jotte.cxui.composition.LocalToastController
-import com.jotte.cxui.generic_error_message
-import com.jotte.cxui.media_download
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.dialogs.compose.SaverResultLauncher
 import io.github.vinceglb.filekit.dialogs.compose.rememberFileSaverLauncher
@@ -15,9 +10,12 @@ import io.github.vinceglb.filekit.readBytes
 import kotlinx.coroutines.launch
 
 @Composable
-fun rememberAudioFileSaver(src: PlatformFile?): SaverResultLauncher {
+fun rememberFileSaverPicker(
+    src: PlatformFile?,
+    onSuccess: (src: PlatformFile) -> Unit,
+    onFailure: (src: PlatformFile, throwable: Throwable) -> Unit
+): SaverResultLauncher {
     val scope = rememberCoroutineScope()
-    val toastState = LocalToastController.current
 
     return key(src) {
         rememberFileSaverLauncher { file ->
@@ -25,8 +23,8 @@ fun rememberAudioFileSaver(src: PlatformFile?): SaverResultLauncher {
                 scope.launch {
                     runCatching { src!!.readBytes() }
                         .mapCatching { file.safeWrite(it) }
-                        .onSuccess { toastState.show(Res.string.media_download) }
-                        .onFailure { toastState.show(Res.string.generic_error_message) }
+                        .onSuccess { onSuccess(file) }
+                        .onFailure { onFailure(file, it) }
                 }
             }
         }
