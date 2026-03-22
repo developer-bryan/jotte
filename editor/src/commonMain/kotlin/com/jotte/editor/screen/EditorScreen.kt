@@ -29,7 +29,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import com.jotte.camera.screen.CameraScreen
 import com.jotte.core.VirtualFile
-import com.jotte.core.safeWrite
+import com.jotte.core.rememberFileSaverPicker
 import com.jotte.cxui.Res
 import com.jotte.cxui.cancel_recording_dialog_body
 import com.jotte.cxui.cancel_recording_dialog_title
@@ -59,10 +59,8 @@ import com.jotte.editor.screen.layout.EditorHeader
 import com.jotte.editor.viewmodel.EditorViewModel
 import com.jotte.editor.viewmodel.NoteId
 import com.jotte.editor.viewmodel.RoomId
-import io.github.vinceglb.filekit.dialogs.compose.rememberFileSaverLauncher
 import io.github.vinceglb.filekit.nameWithoutExtension
 import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -99,16 +97,11 @@ fun EditorScreen(
 
     var contentEditorInFocus by remember { mutableStateOf(true) }
 
-    val audioFileSaver = rememberFileSaverLauncher { file ->
-        if (file != null) {
-            scope.launch {
-                runCatching { draft!!.audio!!.file.readBytes() }
-                    .mapCatching { file.safeWrite(it) }
-                    .onSuccess { toastController.show(Res.string.media_download) }
-                    .onFailure { toastController.show(Res.string.generic_error_message) }
-            }
-        }
-    }
+    val audioFileSaver = rememberFileSaverPicker(
+        src = draft?.audio?.file?.asFile(),
+        onSuccess = { toastController.show(Res.string.media_download) },
+        onFailure = { _, _ -> toastController.show(Res.string.generic_error_message) }
+    )
 
     val clearDraftDialogController = rememberDialogController<Nothing>(
         title = Res.string.confirm_editor_exit_dialog_title,

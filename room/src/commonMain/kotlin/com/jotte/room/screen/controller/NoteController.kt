@@ -54,19 +54,14 @@ internal class NoteController(
 
     var popupVisible by mutableStateOf(false)
 
-    fun saveAudio(file: PlatformFile) {
-        scope.launch {
-            runCatching { noteState.audio!!.file.readBytes() }
-                .mapCatching { file.safeWrite(it) }
-                .onSuccess {
-                    popupVisible = false
-                    toastController.show(Res.string.media_download)
-                }
-                .onFailure {
-                    popupVisible = false
-                    toastController.show(Res.string.generic_error_message)
-                }
-        }
+    fun onAudioFileSaved() {
+        popupVisible = false
+        toastController.show(Res.string.media_download)
+    }
+
+    fun onAudioFileSaveFailure() {
+        popupVisible = false
+        toastController.show(Res.string.generic_error_message)
     }
 
     fun showPopup() { popupVisible = true }
