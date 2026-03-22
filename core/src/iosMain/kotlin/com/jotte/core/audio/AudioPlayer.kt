@@ -88,7 +88,6 @@ actual class AudioPlayer actual constructor(private val scope: CoroutineScope) {
 
     private fun trackTime() {
         scope.launch {
-            delay(300)
             while (isActive && player?.isPlaying() == true) {
                 val time = player?.currentTime()
                 _time.value = time?.toLong()?.times(1000) ?: 0L

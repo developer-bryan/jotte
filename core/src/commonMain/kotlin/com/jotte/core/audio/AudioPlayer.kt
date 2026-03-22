@@ -1,9 +1,6 @@
 package com.jotte.core.audio
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.coroutines.CoroutineScope
 
@@ -18,10 +15,4 @@ expect class AudioPlayer(scope: CoroutineScope) {
     fun pause()
 
     fun dispose()
-}
-
-@Composable
-fun rememberAudioPlayer(): AudioPlayer {
-    val scope = rememberCoroutineScope()
-    return remember { AudioPlayer(scope) }
 }
