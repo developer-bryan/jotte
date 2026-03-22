@@ -69,7 +69,7 @@ internal class AudioNoteViewModel(
         )
     }
 
-    fun deleteAudioNote() {
+    fun deleteAudio() {
         viewModelScope.launch(
             context = CoroutineExceptionHandler { _, throwable ->
                 println(throwable)

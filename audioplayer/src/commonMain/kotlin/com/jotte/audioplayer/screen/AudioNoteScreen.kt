@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,7 +29,6 @@ import com.jotte.cxui.extension.asEffect
 import com.jotte.cxui.media_download
 import io.github.vinceglb.filekit.extension
 import io.github.vinceglb.filekit.nameWithoutExtension
-import io.github.vinceglb.filekit.path
 import kotlinx.coroutines.flow.consumeAsFlow
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -44,13 +42,13 @@ fun AudioNoteScreen(
     val toastController = LocalToastController.current
     val viewModel: AudioNoteViewModel = koinViewModel { parametersOf(audioId) }
     val screenState by viewModel.state.collectAsState(AudioScreenState.Nothing)
-    val isPlaying by viewModel.player.isPlaying
-    val runtime by viewModel.player.time
+    val isPlaying by viewModel.player.isPlaying.collectAsState(false)
+    val runtime by viewModel.player.time.collectAsState(0L)
 
     val removeAudioDialogController = rememberDialogController<Unit>(
         title = Res.string.delete_draft_audio_dialog_title,
         body = Res.string.delete_draft_audio_dialog_body,
-        onPositiveButtonClick = { viewModel.deleteAudioNote() }
+        onPositiveButtonClick = { viewModel.deleteAudio() }
     )
 
     viewModel.event.consumeAsFlow().asEffect { event ->

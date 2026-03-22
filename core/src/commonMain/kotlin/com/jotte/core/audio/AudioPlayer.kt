@@ -1,13 +1,13 @@
 package com.jotte.core.audio
 
-import androidx.compose.runtime.State
 import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 
 expect class AudioPlayer(scope: CoroutineScope) {
 
-    val time: State<Long>
-    val isPlaying: State<Boolean>
+    val time: Flow<Long>
+    val isPlaying: Flow<Boolean>
 
     fun setupPlayer(file: PlatformFile)
     fun play()

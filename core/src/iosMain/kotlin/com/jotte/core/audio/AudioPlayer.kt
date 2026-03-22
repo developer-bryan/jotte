@@ -2,9 +2,6 @@
 
 package com.jotte.core.audio
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -15,6 +12,8 @@ import kotlinx.cinterop.ptr
 import kotlinx.cinterop.value
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.io.files.FileNotFoundException
@@ -26,11 +25,11 @@ actual class AudioPlayer actual constructor(private val scope: CoroutineScope) {
 
     private val TAG = this::class.toString()
 
-    private val _time: MutableState<Long> = mutableStateOf(0L)
-    actual val time: State<Long> = _time
+    private val _time: MutableStateFlow<Long> = MutableStateFlow(0L)
+    actual val time: Flow<Long> = _time
 
-    private val _isPlaying: MutableState<Boolean> = mutableStateOf(false)
-    actual val isPlaying: State<Boolean> = _isPlaying
+    private val _isPlaying: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    actual val isPlaying: Flow<Boolean> = _isPlaying
 
     var player: AVAudioPlayer? = null
 
