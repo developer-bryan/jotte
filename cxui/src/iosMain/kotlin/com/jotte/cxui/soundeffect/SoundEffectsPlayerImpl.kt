@@ -10,6 +10,7 @@ actual class SoundEffectsPlayerImpl: SoundEffectsPlayer {
 
     private val players = HashMap<NSURL, AVAudioPlayer>()
 
+    @Suppress("TooGenericExceptionCaught")
     actual override fun playSound(soundEffect: SoundEffect) {
         try {
             NSURL.URLWithString(URLString = soundEffect.uri)?.let { media ->

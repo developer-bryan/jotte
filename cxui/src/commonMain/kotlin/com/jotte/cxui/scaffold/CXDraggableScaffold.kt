@@ -89,6 +89,7 @@ fun CXDrawerScaffold(
         val distance = with(draggableState.anchors) { positionOf(OPEN) - positionOf(CLOSED) }
         val fraction = draggableState.requireOffset() / distance
 
+        @Suppress("MagicNumber")
         lerp(0F, 0.25F, fraction)
     }
 

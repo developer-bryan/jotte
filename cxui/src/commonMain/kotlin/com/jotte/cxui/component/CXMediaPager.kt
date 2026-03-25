@@ -36,6 +36,7 @@ import com.jotte.cxui.extension.RowExtension.FillSpace
 import com.jotte.cxui.icon_close
 import com.jotte.cxui.icon_save
 import com.jotte.cxui.icon_trash
+import com.jotte.cxui.theme.sizes
 
 @Composable
 fun <T : PagerItem> CXMediaPager(
@@ -110,7 +111,7 @@ fun <T : PagerItem> CXMediaPager(
                 HorizontalPager(
                     state = pagerState,
                     modifier = Modifier
-                        .aspectRatio(0.75F)
+                        .aspectRatio(sizes.aspectRatio43)
                         .align(Alignment.Center),
                     pageContent = { item ->
                         AsyncImage(

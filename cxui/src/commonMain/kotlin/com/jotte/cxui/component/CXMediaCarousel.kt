@@ -24,12 +24,6 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.jotte.cxui.theme.shapes
 
-@Stable
-interface CarouselItem {
-    val id: String
-    val path: String
-}
-
 @Composable
 fun <T: CarouselItem> CXMediaCarousel(
     items: List<T>,
@@ -80,4 +74,10 @@ fun <T: CarouselItem> CXMediaCarousel(
         }
     )
 
+}
+
+@Stable
+interface CarouselItem {
+    val id: String
+    val path: String
 }

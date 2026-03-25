@@ -29,12 +29,6 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-open class PopupAction(
-    open val icon: DrawableResource,
-    open val label: StringResource,
-    open val contentColorProvider: @Composable () -> Color = { colors.contentPrimary }
-)
-
 @Composable
 fun CXActionPopup(
     alignment: Alignment = Alignment.TopEnd,
@@ -91,3 +85,9 @@ fun CXActionPopup(
         }
     )
 }
+
+open class PopupAction(
+    open val icon: DrawableResource,
+    open val label: StringResource,
+    open val contentColorProvider: @Composable () -> Color = { colors.contentPrimary }
+)

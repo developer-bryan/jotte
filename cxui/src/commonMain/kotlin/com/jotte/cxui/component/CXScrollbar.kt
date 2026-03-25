@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package com.jotte.cxui.component
 
 import androidx.compose.animation.core.animateFloatAsState
@@ -155,4 +157,8 @@ private fun LazyListState.fractionHiddenTop(item: LazyListItemInfo) =
     if (item.size == 0) 0f else this.firstVisibleItemScrollOffset / item.size.toFloat()
 
 private fun LazyListLayoutInfo.fractionVisibleBottom(item: LazyListItemInfo) =
-    if (item.size == 0) 0f else ((viewportEndOffset - afterContentPadding) - item.offset).toFloat() / item.size.toFloat()
+    if (item.size == 0) {
+        0f
+    } else {
+        ((viewportEndOffset - afterContentPadding) - item.offset).toFloat() / item.size.toFloat()
+    }

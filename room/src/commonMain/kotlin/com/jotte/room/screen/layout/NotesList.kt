@@ -16,7 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.jotte.cxui.extension.ColumnExtension.LazySpace
+import com.jotte.cxui.extension.ColumnExtension.lazySpace
 import com.jotte.cxui.component.CXScrollbar
 import com.jotte.cxui.theme.sizes
 import com.jotte.room.model.state.NoteState
@@ -58,7 +58,7 @@ internal fun NotesList(
             reverseLayout = true,
             content = {
 
-                LazySpace { 98.dp }
+                lazySpace { 98.dp }
 
                 itemsIndexed(
                     items = notes,
@@ -76,7 +76,7 @@ internal fun NotesList(
                 )
 
                 if (isFullscreen) {
-                    LazySpace { huge }
+                    lazySpace { huge }
                 }
             }
         )
