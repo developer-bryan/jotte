@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>MagicNumber:PaintColorSelector.kt$3</ID>
+    <ID>MagicNumber:PaintedPath.kt$PaintedPath$0.5F</ID>
+    <ID>UnusedParameter:PaintColorSelector.kt$selectedColor: PaintColor = PaintColor.Black</ID>
+    <ID>UnusedParameter:WhiteboardFooter.kt$undoEnabled: Boolean = false</ID>
+  </CurrentIssues>
+</SmellBaseline>

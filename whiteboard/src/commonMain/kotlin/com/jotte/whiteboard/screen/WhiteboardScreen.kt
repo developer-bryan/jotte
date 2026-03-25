@@ -88,7 +88,7 @@ fun WhiteboardScreen(
     }
 
     val shouldCheckPhotoWritePermission = remember { mutableStateOf(false) }
-    val canSaveSnapshotPermission = rememberPermission(
+    val rememberPhotoWritePermission = rememberPermission(
         permission = Permission.PhotoWrite,
         shouldCheckPermission = shouldCheckPhotoWritePermission,
         onPermissionGranted = { saveWhiteboardSnapshot() },
