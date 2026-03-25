@@ -10,4 +10,4 @@ fun MainViewController() = ComposeUIViewController(
     configure = {
         parallelRendering = true
     }
-){ App() }
+) { App() }
