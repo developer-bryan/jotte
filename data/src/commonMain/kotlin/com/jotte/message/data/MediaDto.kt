@@ -15,7 +15,7 @@ import kotlin.uuid.Uuid
     indices = [Index("mediaId")],
 )
 data class MediaDto(
-    @PrimaryKey  val mediaId: String = Uuid.random().toString(),
+    @PrimaryKey val mediaId: String = Uuid.random().toString(),
     val createdOn: Long = Clock.System.now().toEpochMilliseconds(),
     val fileName: String,
 )

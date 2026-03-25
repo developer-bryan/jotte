@@ -46,7 +46,6 @@ actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
         _isRecording.tryEmit(true)
     }
 
-
     actual fun finishRecording(): Result<PlatformFile> {
         return runCatching {
             recorder?.stop()

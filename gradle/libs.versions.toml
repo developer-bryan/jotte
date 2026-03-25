@@ -89,6 +89,7 @@ filekt-dialogs = { module = "io.github.vinceglb:filekit-dialogs", version.ref = 
 filekt-dialogs-compose = { module = "io.github.vinceglb:filekit-dialogs-compose", version.ref = "filekt" }
 filekt-coil = { module = "io.github.vinceglb:filekit-coil", version.ref = "filekt" }
 detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

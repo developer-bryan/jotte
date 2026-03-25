@@ -25,7 +25,7 @@ import coil3.compose.AsyncImage
 import com.jotte.cxui.theme.shapes
 
 @Composable
-fun <T: CarouselItem> CXMediaCarousel(
+fun <T : CarouselItem> CXMediaCarousel(
     items: List<T>,
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),

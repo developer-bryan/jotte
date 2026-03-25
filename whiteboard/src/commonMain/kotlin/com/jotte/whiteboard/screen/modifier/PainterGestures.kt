@@ -20,4 +20,3 @@ internal fun Modifier.painterGestures(controller: PathController) = this.pointer
         )
     }
 )
-

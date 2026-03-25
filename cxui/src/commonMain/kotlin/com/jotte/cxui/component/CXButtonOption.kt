@@ -62,7 +62,10 @@ fun CXButtonOption(
             .padding(horizontal = sizes.regular)
             .semantics(
                 mergeDescendants = true,
-                properties = { contentDescription = label; role = Role.Button }
+                properties = {
+                    contentDescription = label
+                    role = Role.Button
+                }
             ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(sizes.small),

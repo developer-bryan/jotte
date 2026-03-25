@@ -43,11 +43,11 @@ internal fun WhiteboardBody(
             .clipToBounds()
             .then(paintGestures)
             .drawWithContent {
-            graphicsLayer.record {
-                this@drawWithContent.drawContent()
-            }
-            this@drawWithContent.drawLayer(graphicsLayer)
-        },
+                graphicsLayer.record {
+                    this@drawWithContent.drawContent()
+                }
+                this@drawWithContent.drawLayer(graphicsLayer)
+            },
         content = {
             Canvas(
                 modifier = modifier.fillMaxSize(),

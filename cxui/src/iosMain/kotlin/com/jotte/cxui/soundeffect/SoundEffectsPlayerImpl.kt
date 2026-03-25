@@ -6,7 +6,7 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import platform.AVFAudio.AVAudioPlayer
 import platform.Foundation.NSURL
 
-actual class SoundEffectsPlayerImpl: SoundEffectsPlayer {
+actual class SoundEffectsPlayerImpl : SoundEffectsPlayer {
 
     private val players = HashMap<NSURL, AVAudioPlayer>()
 

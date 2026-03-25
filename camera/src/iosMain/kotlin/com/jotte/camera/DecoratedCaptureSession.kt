@@ -23,7 +23,7 @@ import platform.AVFoundation.position
 import platform.AVFoundation.videoZoomFactor
 import platform.CoreGraphics.CGPointMake
 
-internal class DecoratedCaptureSession: AVCaptureSession() {
+internal class DecoratedCaptureSession : AVCaptureSession() {
 
     @OptIn(ExperimentalForeignApi::class)
     internal inline fun runConfigurationChange(block: (device: AVCaptureDevice) -> Unit) {

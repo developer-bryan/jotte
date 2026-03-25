@@ -23,11 +23,10 @@ internal sealed class DrawerPopupAction(
         label = Res.string.rename_room
     )
 
-    data object Delete: DrawerPopupAction(
+    data object Delete : DrawerPopupAction(
         icon = Res.drawable.icon_trash,
         label = Res.string.delete_room,
         contentColorProvider = { colors.negativeColor }
     )
-
 
 }

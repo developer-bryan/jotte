@@ -59,7 +59,9 @@ class GetFullDateUseCase(private val dateTimeStrings: DateTimeStrings) {
     private fun getHourAs12Hour(hour: Int): Int {
         return if (hour > 12) {
             hour - 12
-        } else hour
+        } else {
+            hour
+        }
     }
 
     private fun getHourPeriod(hour: Int): String {

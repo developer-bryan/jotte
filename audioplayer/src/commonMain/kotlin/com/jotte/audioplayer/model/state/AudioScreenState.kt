@@ -11,5 +11,5 @@ sealed interface AudioScreenState {
     ) : AudioScreenState
 
     data object Error : AudioScreenState
-    data object Nothing: AudioScreenState
+    data object Nothing : AudioScreenState
 }

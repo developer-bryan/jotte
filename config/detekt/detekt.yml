@@ -14,6 +14,21 @@ config:
   # when writing own rules with new properties, exclude the property path e.g.: 'my_rule_set,.*>.*>[my_property]'
   excludes: ''
 
+formatting:
+  active: true
+  android: true
+  autoCorrect: false
+  FinalNewline:
+    active: false
+  NoEmptyFirstLineInMethodBlock:
+    active: false
+  NoBlankLineBeforeRbrace:
+    active: false
+  NoWildcardImports:
+    active: false
+  ImportOrdering:
+    active: false
+
 processors:
   active: true
   exclude:
@@ -615,7 +630,7 @@ style:
       - '1'
       - '2'
     ignoreHashCodeFunction: true
-    ignorePropertyDeclaration: false
+    ignorePropertyDeclaration: true
     ignoreLocalVariableDeclaration: false
     ignoreConstantDeclaration: true
     ignoreCompanionObjectPropertyDeclaration: true
@@ -629,13 +644,6 @@ style:
   MaxChainedCallsOnSameLine:
     active: false
     maxChainedCalls: 5
-  MaxLineLength:
-    active: true
-    maxLineLength: 120
-    excludePackageStatements: true
-    excludeImportStatements: true
-    excludeCommentStatements: false
-    excludeRawStrings: true
   MayBeConst:
     active: true
   ModifierOrder:
