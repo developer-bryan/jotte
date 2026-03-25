@@ -1,4 +1,5 @@
 @file:OptIn(ExperimentalForeignApi::class, ExperimentalTime::class)
+@file:Suppress("ConstructorParameterNaming")
 
 package com.jotte.core.audio
 
@@ -13,7 +14,6 @@ import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.ptr
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
 import platform.AVFAudio.AVAudioQuality
 import platform.AVFAudio.AVAudioRecorder
 import platform.AVFAudio.AVAudioSession
@@ -30,6 +30,8 @@ import kotlin.Any
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
+private const val HZ = 44100
+
 // TODO: Add Metering
 actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
 
@@ -43,7 +45,7 @@ actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
     actual fun beginRecording() {
         val settings = mapOf<Any?, Any>(
             AVFormatIDKey to kAudioFormatMPEG4AAC,
-            AVSampleRateKey to 44100,
+            AVSampleRateKey to HZ,
             AVNumberOfChannelsKey to 1,
             AVEncoderAudioQualityKey to AVAudioQuality.MAX_VALUE
         )

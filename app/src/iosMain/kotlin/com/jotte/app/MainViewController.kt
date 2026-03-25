@@ -1,4 +1,5 @@
 @file:OptIn(ExperimentalComposeUiApi::class)
+@file:Suppress("FunctionNaming")
 
 package com.jotte.app
 

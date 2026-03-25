@@ -25,16 +25,12 @@ datetime = "0.7.1"
 datastore = "1.1.7"
 camerax = "1.4.2"
 peekaboo = "0.5.2"
-
 mediaplayer = "1.9.0"
-
 coil3 = "3.0.0-alpha06"
-
 filekt = "0.10.0"
-
 compottie="2.0.2"
-
 settings="1.3.0"
+detekt = "1.23.7"
 
 [libraries]
 settings = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "settings" }
@@ -92,6 +88,7 @@ filekt-core = { module = "io.github.vinceglb:filekit-core", version.ref = "filek
 filekt-dialogs = { module = "io.github.vinceglb:filekit-dialogs", version.ref = "filekt" }
 filekt-dialogs-compose = { module = "io.github.vinceglb:filekit-dialogs-compose", version.ref = "filekt" }
 filekt-coil = { module = "io.github.vinceglb:filekit-coil", version.ref = "filekt" }
+detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -103,5 +100,9 @@ kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
+
+# convention plugins
+jotte-convention-detekt = { id = "com.jotte.convention.detekt" }
+
 [bundles]
 camera = ["camerax-core", "camerax-video", "camerax-extensions", "camera-view", "camera-lifecycle", "camera2"]

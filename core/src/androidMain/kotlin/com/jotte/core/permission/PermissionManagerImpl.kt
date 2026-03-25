@@ -31,7 +31,7 @@ actual class PermissionManagerImpl : PermissionManager {
             Permission.Camera -> requestPermission(Manifest.permission.CAMERA, onResult)
             Permission.Audio -> requestPermission(Manifest.permission.RECORD_AUDIO, onResult)
             Permission.Notifications -> {
-                if (Build.VERSION.SDK_INT < 33) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                     onResult(PermissionResult.Allowed)
                 } else {
                     requestPermission(Manifest.permission.POST_NOTIFICATIONS, onResult)

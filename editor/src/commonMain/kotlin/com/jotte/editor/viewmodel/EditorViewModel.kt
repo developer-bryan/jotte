@@ -68,7 +68,9 @@ internal class EditorViewModel(
                         note.note.audio?.fileName != audio?.file?.fileName ||
                         note.note.audio?.duration != audio?.duration ||
                         note.note.audio?.title != audio?.title ||
-                        attachments.any { attachment -> note.media?.none { it.fileName == attachment.fileName } == true } ||
+                        attachments.any {
+                            attachment -> note.media?.none { it.fileName == attachment.fileName } == true
+                        } ||
                         links.any { !linksSnapshot.contains(it.toString()) } ||
                         links.size != note.links?.size
             }

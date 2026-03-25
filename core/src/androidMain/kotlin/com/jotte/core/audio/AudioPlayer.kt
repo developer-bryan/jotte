@@ -18,8 +18,6 @@ import java.io.FileNotFoundException
 
 actual class AudioPlayer actual constructor(private val scope: CoroutineScope) {
 
-    private val TAG = this::class.toString()
-
     private val _time: MutableStateFlow<Long> = MutableStateFlow(0L)
     actual val time: Flow<Long> = _time
 
@@ -37,11 +35,11 @@ actual class AudioPlayer actual constructor(private val scope: CoroutineScope) {
         }
     }
 
-    @Throws(FileNotFoundException::class)
+    @Throws(FileNotFoundException::class, IllegalStateException::class)
     actual fun setupPlayer(file: PlatformFile) {
 
-        val context =
-            ApplicationProvider.getApplication() ?: throw IllegalStateException("missing context")
+        val context = ApplicationProvider.getApplication()
+        checkNotNull(context)
 
         val uri = when (val androidFile = file.androidFile) {
             is AndroidFile.FileWrapper -> {
@@ -85,6 +83,7 @@ actual class AudioPlayer actual constructor(private val scope: CoroutineScope) {
         player = null
     }
 
+    @Suppress("MagicNumber")
     private fun trackTime() {
         scope.launch {
             while (isActive && _isPlaying.value) {

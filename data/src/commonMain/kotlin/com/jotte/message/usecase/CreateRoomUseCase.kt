@@ -10,7 +10,8 @@ class CreateRoomUseCase(private val repository: RoomRepository) {
             val defaultRoom = RoomDto(name = name)
             repository.insertRoom(defaultRoom)
         }.mapCatching {
-            if(it != -1L) true else throw IllegalStateException("unable to create room")
+            check((it != -1L))
+            true
         }
     }
 

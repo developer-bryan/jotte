@@ -6,7 +6,6 @@ import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.buildAnnotatedString
 import com.jotte.cxui.Res
-import com.jotte.cxui.controller.CXToastController
 import com.jotte.cxui.content_copied_to_clipboard
 
 class CXClipboardController(

@@ -12,7 +12,7 @@ internal class PaintedPath {
 
         moveTo(previous)
 
-        points.forEachIndexed { index, point ->
+        points.forEach { point ->
             val midPoint = calculateMidpoint(previous, point)
             quadraticTo(previous, midPoint)
             previous = point

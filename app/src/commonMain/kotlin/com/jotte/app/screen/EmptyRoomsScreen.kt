@@ -24,6 +24,7 @@ import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.theme.typography
 import org.jetbrains.compose.resources.stringResource
 
+@Suppress("MagicNumber")
 @Composable
 internal fun EmptyRoomsScreen(
     onCreateRoomClicked: () -> Unit

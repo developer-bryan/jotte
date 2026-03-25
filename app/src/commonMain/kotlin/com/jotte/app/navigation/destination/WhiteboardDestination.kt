@@ -11,6 +11,7 @@ import com.jotte.cxui.color.CXLightColors
 import com.jotte.cxui.composition.LocalColor
 import com.jotte.whiteboard.screen.WhiteboardScreen
 
+@Destination
 internal fun NavGraphBuilder.WhiteboardDestination(navController: NavController) = composable(
     route = Route.Whiteboard.destination,
     enterTransition = { EnterTransition.None },

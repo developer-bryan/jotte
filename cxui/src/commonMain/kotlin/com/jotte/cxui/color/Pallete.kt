@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package com.jotte.cxui.color
 
 import androidx.compose.ui.graphics.Color

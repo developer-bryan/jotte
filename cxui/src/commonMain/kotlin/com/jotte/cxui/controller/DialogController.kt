@@ -12,7 +12,7 @@ import com.jotte.cxui.yes
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-class DialogController<T>() {
+class DialogController<T> {
 
     internal var isVisible by mutableStateOf(false)
     internal var extras by mutableStateOf<T?>(null)

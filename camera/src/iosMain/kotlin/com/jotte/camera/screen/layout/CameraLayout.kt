@@ -102,7 +102,7 @@ private fun ICameraLayout(
             modifier = Modifier
                 .zIndex(state.rearCameraZOrder)
                 .align(Alignment.Center)
-                .aspectRatio(0.75F),
+                .aspectRatio(sizes.aspectRatio43),
             factory = { rearViewController.view }
         )
 
@@ -110,7 +110,7 @@ private fun ICameraLayout(
             modifier = Modifier
                 .zIndex(state.selfieCameraZOrder)
                 .align(Alignment.Center)
-                .aspectRatio(0.75F),
+                .aspectRatio(sizes.aspectRatio43),
             factory = { selfieViewController.view }
         )
 
@@ -119,7 +119,7 @@ private fun ICameraLayout(
             modifier = Modifier
                 .align(Alignment.Center)
                 .fillMaxSize()
-                .aspectRatio(0.75F),
+                .aspectRatio(sizes.aspectRatio43),
             content = { GridLines(Modifier.fillMaxSize()) }
         )
 

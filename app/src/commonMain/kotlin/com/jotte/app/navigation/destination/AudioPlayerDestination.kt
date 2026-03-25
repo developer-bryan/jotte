@@ -13,6 +13,7 @@ import com.jotte.cxui.theme.CXThemeBox
 import com.jotte.audioplayer.screen.AudioNoteScreen
 import com.jotte.app.navigation.route.Route
 
+@Destination
 internal fun NavGraphBuilder.AudioNoteDestination(navController: NavController) =
     composable<Route.AudioNote>(
         enterTransition = { slideInVertically { it } },

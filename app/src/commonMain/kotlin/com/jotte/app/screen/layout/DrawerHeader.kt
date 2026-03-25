@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import com.jotte.cxui.Res
 import com.jotte.cxui.app_name
 import com.jotte.cxui.component.CXButtonIcon

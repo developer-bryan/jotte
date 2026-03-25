@@ -12,7 +12,6 @@ import com.jotte.cxui.component.CXButtonOption
 import com.jotte.cxui.delete_room
 import com.jotte.cxui.icon_expand
 import com.jotte.cxui.icon_metrics
-import com.jotte.cxui.icon_remove
 import com.jotte.cxui.icon_text
 import com.jotte.cxui.icon_trash
 import com.jotte.cxui.rename_room

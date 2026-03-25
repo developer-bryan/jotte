@@ -1,12 +1,13 @@
 package com.jotte.cxui.shape
 
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
 
 class CXShape {
     val flatShape = RoundedCornerShape(0.dp)
     val roundedSheetShape = RoundedCornerShape(20.dp)
-    val roundedButtonShape = RoundedCornerShape(50)
+    val roundedButtonShape = CircleShape
     val roundedInputFormShape = RoundedCornerShape(28.dp)
     val alertDialogShape = RoundedCornerShape(20.dp)
     val mediaPreviewShape = RoundedCornerShape(10.dp)

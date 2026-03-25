@@ -23,5 +23,7 @@ data class CXSize internal constructor(
     val popupBottomPosition: Dp = footerHeight,
     val elevation: Dp = 8.dp,
     val roomDrawerWidth: Dp = 326.dp,
-    val reducedAlpha: Float = 0.75F
+    val reducedAlpha: Float = 0.75F,
+    val noteContentMaxWidthPercentage: Float = 0.95F,
+    val aspectRatio43: Float = 0.75F
 )

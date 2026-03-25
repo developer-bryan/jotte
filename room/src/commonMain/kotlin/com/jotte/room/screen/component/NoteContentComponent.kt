@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.jotte.cxui.component.CXText
+import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.theme.typography
 import com.jotte.room.model.state.NoteState
 
@@ -16,7 +17,7 @@ internal fun NoteContentComponent(
 ) {
 
     Box(
-        modifier = modifier.fillMaxWidth(0.95F),
+        modifier = modifier.fillMaxWidth(sizes.noteContentMaxWidthPercentage),
         contentAlignment = Alignment.CenterStart,
         content = {
             CXText(

@@ -10,6 +10,7 @@ import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
 import kotlin.time.toDuration
 
+private const val ZERO_PADDING_THRESHOLD = 10
 
 fun Long.toDate(timezone: TimeZone = TimeZone.currentSystemDefault()): LocalDateTime =
     Instant.fromEpochMilliseconds(this).toLocalDateTime(timezone)
@@ -24,7 +25,7 @@ fun Long.toFormattedRuntime(): String {
     val minutes = this / minuteMillis
     val seconds = (this % minuteMillis) / secondMillis
 
-    val secondsDisplayString = if (seconds < 10) "0$seconds" else "$seconds"
+    val secondsDisplayString = if (seconds < ZERO_PADDING_THRESHOLD) "0$seconds" else "$seconds"
 
     return "$minutes:$secondsDisplayString"
 }

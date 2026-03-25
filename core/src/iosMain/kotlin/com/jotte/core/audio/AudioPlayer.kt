@@ -1,4 +1,5 @@
 @file:OptIn(BetaInteropApi::class, ExperimentalForeignApi::class)
+@file:Suppress("ConstructorParameterNaming")
 
 package com.jotte.core.audio
 
@@ -23,8 +24,6 @@ import platform.Foundation.NSFileManager
 
 actual class AudioPlayer actual constructor(private val scope: CoroutineScope) {
 
-    private val TAG = this::class.toString()
-
     private val _time: MutableStateFlow<Long> = MutableStateFlow(0L)
     actual val time: Flow<Long> = _time
 
@@ -33,12 +32,13 @@ actual class AudioPlayer actual constructor(private val scope: CoroutineScope) {
 
     var player: AVAudioPlayer? = null
 
+    @Suppress("TooGenericExceptionThrown")
     @Throws(FileNotFoundException::class, RuntimeException::class)
     actual fun setupPlayer(file: PlatformFile) {
         val nsurl = file.nsUrl
-        val path = nsurl.path() ?: throw FileNotFoundException("file not found")
+        val path = nsurl.path()
 
-        if (!NSFileManager.defaultManager.fileExistsAtPath(path)) {
+        if (path == null || !NSFileManager.defaultManager.fileExistsAtPath(path)) {
             throw FileNotFoundException("file not found")
         }
 
@@ -85,6 +85,7 @@ actual class AudioPlayer actual constructor(private val scope: CoroutineScope) {
         _isPlaying.value = false
     }
 
+    @Suppress("MagicNumber")
     private fun trackTime() {
         scope.launch {
             while (isActive && player?.isPlaying() == true) {

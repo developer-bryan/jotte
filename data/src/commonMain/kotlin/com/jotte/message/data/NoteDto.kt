@@ -6,12 +6,10 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-// TODO: Breakup into separate tables using joins
 @Entity(
     tableName = "notes",
     indices = [Index("roomId"), Index("noteId")]

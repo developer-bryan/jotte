@@ -8,7 +8,6 @@ import androidx.camera.core.Preview
 import com.jotte.core.ApplicationProvider
 import com.jotte.camera.usecase.GetCameraProcessProviderUseCase
 import com.jotte.camera.viewmodel.CameraViewModel
-import com.jotte.core.permission.PermissionManagerImpl
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -34,7 +33,6 @@ internal fun provideAndroidCameraModule() = module {
             getCameraProcessProviderUseCase = get(),
             preview = get(),
             imageCapture = get(),
-            permissionManager = PermissionManagerImpl(),
         )
     }
 

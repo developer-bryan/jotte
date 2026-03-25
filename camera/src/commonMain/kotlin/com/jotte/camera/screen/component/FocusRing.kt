@@ -25,6 +25,7 @@ import kotlinx.coroutines.delay
 fun FocusRing(
     tapOffset: Offset?,
     modifier: Modifier = Modifier,
+    ringDuration: Long = 650L,
     ringSize: Dp = 62.dp,
 ) {
 
@@ -41,7 +42,7 @@ fun FocusRing(
     LaunchedEffect(tapOffset) {
         if (tapOffset != null) {
             visible = true
-            delay(650L)
+            delay(ringDuration)
             visible = false
         }
     }

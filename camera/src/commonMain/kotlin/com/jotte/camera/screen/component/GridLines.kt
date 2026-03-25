@@ -9,8 +9,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jotte.cxui.color.Pallete.White
 
-private data class Point(val x: Int, val y: Int)
-
 @Composable
 internal fun GridLines(
     modifier: Modifier = Modifier,

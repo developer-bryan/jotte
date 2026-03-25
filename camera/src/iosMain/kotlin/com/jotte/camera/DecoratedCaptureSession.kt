@@ -19,8 +19,6 @@ import platform.AVFoundation.focusPointOfInterest
 import platform.AVFoundation.focusPointOfInterestSupported
 import platform.AVFoundation.isExposureModeSupported
 import platform.AVFoundation.isFocusModeSupported
-import platform.AVFoundation.maxAvailableVideoZoomFactor
-import platform.AVFoundation.minAvailableVideoZoomFactor
 import platform.AVFoundation.position
 import platform.AVFoundation.videoZoomFactor
 import platform.CoreGraphics.CGPointMake
@@ -51,12 +49,6 @@ internal class DecoratedCaptureSession: AVCaptureSession() {
 
     internal fun addOutputExt(output: AVCaptureOutput) {
         if (canAddOutput(output)) addOutput(output)
-    }
-
-    internal fun getZoomRangeForDisplay(): ClosedRange<Float> {
-        val range = getZoomRange()
-        val zoomFactor = displayZoomFactor().toFloat()
-        return (range.start * zoomFactor..range.endInclusive * zoomFactor)
     }
 
     @OptIn(ExperimentalForeignApi::class)
@@ -93,12 +85,5 @@ internal class DecoratedCaptureSession: AVCaptureSession() {
             AVCaptureExposureModeContinuousAutoExposure
         )
     } == true
-
-    internal fun getZoomRange(): ClosedRange<Float> {
-        val device = getCurrentDevice()
-        val min = device?.minAvailableVideoZoomFactor?.toFloat() ?: 1F
-        val max = device?.maxAvailableVideoZoomFactor?.toFloat() ?: 189F
-        return (min..max)
-    }
 
 }

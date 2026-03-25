@@ -19,7 +19,7 @@ import org.jetbrains.compose.resources.stringResource
 internal fun WhiteboardFooter(
     modifier: Modifier = Modifier,
     saveEnabled: Boolean = false,
-    undoEnabled: Boolean = false,
+    undoEnabled: Boolean = false, // TODO: Implement undoEnabled
     onMoreClicked: () -> Unit,
     onUndoClicked: () -> Unit,
     onSaveClicked: () -> Unit

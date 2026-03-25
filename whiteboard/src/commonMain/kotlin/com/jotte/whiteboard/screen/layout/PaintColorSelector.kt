@@ -20,7 +20,7 @@ import com.jotte.whiteboard.model.data.PaintColor
 internal fun PaintColorSelector(
     colors: List<PaintColor>,
     modifier: Modifier = Modifier,
-    selectedColor: PaintColor = PaintColor.Black,
+    selectedColor: PaintColor = PaintColor.Black, // TODO: Implement selectedColor
     onColorSelected: (color: PaintColor) -> Unit
 ) {
 
@@ -39,7 +39,7 @@ internal fun PaintColorSelector(
                             .aspectRatio(1F)
                             .background(paintColor.color)
                             .clickable(
-                                onClickLabel = "select this color",
+                                onClickLabel = "select this color", // TODO: Move to A11Y strings
                                 onClick = { onColorSelected(paintColor) }
                             )
                     )

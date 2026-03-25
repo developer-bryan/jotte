@@ -23,7 +23,7 @@ object ColumnExtension {
         Spacer(modifier = Modifier.weight(1F))
     }
 
-    fun LazyListScope.LazySpace(spaceBlock: CXSize.() -> Dp) {
+    fun LazyListScope.lazySpace(spaceBlock: CXSize.() -> Dp) {
         item {
             Spacer(modifier = Modifier.height(spaceBlock(sizes)))
         }

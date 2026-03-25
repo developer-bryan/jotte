@@ -1,3 +1,5 @@
+@file:Suppress("MatchingDeclarationName")
+
 package com.jotte.core
 
 import androidx.compose.ui.graphics.ImageBitmap

@@ -2,10 +2,6 @@ package com.jotte.cxui.composition
 
 import androidx.compose.runtime.compositionLocalOf
 
-enum class SystemTheme {
-    DARK, LIGHT, UNKOWN
-}
+val LocalSystemTheme = compositionLocalOf { SystemTheme.UNKNOWN }
 
-fun SystemTheme.isDark() = this == SystemTheme.DARK
-
-val LocalSystemTheme = compositionLocalOf { SystemTheme.UNKOWN }
+enum class SystemTheme { DARK, LIGHT, UNKNOWN }
