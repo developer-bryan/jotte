@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.jotte.app.navigation.route.Route
 import com.jotte.settings.screen.SettingsScreen
 
+@Destination
 internal fun NavGraphBuilder.SettingsDestination(navController: NavController) = composable(
     route = Route.Settings.destination,
     enterTransition = { EnterTransition.None },

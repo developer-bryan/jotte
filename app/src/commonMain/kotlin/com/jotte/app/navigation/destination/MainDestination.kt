@@ -16,6 +16,7 @@ import com.jotte.app.screen.EmptyRoomsScreen
 import com.jotte.app.screen.MainScreen
 import org.koin.compose.viewmodel.koinViewModel
 
+@Destination
 internal fun NavGraphBuilder.MainDestination(
     navController: NavController,
     graphController: NavController

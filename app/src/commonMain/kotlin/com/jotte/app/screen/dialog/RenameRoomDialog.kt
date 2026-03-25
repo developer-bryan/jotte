@@ -35,12 +35,7 @@ internal fun <T> DialogController<T>.RenameRoomDialog(
     onNameEdited: (name: String) -> Unit,
 ) {
 
-    val maxNameCharacters = 20
     var value by remember(name) { mutableStateOf(name) }
-
-    val saveEnabled by derivedStateOf {
-        value.isNotEmpty() && value != name && value.length < maxNameCharacters
-    }
 
     Dialog(
         onDismissRequest = this::hide,
@@ -65,7 +60,6 @@ internal fun <T> DialogController<T>.RenameRoomDialog(
                     BinaryDialogButtons(
                         negativeButtonContent = stringResource(Res.string.cancel),
                         positiveButtonContent = stringResource(Res.string.save),
-                        //positiveButtonEnabled = saveEnabled,
                         onPositiveClicked = { onNameEdited(value) },
                         onNegativeClicked = this@RenameRoomDialog::hide
                     )

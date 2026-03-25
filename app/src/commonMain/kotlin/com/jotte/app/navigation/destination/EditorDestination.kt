@@ -12,6 +12,7 @@ import com.jotte.cxui.theme.CXThemeBox
 import com.jotte.app.navigation.route.Route
 import com.jotte.editor.screen.EditorScreen
 
+@Destination
 internal fun NavGraphBuilder.EditorDestination(navController: NavController) =
     composable<Route.Editor>(
         enterTransition = { slideInVertically { it } },
