@@ -26,7 +26,7 @@ actual class AudioPlayer actual constructor(private val scope: CoroutineScope) {
 
     private var player: ExoPlayer? = null
 
-    private val playerListener = object: Player.Listener {
+    private val playerListener = object : Player.Listener {
         override fun onIsPlayingChanged(isPlaying: Boolean) {
             _isPlaying.value = isPlaying
             if (isPlaying) {

@@ -13,12 +13,12 @@ internal sealed class SettingOption(
     val icon: DrawableResource
 ) {
 
-    data object Appearance: SettingOption(
+    data object Appearance : SettingOption(
         label = Res.string.appearance,
         icon = Res.drawable.icon_appearance
     )
 
-    data object SoundEffects: SettingOption(
+    data object SoundEffects : SettingOption(
         label = Res.string.sound_effects,
         icon = Res.drawable.icon_sound_effects
     )

@@ -27,7 +27,7 @@ internal sealed class NotePopupActions(
         label = Res.string.note_action_edit_note
     )
 
-    data object Delete: NotePopupActions(
+    data object Delete : NotePopupActions(
         icon = Res.drawable.icon_trash,
         label = Res.string.note_action_delete_note,
         contentColorProvider = { colors.negativeColor }
@@ -44,7 +44,7 @@ internal sealed class NotePopupActions(
     )
 
     companion object {
-        //fun toList() = listOf(Rename, Fullscreen, Metrics, Delete)
+        // fun toList() = listOf(Rename, Fullscreen, Metrics, Delete)
     }
 
 }

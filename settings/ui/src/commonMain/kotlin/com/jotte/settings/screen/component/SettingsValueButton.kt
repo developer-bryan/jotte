@@ -37,7 +37,9 @@ internal fun SettingsValueButton(
             .buildModifier {
                 if (isSelectedValue) {
                     this.background(colors.contentPrimaryLowAlpha)
-                } else this
+                } else {
+                    this
+                }
             }
             .padding(sizes.small),
         horizontalAlignment = Alignment.Start,

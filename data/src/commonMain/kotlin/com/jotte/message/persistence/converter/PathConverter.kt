@@ -14,5 +14,4 @@ internal object PathConverter {
     @TypeConverter
     fun to(string: String): List<WhiteboardDto.Path> = json.decodeFromString(string)
 
-
 }

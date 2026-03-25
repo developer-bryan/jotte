@@ -197,8 +197,8 @@ fun EditorScreen(
                         onRemoveMedia = removeAttachmentDialogController::show,
                         onRenameAudio = audioTitleDialogController::show,
                         onSaveAudio = {
-                            val fileName = draft?.audio?.title ?:
-                            draft?.audio?.file?.asFile()?.nameWithoutExtension
+                            val fileName = draft?.audio?.title
+                                ?: draft?.audio?.file?.asFile()?.nameWithoutExtension
                             fileName?.let {
                                 audioFileSaver.launch(
                                     suggestedName = it,
@@ -242,14 +242,16 @@ fun EditorScreen(
         visible = cameraVisible,
         modifier = Modifier.fillMaxSize(),
         enter = slideInVertically { it },
-        exit = slideOutVertically { it }) {
-        CameraScreen(
-            onCloseClicked = { cameraVisible = false },
-            onMediaCaptured = {
-                viewModel.addAttachment(it)
-                cameraVisible = false
-            }
-        )
-    }
+        exit = slideOutVertically { it },
+        content = {
+            CameraScreen(
+                onCloseClicked = { cameraVisible = false },
+                onMediaCaptured = {
+                    viewModel.addAttachment(it)
+                    cameraVisible = false
+                }
+            )
+        }
+    )
 
 }

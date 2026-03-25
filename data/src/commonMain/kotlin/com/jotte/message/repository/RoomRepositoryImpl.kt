@@ -11,6 +11,7 @@ internal class RoomRepositoryImpl(private val dao: RoomDao) : RoomRepository {
     override fun observeRoom(roomId: Long): Flow<RoomDto?> = dao.observeRoom(roomId)
     override suspend fun queryRoom(id: Long): RoomDto = dao.queryRoom(id)
     override suspend fun insertRoom(room: RoomDto): Long = dao.insertRoom(room)
+
     @OptIn(ExperimentalTime::class)
     override suspend fun updateRoomName(id: Long, name: String): Int {
         return dao.updateRoomName(id, name)

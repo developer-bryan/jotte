@@ -4,7 +4,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.jotte.core.ApplicationProvider
 
-actual class SoundEffectsPlayerImpl: SoundEffectsPlayer {
+actual class SoundEffectsPlayerImpl : SoundEffectsPlayer {
 
     private var mediaPlayer: ExoPlayer? = null
 

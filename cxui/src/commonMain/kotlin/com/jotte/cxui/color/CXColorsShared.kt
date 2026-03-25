@@ -2,7 +2,7 @@ package com.jotte.cxui.color
 
 import androidx.compose.ui.graphics.Color
 
-abstract class CXColorsShared: CXColors {
+abstract class CXColorsShared : CXColors {
     override var accentColor: Color = Pallete.GrapeSoda
     override var onAccentColor: Color = Pallete.MilkWhite
     override var accentReducedAlpha: Color = Pallete.GrapeSoda.copy(alpha = 0.25F)

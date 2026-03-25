@@ -38,9 +38,14 @@ fun CXButtonIcon(
     val accessibilityModifier = if (contentDescription != null) {
         Modifier.semantics(
             mergeDescendants = false,
-            properties = { this.contentDescription = contentDescription; role = Role.Button }
+            properties = {
+                this.contentDescription = contentDescription
+                role = Role.Button
+            }
         )
-    } else Modifier
+    } else {
+        Modifier
+    }
 
     Box(
         modifier = modifier
@@ -64,4 +69,3 @@ fun CXButtonIcon(
         }
     )
 }
-

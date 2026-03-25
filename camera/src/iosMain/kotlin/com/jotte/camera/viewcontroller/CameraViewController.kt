@@ -71,7 +71,7 @@ internal class CameraViewController(
         runAsync(backgroundQueue(QOS_CLASS_USER_INITIATED.toLong(), 0uL)) {
             session.addInputDevice(device)
             session.addOutputExt(photoOutput)
-            
+
             session.sessionPreset = AVCaptureSessionPresetPhoto
             photoOutput.setHighResolutionCaptureEnabled(true)
 

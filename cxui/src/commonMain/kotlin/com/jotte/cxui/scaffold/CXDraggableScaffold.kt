@@ -152,7 +152,9 @@ private fun Scrim(
                                 true
                             }
                         }
-                } else this
+                } else {
+                    this
+                }
             },
         onDraw = { drawRect(color = Color.Black, alpha = alpha) }
     )

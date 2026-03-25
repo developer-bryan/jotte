@@ -59,7 +59,7 @@ fun ViewConfiguration.getCustomViewConfig(
     minimumTouchTargetSize: DpSize = this.minimumTouchTargetSize,
     touchSlop: Float = this.touchSlop,
 ): ViewConfiguration {
-    return object: ViewConfiguration {
+    return object : ViewConfiguration {
         override val doubleTapMinTimeMillis: Long = doubleTapTimeoutMillis
         override val doubleTapTimeoutMillis: Long = doubleTapMinTimeMillis
         override val handwritingGestureLineMargin: Float = handwritingGestureLineMargin

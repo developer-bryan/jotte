@@ -8,7 +8,7 @@ import kotlinx.datetime.Month
 class GetMonthYearUseCase(private val dateTimeStrings: DateTimeStrings) {
 
     operator fun invoke(timestamp: Long): String {
-        val month = when(getMonthFrom(timestamp)) {
+        val month = when (getMonthFrom(timestamp)) {
             Month.JANUARY -> dateTimeStrings.months.january
             Month.FEBRUARY -> dateTimeStrings.months.february
             Month.MARCH -> dateTimeStrings.months.march

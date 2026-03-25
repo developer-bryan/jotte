@@ -8,7 +8,7 @@ class SoundEffectsDecorator(
     private val player: SoundEffectsPlayerImpl,
     private val soundEffectsEnabledFlag: Flow<Boolean?>,
     scope: CoroutineScope
-): SoundEffectsPlayer {
+) : SoundEffectsPlayer {
 
     private var soundEffectsEnabled: Boolean = true
 
@@ -21,7 +21,9 @@ class SoundEffectsDecorator(
     }
 
     override fun playSound(soundEffect: SoundEffect) {
-        if (soundEffectsEnabled) { player.playSound(soundEffect) }
+        if (soundEffectsEnabled) {
+            player.playSound(soundEffect)
+        }
     }
 
     override fun release() {

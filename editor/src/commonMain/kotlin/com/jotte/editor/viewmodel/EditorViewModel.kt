@@ -65,14 +65,14 @@ internal class EditorViewModel(
                 contentValue != "" || audio != null || attachments.isNotEmpty() || links.isNotEmpty()
             } else {
                 note.note.content?.value != contentValue ||
-                        note.note.audio?.fileName != audio?.file?.fileName ||
-                        note.note.audio?.duration != audio?.duration ||
-                        note.note.audio?.title != audio?.title ||
-                        attachments.any {
-                            attachment -> note.media?.none { it.fileName == attachment.fileName } == true
-                        } ||
-                        links.any { !linksSnapshot.contains(it.toString()) } ||
-                        links.size != note.links?.size
+                    note.note.audio?.fileName != audio?.file?.fileName ||
+                    note.note.audio?.duration != audio?.duration ||
+                    note.note.audio?.title != audio?.title ||
+                    attachments.any { attachment ->
+                        note.media?.none { it.fileName == attachment.fileName } == true
+                    } ||
+                    links.any { !linksSnapshot.contains(it.toString()) } ||
+                    links.size != note.links?.size
             }
 
             val draftContent = contentValue
@@ -156,7 +156,8 @@ internal class EditorViewModel(
 
     fun addAudioFile(file: PlatformFile, duration: Long) = viewModelScope.launch {
         val virtualFile = file.asVirtualFile()
-        val newAudio = audio.value?.copy(virtualFile, duration) ?: DraftAudioState(virtualFile, duration)
+        val newAudio =
+            audio.value?.copy(virtualFile, duration) ?: DraftAudioState(virtualFile, duration)
         audio.emit(newAudio)
     }
 

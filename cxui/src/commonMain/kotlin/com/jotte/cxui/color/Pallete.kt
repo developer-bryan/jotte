@@ -1,5 +1,3 @@
-@file:Suppress("MagicNumber")
-
 package com.jotte.cxui.color
 
 import androidx.compose.ui.graphics.Color
@@ -25,4 +23,3 @@ object Pallete {
     val GrapeSoda: Color = Color(0XFF563EF5)
     val Fuego: Color = Color(0XFFFF5353)
 }
-
