@@ -740,7 +740,7 @@ style:
     allowedNames: ''
   UnusedPrivateProperty:
     active: true
-    allowedNames: '_|ignored|expected|serialVersionUID'
+    allowedNames: '_|ignored|expected|serialVersionUID|remember.*Permission'
   UseAnyOrNoneInsteadOfFind:
     active: true
   UseArrayLiteralsInAnnotations:

@@ -82,7 +82,6 @@ fun EditorScreen(
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val keyboard: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current
-    val scope = rememberCoroutineScope()
     val toastController = LocalToastController.current
 
     val audioController = rememberRecordAudioController(viewModel::addAudioFile)

@@ -4,9 +4,18 @@ import com.jotte.editor.usecase.CreateNoteUseCase
 import com.jotte.editor.usecase.UpdateNoteUseCase
 import com.jotte.editor.viewmodel.EditorViewModel
 import org.koin.core.module.dsl.viewModel
+import org.koin.core.qualifier.StringQualifier
+import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
 
+fun maximumAudioTitleCharacters() = StringQualifier("maximumAudioTitleCharacters")
+
 fun provideEditorModule() = module {
+
+    single(
+        qualifier = maximumAudioTitleCharacters(),
+        definition = { 20 }
+    )
 
     viewModel<EditorViewModel> {
         EditorViewModel(

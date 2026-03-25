@@ -29,14 +29,15 @@ import com.jotte.cxui.component.CXText
 import com.jotte.cxui.controller.DialogController
 import com.jotte.cxui.extension.ColumnExtension.Space
 import com.jotte.cxui.rename_audio_dialog_title
-import com.jotte.cxui.rename_room_dialog_title
 import com.jotte.cxui.save
 import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.shapes
 import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.theme.typography
+import com.jotte.editor.di.maximumAudioTitleCharacters
 import com.jotte.editor.screen.component.AudioNameInputForm
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 @Composable
 internal fun DialogController<Nothing>.DraftAudioTitleDialog(
@@ -44,7 +45,7 @@ internal fun DialogController<Nothing>.DraftAudioTitleDialog(
     onTitleEdited: (name: String) -> Unit,
 ) {
 
-    val maxNameCharacters = 20
+    val maxNameCharacters: Int = koinInject(maximumAudioTitleCharacters())
     var value by remember(title) { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
 
@@ -103,6 +104,7 @@ internal fun DialogController<Nothing>.DraftAudioTitleDialog(
 }
 
 @Composable
+@Deprecated("Used CXAlertDialog#DialogTitle")
 private fun DialogTitle(title: String) {
     CXText(
         text = title,
@@ -112,6 +114,7 @@ private fun DialogTitle(title: String) {
 }
 
 @Composable
+@Deprecated("Used CXAlertDialog#BinaryDialogButtons")
 private fun BinaryDialogButtons(
     negativeButtonContent: String,
     positiveButtonContent: String,
