@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.jotte.convention.detekt)
 }
 
 kotlin {
