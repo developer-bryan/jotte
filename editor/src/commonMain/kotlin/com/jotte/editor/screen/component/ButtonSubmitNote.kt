@@ -6,7 +6,6 @@ import com.jotte.cxui.Res
 import com.jotte.cxui.component.CXButtonIcon
 import com.jotte.cxui.icon_arrow_up
 import com.jotte.cxui.theme.colors
-import com.jotte.cxui.theme.sizes
 
 @Composable
 internal fun ButtonSubmitNote(

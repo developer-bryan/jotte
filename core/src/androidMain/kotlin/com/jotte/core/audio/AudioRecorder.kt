@@ -10,7 +10,6 @@ import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.path
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import java.lang.Exception
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 

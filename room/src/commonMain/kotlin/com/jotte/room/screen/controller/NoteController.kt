@@ -5,11 +5,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.jotte.core.LinkHandler
 import com.jotte.core.LocalLinkHandler
-import com.jotte.core.safeWrite
 import com.jotte.cxui.Res
 import com.jotte.cxui.composition.LocalClipboardController
 import com.jotte.cxui.composition.LocalSoundEffectPlayer
@@ -24,13 +22,8 @@ import com.jotte.message.data.LinkDto
 import com.jotte.room.model.data.MediaCarouselItem
 import com.jotte.room.model.data.NotePopupActions
 import com.jotte.room.model.state.NoteState
-import io.github.vinceglb.filekit.PlatformFile
-import io.github.vinceglb.filekit.readBytes
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 internal class NoteController(
-    private val scope: CoroutineScope,
     private val toastController: CXToastController,
     private val clipboardController: CXClipboardController,
     private val linkHandler: LinkHandler,
@@ -96,14 +89,12 @@ internal class NoteController(
 internal fun rememberNoteController(noteState: NoteState): NoteController {
 
     val soundEffectsPlayer = LocalSoundEffectPlayer.current
-    val scope = rememberCoroutineScope()
     val toastController = LocalToastController.current
     val clipboard = LocalClipboardController.current
     val linkHandler = LocalLinkHandler.current
 
     val noteController = remember(noteState) {
         NoteController(
-            scope = scope,
             toastController = toastController,
             clipboardController = clipboard,
             linkHandler = linkHandler,

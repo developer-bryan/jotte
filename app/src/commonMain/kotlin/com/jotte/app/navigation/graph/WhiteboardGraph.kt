@@ -9,9 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.jotte.app.navigation.destination.AudioNoteDestination
-import com.jotte.app.navigation.destination.EditorDestination
-import com.jotte.app.navigation.destination.MainDestination
 import com.jotte.app.navigation.destination.WhiteboardDestination
 import com.jotte.app.navigation.route.Route
 

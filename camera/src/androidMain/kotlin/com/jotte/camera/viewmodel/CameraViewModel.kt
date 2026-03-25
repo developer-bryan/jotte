@@ -26,7 +26,6 @@ import com.jotte.camera.model.Zoomable
 import com.jotte.camera.model.intent.Intent
 import com.jotte.camera.usecase.GetCameraProcessProviderUseCase
 import com.jotte.core.VirtualFile
-import com.jotte.core.permission.PermissionManagerImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.MutableStateFlow

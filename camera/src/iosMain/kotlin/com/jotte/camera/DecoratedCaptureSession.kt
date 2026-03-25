@@ -19,8 +19,6 @@ import platform.AVFoundation.focusPointOfInterest
 import platform.AVFoundation.focusPointOfInterestSupported
 import platform.AVFoundation.isExposureModeSupported
 import platform.AVFoundation.isFocusModeSupported
-import platform.AVFoundation.maxAvailableVideoZoomFactor
-import platform.AVFoundation.minAvailableVideoZoomFactor
 import platform.AVFoundation.position
 import platform.AVFoundation.videoZoomFactor
 import platform.CoreGraphics.CGPointMake
