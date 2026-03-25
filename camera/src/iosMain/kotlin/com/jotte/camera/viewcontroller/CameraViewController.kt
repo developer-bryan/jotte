@@ -41,6 +41,7 @@ import platform.posix.QOS_CLASS_USER_INITIATED
 import kotlin.time.ExperimentalTime
 
 private const val TAG = "CameraViewController"
+private const val MAX_ZOOM_RANGE = 30F
 
 /**
  * This is built using apples AVFoundation
@@ -59,7 +60,7 @@ internal class CameraViewController(
 
     val zoomable = object : Zoomable {
         override fun getZoom(): Float = session.currentZoom()?.toFloat() ?: 2F
-        override fun getZoomRange(): ClosedRange<Float> = (1f..30f)
+        override fun getZoomRange(): ClosedRange<Float> = (1f..MAX_ZOOM_RANGE)
     }
 
     override fun viewDidLoad() {
@@ -159,8 +160,6 @@ internal class CameraViewController(
         session.stopRunning()
     }
 
-    fun getDisplayZoomRange(): ClosedRange<Float> = session.getZoomRangeForDisplay()
-
     fun setFlashMode(flashMode: AVCaptureFlashMode) {
         if (session.isStopped()) return
         session.runConfigurationChange { device ->
@@ -183,13 +182,15 @@ internal class CameraViewController(
     }
 
     @ObjCAction
+    @Suppress("UnusedParameter")
     fun sessionDidStartRunningWithNotification(notification: NSNotification) {
-        runAsync(mainQueue()) { isReadyCallback?.invoke(true) }
+        runAsync(mainQueue()) { isReadyCallback.invoke(true) }
     }
 
     @ObjCAction
+    @Suppress("UnusedParameter")
     fun sessionDidStopRunningWithNotification(notification: NSNotification) {
-        runAsync(mainQueue()) { isReadyCallback?.invoke(false) }
+        runAsync(mainQueue()) { isReadyCallback.invoke(false) }
     }
 
     private fun CameraViewController.addSessionStartedObserver(session: AVCaptureSession) {

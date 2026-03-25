@@ -34,7 +34,6 @@ internal fun provideAndroidCameraModule() = module {
             getCameraProcessProviderUseCase = get(),
             preview = get(),
             imageCapture = get(),
-            permissionManager = PermissionManagerImpl(),
         )
     }
 

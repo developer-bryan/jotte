@@ -41,8 +41,7 @@ internal class CameraViewModel(
     application: Application,
     private val getCameraProcessProviderUseCase: GetCameraProcessProviderUseCase,
     private val preview: Preview,
-    private val imageCapture: ImageCapture,
-    private val permissionManager: PermissionManagerImpl,
+    private val imageCapture: ImageCapture
 ) : AndroidViewModel(application) {
 
     private var camera: Camera? = null
@@ -111,6 +110,7 @@ internal class CameraViewModel(
         config.update { it.copy(flashEnabled = !currentFlash) }
     }
 
+    @Suppress("MagicNumber")
     private fun setFocusPoint(offset: Offset) {
         val point = meteringPointFactory.createPoint(offset.x, offset.y)
         val action = FocusMeteringAction.Builder(point, FocusMeteringAction.FLAG_AF)
@@ -148,7 +148,7 @@ internal class CameraViewModel(
                 }
 
                 override fun onError(exception: ImageCaptureException) {
-
+                    // TODO: Handle Errors
                 }
             }
         )

@@ -53,12 +53,6 @@ internal class DecoratedCaptureSession: AVCaptureSession() {
         if (canAddOutput(output)) addOutput(output)
     }
 
-    internal fun getZoomRangeForDisplay(): ClosedRange<Float> {
-        val range = getZoomRange()
-        val zoomFactor = displayZoomFactor().toFloat()
-        return (range.start * zoomFactor..range.endInclusive * zoomFactor)
-    }
-
     @OptIn(ExperimentalForeignApi::class)
     internal fun setFocusPoint(x: Double, y: Double) = getCurrentDevice()?.let {
         it.focusPointOfInterest = CGPointMake(x, y)
@@ -93,12 +87,5 @@ internal class DecoratedCaptureSession: AVCaptureSession() {
             AVCaptureExposureModeContinuousAutoExposure
         )
     } == true
-
-    internal fun getZoomRange(): ClosedRange<Float> {
-        val device = getCurrentDevice()
-        val min = device?.minAvailableVideoZoomFactor?.toFloat() ?: 1F
-        val max = device?.maxAvailableVideoZoomFactor?.toFloat() ?: 189F
-        return (min..max)
-    }
 
 }
