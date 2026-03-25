@@ -9,12 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.jotte.audioplayer.model.event.AudioPlayerEvent
-import com.jotte.cxui.Res
-import com.jotte.cxui.controller.rememberDialogController
-import com.jotte.cxui.delete_draft_audio_dialog_body
-import com.jotte.cxui.delete_draft_audio_dialog_title
-import com.jotte.cxui.extension.ColumnExtension.FillSpace
-import com.jotte.cxui.theme.sizes
 import com.jotte.audioplayer.model.state.AudioScreenState
 import com.jotte.audioplayer.screen.component.AudioShutterButton
 import com.jotte.audioplayer.screen.component.AudioTitle
@@ -23,10 +17,16 @@ import com.jotte.audioplayer.screen.layout.AudioProgressBar
 import com.jotte.audioplayer.screen.layout.ErrorLayout
 import com.jotte.audioplayer.viewmodel.AudioNoteViewModel
 import com.jotte.core.rememberFileSaverPicker
+import com.jotte.cxui.Res
 import com.jotte.cxui.audio_deleted
 import com.jotte.cxui.composition.LocalToastController
+import com.jotte.cxui.controller.rememberDialogController
+import com.jotte.cxui.delete_draft_audio_dialog_body
+import com.jotte.cxui.delete_draft_audio_dialog_title
+import com.jotte.cxui.extension.ColumnExtension.FillSpace
 import com.jotte.cxui.extension.asEffect
 import com.jotte.cxui.media_download
+import com.jotte.cxui.theme.sizes
 import io.github.vinceglb.filekit.extension
 import io.github.vinceglb.filekit.nameWithoutExtension
 import kotlinx.coroutines.flow.consumeAsFlow
@@ -45,11 +45,12 @@ fun AudioNoteScreen(
     val isPlaying by viewModel.player.isPlaying.collectAsState(false)
     val runtime by viewModel.player.time.collectAsState(0L)
 
-    val removeAudioDialogController = rememberDialogController<Unit>(
-        title = Res.string.delete_draft_audio_dialog_title,
-        body = Res.string.delete_draft_audio_dialog_body,
-        onPositiveButtonClick = { viewModel.deleteAudio() }
-    )
+    val removeAudioDialogController =
+        rememberDialogController<Unit>(
+            title = Res.string.delete_draft_audio_dialog_title,
+            body = Res.string.delete_draft_audio_dialog_body,
+            onPositiveButtonClick = { viewModel.deleteAudio() }
+        )
 
     viewModel.event.consumeAsFlow().asEffect { event ->
         when (event) {
@@ -58,27 +59,35 @@ fun AudioNoteScreen(
                 onCloseClicked()
             }
 
-            AudioPlayerEvent.OnError -> toastController.showError()
+            AudioPlayerEvent.OnError -> {
+                toastController.showError()
+            }
         }
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = sizes.small),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(bottom = sizes.small),
         horizontalAlignment = Alignment.CenterHorizontally,
         content = {
 
             when (val state = screenState) {
-                AudioScreenState.Nothing -> Unit
-                AudioScreenState.Error -> ErrorLayout()
+                AudioScreenState.Nothing -> {
+                    Unit
+                }
+                AudioScreenState.Error -> {
+                    ErrorLayout()
+                }
                 is AudioScreenState.Success -> {
 
-                    val audioSaver = rememberFileSaverPicker(
-                        src = state.file,
-                        onSuccess = { toastController.show(Res.string.media_download) },
-                        onFailure = { _, _ -> toastController.showError() }
-                    )
+                    val audioSaver =
+                        rememberFileSaverPicker(
+                            src = state.file,
+                            onSuccess = { toastController.show(Res.string.media_download) },
+                            onFailure = { _, _ -> toastController.showError() }
+                        )
 
                     AudioPlayerToolbar(
                         onCloseClicked = onCloseClicked,
@@ -98,10 +107,11 @@ fun AudioNoteScreen(
                     AudioProgressBar(
                         current = runtime,
                         duration = state.duration,
-                        modifier = Modifier
-                            .padding(top = sizes.huge)
-                            .padding(bottom = sizes.medium)
-                            .padding(horizontal = sizes.regular)
+                        modifier =
+                            Modifier
+                                .padding(top = sizes.huge)
+                                .padding(bottom = sizes.medium)
+                                .padding(horizontal = sizes.regular)
                     )
 
                     AudioShutterButton(

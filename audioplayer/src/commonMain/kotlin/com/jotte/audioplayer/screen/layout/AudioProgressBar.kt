@@ -53,17 +53,19 @@ internal fun AudioProgressBar(
         verticalArrangement = Arrangement.spacedBy(sizes.extraTiny),
         content = {
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(sizes.tiny)
-                    .background(colors.contentPrimary, CircleShape),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(sizes.tiny)
+                        .background(colors.contentPrimary, CircleShape),
                 contentAlignment = Alignment.CenterStart,
                 content = {
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth(progressAnim.value)
-                            .fillMaxHeight()
-                            .background(colors.accentColor, CircleShape)
+                        modifier =
+                            Modifier
+                                .fillMaxWidth(progressAnim.value)
+                                .fillMaxHeight()
+                                .background(colors.accentColor, CircleShape)
                     )
                 }
             )

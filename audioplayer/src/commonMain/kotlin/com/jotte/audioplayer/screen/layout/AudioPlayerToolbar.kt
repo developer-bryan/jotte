@@ -23,11 +23,13 @@ internal fun AudioPlayerToolbar(
     onSaveClicked: () -> Unit,
     onRemoveClicked: () -> Unit
 ) {
+
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(bottom = sizes.tiny)
-            .padding(horizontal = sizes.extraSmall),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(bottom = sizes.tiny)
+                .padding(horizontal = sizes.extraSmall),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(sizes.small),
         content = {
