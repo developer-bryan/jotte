@@ -1,3 +1,5 @@
+@file:Suppress("ConstructorParameterNaming")
+
 package com.jotte.core.audio
 
 import android.media.MediaRecorder
@@ -11,6 +13,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import java.lang.Exception
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+
+private const val HZ = 44100
 
 // TODO: Add Metering
 actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
@@ -31,20 +35,16 @@ actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
                 setAudioSource(MediaRecorder.AudioSource.MIC)
                 setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
                 setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-                setAudioSamplingRate(44100)
+                setAudioSamplingRate(HZ)
                 setOnErrorListener { _, _, _ -> cancelRecording() }
             }
         }
 
-        try {
-            recorder?.setOutputFile(outputDestinationFile.path)
-            recorder?.prepare()
-            recorder?.start()
-            timer.start()
-            _isRecording.tryEmit(true)
-        } catch (e: Exception) {
-            // HANDLE ERRORS
-        }
+        recorder?.setOutputFile(outputDestinationFile.path)
+        recorder?.prepare()
+        recorder?.start()
+        timer.start()
+        _isRecording.tryEmit(true)
     }
 
 

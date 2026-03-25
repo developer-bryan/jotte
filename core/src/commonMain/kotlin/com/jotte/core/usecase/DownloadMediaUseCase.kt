@@ -7,7 +7,8 @@ import io.github.vinceglb.filekit.exists
 import io.github.vinceglb.filekit.saveImageToGallery
 import io.github.vinceglb.filekit.toKotlinxIoPath
 
-val LocalDownloadMediaUseCase = staticCompositionLocalOf<DownloadMediaUseCase> { error("missing downloader") }
+val LocalDownloadMediaUseCase =
+    staticCompositionLocalOf<DownloadMediaUseCase> { error("missing downloader") }
 
 class DownloadMediaUseCase(val imageRegex: Regex) {
 
@@ -19,10 +20,10 @@ class DownloadMediaUseCase(val imageRegex: Regex) {
 
         runCatching {
             val path = file.toKotlinxIoPath()
-            if (file.exists() && path.name.contains(imageRegex)) {
-                FileKit.saveImageToGallery(file)
-                true
-            } else throw IllegalStateException("invalid file type")
+            check(file.exists())
+            check(path.name.contains(imageRegex))
+            FileKit.saveImageToGallery(file)
+            true
         }
             .onSuccess(onSuccess)
             .onFailure(onFailure)

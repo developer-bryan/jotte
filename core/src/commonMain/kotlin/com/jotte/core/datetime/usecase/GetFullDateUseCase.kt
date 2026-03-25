@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package com.jotte.core.datetime.usecase
 
 import com.jotte.core.datetime.DateTimeStrings

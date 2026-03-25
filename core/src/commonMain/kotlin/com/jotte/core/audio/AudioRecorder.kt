@@ -1,3 +1,5 @@
+@file:Suppress("ConstructorParameterNaming")
+
 package com.jotte.core.audio
 
 import com.jotte.core.datetime.CoroutineTimer
