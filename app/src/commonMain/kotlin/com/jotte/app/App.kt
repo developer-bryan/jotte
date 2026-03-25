@@ -8,20 +8,26 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jotte.app.di.provideMainModule
+import com.jotte.app.navigation.graph.NavigationGraph
+import com.jotte.app.navigation.graph.SettingsGraph
+import com.jotte.app.navigation.graph.WhiteboardGraph
+import com.jotte.app.navigation.route.Route
+import com.jotte.audioplayer.di.provideAudioNoteModule
 import com.jotte.core.LinkHandler
-import com.jotte.core.usecase.LocalDownloadMediaUseCase
 import com.jotte.core.LocalLinkHandler
 import com.jotte.core.datetime.DateTimeStrings
 import com.jotte.core.di.provideCoreModule
 import com.jotte.core.di.provideDateModule
+import com.jotte.core.usecase.LocalDownloadMediaUseCase
 import com.jotte.cxui.Res
 import com.jotte.cxui.april
 import com.jotte.cxui.august
-import com.jotte.cxui.controller.rememberClipboardController
 import com.jotte.cxui.component.CXToast
-import com.jotte.cxui.controller.rememberCXToastController
 import com.jotte.cxui.composition.LocalClipboardController
+import com.jotte.cxui.composition.LocalSoundEffectPlayer
 import com.jotte.cxui.composition.LocalToastController
+import com.jotte.cxui.controller.rememberCXToastController
+import com.jotte.cxui.controller.rememberClipboardController
 import com.jotte.cxui.december
 import com.jotte.cxui.di.provideCXUIModule
 import com.jotte.cxui.february
@@ -41,17 +47,11 @@ import com.jotte.cxui.period_pm
 import com.jotte.cxui.september
 import com.jotte.cxui.theme.CXTheme
 import com.jotte.cxui.theme.sizes
-import com.jotte.message.di.provideNotesModule
-import com.jotte.app.navigation.graph.NavigationGraph
-import com.jotte.app.navigation.graph.SettingsGraph
-import com.jotte.app.navigation.graph.WhiteboardGraph
-import com.jotte.app.navigation.route.Route
-import com.jotte.audioplayer.di.provideAudioNoteModule
-import com.jotte.cxui.composition.LocalSoundEffectPlayer
-import com.jotte.settings.data.model.AppAppearance
 import com.jotte.editor.di.provideEditorModule
+import com.jotte.message.di.provideNotesModule
 import com.jotte.room.di.provideRoomModule
 import com.jotte.settings.data.di.provideSettingsDataModule
+import com.jotte.settings.data.model.AppAppearance
 import com.jotte.settings.data.repository.SettingsRepository
 import com.jotte.settings.di.provideSettingsUIModule
 import com.jotte.whiteboard.di.provideWhiteboardModule
@@ -99,13 +99,14 @@ fun App() {
             val settings: SettingsRepository = koinInject<SettingsRepository>()
             val appearance by settings.readAppAppearance().collectAsState(AppAppearance.SYSTEM)
 
-            val isDarkMode = remember(appearance) {
-                when (appearance) {
-                    AppAppearance.LIGHT -> false
-                    AppAppearance.DARK -> true
-                    else -> null
+            val isDarkMode =
+                remember(appearance) {
+                    when (appearance) {
+                        AppAppearance.LIGHT -> false
+                        AppAppearance.DARK -> true
+                        else -> null
+                    }
                 }
-            }
 
             CXTheme(
                 isDarkMode = isDarkMode ?: isSystemInDarkTheme(),
@@ -140,8 +141,9 @@ fun App() {
 
                             CXToast(
                                 state = toastState,
-                                modifier = Modifier
-                                    .padding(bottom = sizes.huge.times(2))
+                                modifier =
+                                    Modifier
+                                        .padding(bottom = sizes.huge.times(2))
                             )
                         }
                     )
@@ -153,29 +155,33 @@ fun App() {
 }
 
 @Composable
-fun loadDateTimeStrings(): DateTimeStrings = DateTimeStrings(
-    months = DateTimeStrings.Months(
-        january = stringResource(Res.string.january),
-        february = stringResource(Res.string.february),
-        march = stringResource(Res.string.march),
-        april = stringResource(Res.string.april),
-        may = stringResource(Res.string.may),
-        june = stringResource(Res.string.june),
-        july = stringResource(Res.string.july),
-        august = stringResource(Res.string.august),
-        september = stringResource(Res.string.september),
-        october = stringResource(Res.string.october),
-        november = stringResource(Res.string.november),
-        december = stringResource(Res.string.december)
-    ),
-    ordinals = DateTimeStrings.Ordinals(
-        st = stringResource(Res.string.ordinal_st),
-        nd = stringResource(Res.string.ordinal_nd),
-        rd = stringResource(Res.string.ordinal_rd),
-        th = stringResource(Res.string.ordinal_th)
-    ),
-    periods = DateTimeStrings.Periods(
-        am = stringResource(Res.string.period_am),
-        pm = stringResource(Res.string.period_pm)
+fun loadDateTimeStrings(): DateTimeStrings =
+    DateTimeStrings(
+        months =
+            DateTimeStrings.Months(
+                january = stringResource(Res.string.january),
+                february = stringResource(Res.string.february),
+                march = stringResource(Res.string.march),
+                april = stringResource(Res.string.april),
+                may = stringResource(Res.string.may),
+                june = stringResource(Res.string.june),
+                july = stringResource(Res.string.july),
+                august = stringResource(Res.string.august),
+                september = stringResource(Res.string.september),
+                october = stringResource(Res.string.october),
+                november = stringResource(Res.string.november),
+                december = stringResource(Res.string.december)
+            ),
+        ordinals =
+            DateTimeStrings.Ordinals(
+                st = stringResource(Res.string.ordinal_st),
+                nd = stringResource(Res.string.ordinal_nd),
+                rd = stringResource(Res.string.ordinal_rd),
+                th = stringResource(Res.string.ordinal_th)
+            ),
+        periods =
+            DateTimeStrings.Periods(
+                am = stringResource(Res.string.period_am),
+                pm = stringResource(Res.string.period_pm)
+            )
     )
-)

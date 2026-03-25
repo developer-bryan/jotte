@@ -10,18 +10,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.jotte.app.model.event.MainEvent
 import com.jotte.app.screen.dialog.RenameRoomDialog
 import com.jotte.app.viewmodel.MainViewModel
-import com.jotte.cxui.composition.LocalColor
-import com.jotte.cxui.extension.asEffect
-import com.jotte.cxui.scaffold.CXDrawerScaffold
 import com.jotte.cxui.Res
 import com.jotte.cxui.color.CXDarkColors
+import com.jotte.cxui.composition.LocalColor
 import com.jotte.cxui.composition.LocalToastController
 import com.jotte.cxui.controller.rememberDialogController
 import com.jotte.cxui.delete_room_dialog_body
 import com.jotte.cxui.delete_room_dialog_title
+import com.jotte.cxui.extension.asEffect
 import com.jotte.cxui.room_deleted
 import com.jotte.cxui.room_renamed
 import com.jotte.cxui.scaffold.CLOSED
+import com.jotte.cxui.scaffold.CXDrawerScaffold
 import com.jotte.cxui.scaffold.OPEN
 import com.jotte.cxui.scaffold.rememberDrawerState
 import com.jotte.room.screen.RoomScreen
@@ -53,24 +53,26 @@ internal fun MainScreen(
         }
     }
 
-    val deleteRoomDialog = rememberDialogController<Long?>(
-        title = Res.string.delete_room_dialog_title,
-        body = Res.string.delete_room_dialog_body,
-        onPositiveButtonClick = {
-            it?.let { viewModel.deleteRoom(it) }
-        }
-    )
-
-    val renameRoomDialogController = rememberDialogController<Pair<Long, String>> { req ->
-        val (id, name) = req ?: return@rememberDialogController
-        RenameRoomDialog(
-            name = name,
-            onNameEdited = {
-                viewModel.renameRoom(id, it)
-                this.hide()
+    val deleteRoomDialog =
+        rememberDialogController<Long?>(
+            title = Res.string.delete_room_dialog_title,
+            body = Res.string.delete_room_dialog_body,
+            onPositiveButtonClick = {
+                it?.let { viewModel.deleteRoom(it) }
             }
         )
-    }
+
+    val renameRoomDialogController =
+        rememberDialogController<Pair<Long, String>> { req ->
+            val (id, name) = req ?: return@rememberDialogController
+            RenameRoomDialog(
+                name = name,
+                onNameEdited = {
+                    viewModel.renameRoom(id, it)
+                    this.hide()
+                }
+            )
+        }
 
     Box {
         CXDrawerScaffold(

@@ -8,8 +8,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.jotte.cxui.theme.CXThemeBox
 import com.jotte.app.navigation.route.Route
+import com.jotte.cxui.theme.CXThemeBox
 import com.jotte.editor.screen.EditorScreen
 
 @Destination

@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.jotte.cxui.theme.sizes
 import com.jotte.app.model.state.RoomState
 import com.jotte.app.screen.component.DrawerListItem
 import com.jotte.cxui.Res
@@ -17,6 +16,7 @@ import com.jotte.cxui.icon_draw
 import com.jotte.cxui.icon_new_room
 import com.jotte.cxui.new_room
 import com.jotte.cxui.open_whiteboard
+import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.whiteboard
 
 @Composable

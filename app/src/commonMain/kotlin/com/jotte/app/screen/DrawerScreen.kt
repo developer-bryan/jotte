@@ -12,13 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.jotte.app.model.state.RoomState
+import com.jotte.app.screen.layout.DrawerHeader
+import com.jotte.app.screen.layout.DrawerList
+import com.jotte.cxui.component.CXText
 import com.jotte.cxui.theme.CXTheme
 import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.sizes
-import com.jotte.app.model.state.RoomState
-import com.jotte.app.screen.layout.DrawerList
-import com.jotte.app.screen.layout.DrawerHeader
-import com.jotte.cxui.component.CXText
 import com.jotte.cxui.theme.typography
 
 @Composable
@@ -35,11 +35,12 @@ internal fun DrawerScreen(
 ) {
 
     Column(
-        modifier = modifier
-            .width(sizes.roomDrawerWidth)
-            .fillMaxHeight()
-            .background(colors.backgroundSecondary)
-            .windowInsetsPadding(WindowInsets.navigationBars),
+        modifier =
+            modifier
+                .width(sizes.roomDrawerWidth)
+                .fillMaxHeight()
+                .background(colors.backgroundSecondary)
+                .windowInsetsPadding(WindowInsets.navigationBars),
         horizontalAlignment = Alignment.CenterHorizontally,
         content = {
 
@@ -48,9 +49,10 @@ internal fun DrawerScreen(
             DrawerList(
                 rooms = rooms,
                 selectedRoomId = selectedRoomId,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1F),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1F),
                 onRoomSelected = onRoomSelected,
                 onRenameRoomClicked = onRenameRoom,
                 onDeleteRoomClicked = onDeleteRoom,
@@ -71,14 +73,15 @@ internal fun DrawerScreen(
 @Composable
 private fun Preview() {
     CXTheme(isDarkMode = true) {
-        val rooms = (0..15).map {
-            RoomState(
-                id = it.toLong(),
-                name = "room $it",
-                modifiedOn = "",
-                createdOn = ""
-            )
-        }
+        val rooms =
+            (0..15).map {
+                RoomState(
+                    id = it.toLong(),
+                    name = "room $it",
+                    modifiedOn = "",
+                    createdOn = ""
+                )
+            }
 
         DrawerScreen(
             modifier = Modifier,

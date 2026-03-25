@@ -16,7 +16,7 @@ config:
 
 processors:
   active: true
-  exclude:
+  exclude: []
   # - 'DetektProgressListener'
   # - 'KtFileCountProcessor'
   # - 'PackageCountProcessor'

@@ -45,7 +45,6 @@ internal fun DrawerListItem(
     onDeleteClicked: () -> Unit,
     onRenameClicked: () -> Unit
 ) {
-
     val colors = colors
     val selectedRectPadding = with(density) { sizes.tiny.toPx() }
 
@@ -62,35 +61,37 @@ internal fun DrawerListItem(
     }
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .combinedClickable(
-                onClickLabel = "select this room",
-                onLongClickLabel = "open action menu",
-                onClick = onClick,
-                onLongClick = { contextMenuVisible = true }
-            )
-            .drawBehind {
-                if (isSelected) {
-                    this.drawRoundRect(
-                        color = colors.accentColor,
-                        size = Size(
-                            width = this.size.width - (selectedRectPadding.times(2)),
-                            height = this.size.height
-                        ),
-                        topLeft = Offset(
-                            x = selectedRectPadding,
-                            y = 0f
-                        ),
-                        cornerRadius = CornerRadius(
-                            activeRoomCornerRadius,
-                            activeRoomCornerRadius
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .combinedClickable(
+                    onClickLabel = "select this room",
+                    onLongClickLabel = "open action menu",
+                    onClick = onClick,
+                    onLongClick = { contextMenuVisible = true }
+                ).drawBehind {
+                    if (isSelected) {
+                        this.drawRoundRect(
+                            color = colors.accentColor,
+                            size =
+                                Size(
+                                    width = this.size.width - (selectedRectPadding.times(2)),
+                                    height = this.size.height
+                                ),
+                            topLeft =
+                                Offset(
+                                    x = selectedRectPadding,
+                                    y = 0f
+                                ),
+                            cornerRadius =
+                                CornerRadius(
+                                    activeRoomCornerRadius,
+                                    activeRoomCornerRadius
+                                )
                         )
-                    )
-                }
-            }
-            .padding(vertical = sizes.small)
-            .padding(horizontal = sizes.regular),
+                    }
+                }.padding(vertical = sizes.small)
+                .padding(horizontal = sizes.regular),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
         content = {
@@ -101,9 +102,10 @@ internal fun DrawerListItem(
                 content = {
                     CXText(
                         text = roomName,
-                        style = typography.bodyOne.copy(
-                            fontWeight = FontWeight.Black
-                        )
+                        style =
+                            typography.bodyOne.copy(
+                                fontWeight = FontWeight.Black
+                            )
                     )
                     CXText(
                         text = modifiedOn,
@@ -121,10 +123,11 @@ internal fun DrawerListItem(
                     if (contextMenuVisible) {
                         CXActionPopup(
                             onDismissRequest = { contextMenuVisible = false },
-                            actions = listOf(
-                                DrawerPopupAction.Rename,
-                                DrawerPopupAction.Delete
-                            ),
+                            actions =
+                                listOf(
+                                    DrawerPopupAction.Rename,
+                                    DrawerPopupAction.Delete
+                                ),
                             onActionClicked = {
                                 when (it) {
                                     DrawerPopupAction.Rename -> onRenameClicked()
