@@ -168,7 +168,8 @@ complexity:
     ignoreDeprecated: false
     ignorePrivate: false
     ignoreOverridden: false
-    ignoreAnnotatedFunctions: []
+    ignoreAnnotated:
+      - 'Dao'
 
 coroutines:
   active: true

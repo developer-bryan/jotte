@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions")
+
 package com.jotte.message.repository
 
 import com.jotte.message.data.MediaDto
