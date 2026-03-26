@@ -10,24 +10,25 @@ import org.koin.dsl.module
 
 fun maximumAudioTitleCharacters() = StringQualifier("maximumAudioTitleCharacters")
 
-fun provideEditorModule() = module {
+fun provideEditorModule() =
+    module {
 
-    single(
-        qualifier = maximumAudioTitleCharacters(),
-        definition = { 20 }
-    )
-
-    viewModel<EditorViewModel> {
-        EditorViewModel(
-            getNoteUseCase = get(),
-            createNoteUseCase = get(),
-            updateNoteUseCase = get(),
-            soundEffectsPlayer = get(),
-            roomId = get(),
-            noteId = get()
+        single(
+            qualifier = maximumAudioTitleCharacters(),
+            definition = { 20 }
         )
-    }
 
-    factory<CreateNoteUseCase> { CreateNoteUseCase(get(), get()) }
-    factory<UpdateNoteUseCase> { UpdateNoteUseCase(get(), get(), get()) }
-}
+        viewModel<EditorViewModel> {
+            EditorViewModel(
+                getNoteUseCase = get(),
+                createNoteUseCase = get(),
+                updateNoteUseCase = get(),
+                soundEffectsPlayer = get(),
+                roomId = get(),
+                noteId = get()
+            )
+        }
+
+        factory<CreateNoteUseCase> { CreateNoteUseCase(get(), get()) }
+        factory<UpdateNoteUseCase> { UpdateNoteUseCase(get(), get(), get()) }
+    }

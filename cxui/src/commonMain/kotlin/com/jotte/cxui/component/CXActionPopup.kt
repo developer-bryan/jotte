@@ -54,19 +54,18 @@ fun CXActionPopup(
                 exit = fadeOut() + scaleOut(targetScale = .9f),
                 content = {
                     Column(
-                        modifier = Modifier
-                            .padding(sizes.small)
-                            .width(226.dp)
-                            .shadow(
-                                elevation = 4.dp,
-                                shape = shapes.alertDialogShape,
-                                clip = true
-                            )
-                            .background(
-                                color = colors.backgroundSecondary,
-                                shape = shapes.alertDialogShape
-                            )
-                            .padding(vertical = sizes.extraSmall),
+                        modifier =
+                            Modifier
+                                .padding(sizes.small)
+                                .width(226.dp)
+                                .shadow(
+                                    elevation = 4.dp,
+                                    shape = shapes.alertDialogShape,
+                                    clip = true
+                                ).background(
+                                    color = colors.backgroundSecondary,
+                                    shape = shapes.alertDialogShape
+                                ).padding(vertical = sizes.extraSmall),
                         content = {
 
                             actions.forEach { action ->

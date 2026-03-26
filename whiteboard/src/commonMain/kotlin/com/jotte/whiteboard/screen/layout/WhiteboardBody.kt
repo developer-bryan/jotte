@@ -16,8 +16,8 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.platform.LocalDensity
-import com.jotte.whiteboard.model.state.WhiteboardPath
 import com.jotte.whiteboard.model.data.PaintedPath
+import com.jotte.whiteboard.model.state.WhiteboardPath
 import com.jotte.whiteboard.screen.controller.PathController
 import com.jotte.whiteboard.screen.modifier.painterGestures
 
@@ -32,22 +32,24 @@ internal fun WhiteboardBody(
 
     val density = LocalDensity.current
 
-    val paintGestures = if (canConsumePaintTouches) {
-        Modifier.painterGestures(controller)
-    } else {
-        Modifier
-    }
+    val paintGestures =
+        if (canConsumePaintTouches) {
+            Modifier.painterGestures(controller)
+        } else {
+            Modifier
+        }
 
     Box(
-        modifier = modifier
-            .clipToBounds()
-            .then(paintGestures)
-            .drawWithContent {
-                graphicsLayer.record {
-                    this@drawWithContent.drawContent()
-                }
-                this@drawWithContent.drawLayer(graphicsLayer)
-            },
+        modifier =
+            modifier
+                .clipToBounds()
+                .then(paintGestures)
+                .drawWithContent {
+                    graphicsLayer.record {
+                        this@drawWithContent.drawContent()
+                    }
+                    this@drawWithContent.drawLayer(graphicsLayer)
+                },
         content = {
             Canvas(
                 modifier = modifier.fillMaxSize(),
@@ -89,10 +91,11 @@ private fun DrawScope.drawPaintedPath(
     drawPath(
         path = PaintedPath(points).path,
         color = color,
-        style = Stroke(
-            width = size,
-            cap = StrokeCap.Round,
-            join = StrokeJoin.Round
-        )
+        style =
+            Stroke(
+                width = size,
+                cap = StrokeCap.Round,
+                join = StrokeJoin.Round
+            )
     )
 }

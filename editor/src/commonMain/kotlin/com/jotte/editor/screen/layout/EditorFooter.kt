@@ -28,9 +28,10 @@ internal fun EditorFooter(
 ) {
 
     Row(
-        modifier = modifier
-            .padding(horizontal = sizes.regular)
-            .padding(vertical = sizes.small),
+        modifier =
+            modifier
+                .padding(horizontal = sizes.regular)
+                .padding(vertical = sizes.small),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(sizes.tiny),
         content = {

@@ -6,8 +6,6 @@ import androidx.camera.lifecycle.awaitInstance
 
 internal class GetCameraProcessProviderUseCase(private val context: Context) {
 
-    suspend operator fun invoke(): ProcessCameraProvider {
-        return ProcessCameraProvider.awaitInstance(context)
-    }
+    suspend operator fun invoke(): ProcessCameraProvider = ProcessCameraProvider.awaitInstance(context)
 
 }

@@ -30,9 +30,10 @@ internal fun AudioNameInputForm(
 
     BasicTextField(
         value = value,
-        modifier = modifier
-            .focusRequester(focusRequester)
-            .padding(start = sizes.small),
+        modifier =
+            modifier
+                .focusRequester(focusRequester)
+                .padding(start = sizes.small),
         onValueChange = onValueChanged::invoke,
         cursorBrush = SolidColor(colors.contentPrimary),
         textStyle = typography.bodyOne.copy(color = colors.contentPrimary),

@@ -12,7 +12,9 @@ expect class AudioRecorder(_timer: CoroutineTimer) {
     val isRecording: Flow<Boolean>
 
     fun beginRecording()
+
     fun finishRecording(): Result<PlatformFile>
+
     fun cancelRecording()
 
 }

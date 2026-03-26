@@ -32,24 +32,27 @@ fun NoCameraPermissionLayout(
 ) {
 
     Box(
-        modifier = modifier
-            .background(colors.backgroundSecondary)
-            .windowInsetsPadding(WindowInsets.navigationBars),
+        modifier =
+            modifier
+                .background(colors.backgroundSecondary)
+                .windowInsetsPadding(WindowInsets.navigationBars),
         content = {
 
             CXText(
                 text = message,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(horizontal = sizes.regular),
+                modifier =
+                    Modifier
+                        .align(Alignment.Center)
+                        .padding(horizontal = sizes.regular),
                 style = typography.headerOne,
                 textAlign = TextAlign.Center
             )
 
             Column(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(horizontal = sizes.regular),
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(horizontal = sizes.regular),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(sizes.tiny),
                 content = {

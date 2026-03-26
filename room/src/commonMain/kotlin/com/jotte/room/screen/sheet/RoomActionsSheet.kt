@@ -31,9 +31,10 @@ internal fun RoomActionsSheet(
 ) {
 
     Column(
-        modifier = modifier
-            .windowInsetsPadding(WindowInsets.navigationBars)
-            .padding(top = sizes.extraSmall),
+        modifier =
+            modifier
+                .windowInsetsPadding(WindowInsets.navigationBars)
+                .padding(top = sizes.extraSmall),
         content = {
 
             CXButtonOption(

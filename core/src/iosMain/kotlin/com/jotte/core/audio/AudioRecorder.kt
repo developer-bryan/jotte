@@ -43,12 +43,13 @@ actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
     private var destination: PlatformFile? = null
 
     actual fun beginRecording() {
-        val settings = mapOf<Any?, Any>(
-            AVFormatIDKey to kAudioFormatMPEG4AAC,
-            AVSampleRateKey to HZ,
-            AVNumberOfChannelsKey to 1,
-            AVEncoderAudioQualityKey to AVAudioQuality.MAX_VALUE
-        )
+        val settings =
+            mapOf<Any?, Any>(
+                AVFormatIDKey to kAudioFormatMPEG4AAC,
+                AVSampleRateKey to HZ,
+                AVNumberOfChannelsKey to 1,
+                AVEncoderAudioQualityKey to AVAudioQuality.MAX_VALUE
+            )
 
         memScoped {
             val audioSession = AVAudioSession.sharedInstance()
@@ -76,8 +77,8 @@ actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
         }
     }
 
-    actual fun finishRecording(): Result<PlatformFile> {
-        return runCatching {
+    actual fun finishRecording(): Result<PlatformFile> =
+        runCatching {
             recorder?.stop()
             timer.stop()
             _isRecording.tryEmit(false)
@@ -85,7 +86,6 @@ actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
             checkNotNull(output)
             output
         }
-    }
 
     actual fun cancelRecording() {
         recorder?.stop()

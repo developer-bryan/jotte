@@ -26,12 +26,13 @@ internal fun RoomToolbar(
 ) {
 
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(colors.backgroundPrimary)
-            .windowInsetsPadding(WindowInsets.statusBars)
-            .padding(bottom = sizes.tiny)
-            .padding(end = sizes.extraSmall),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .background(colors.backgroundPrimary)
+                .windowInsetsPadding(WindowInsets.statusBars)
+                .padding(bottom = sizes.tiny)
+                .padding(end = sizes.extraSmall),
         verticalAlignment = Alignment.CenterVertically,
         content = {
             CXButtonIcon(

@@ -25,6 +25,7 @@ data class NoteDto(
 ) {
 
     data class Content(val value: String)
+
     data class Audio(
         val audioId: String = Uuid.random().toString(),
         val fileName: String,

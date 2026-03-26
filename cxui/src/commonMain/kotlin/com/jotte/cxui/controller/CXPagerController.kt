@@ -14,7 +14,10 @@ class CXPagerController<T : PagerItem> {
 
     val hasItems by derivedStateOf { pagerItems.isNotEmpty() }
 
-    fun setItems(items: List<T>, initialIndex: Int = 0) {
+    fun setItems(
+        items: List<T>,
+        initialIndex: Int = 0
+    ) {
         this.initialIndex = initialIndex
         this.pagerItems.clear()
         this.pagerItems.addAll(items)

@@ -79,10 +79,11 @@ private fun InternalCXScrollbar(
 
     val alpha by animateFloatAsState(
         targetValue = if (isScrolling) 1f else 0f,
-        animationSpec = tween(
-            durationMillis = if (isScrolling) 75 else 500,
-            delayMillis = if (isScrolling) 0 else 400
-        ),
+        animationSpec =
+            tween(
+                durationMillis = if (isScrolling) 75 else 500,
+                delayMillis = if (isScrolling) 0 else 400
+            ),
     )
 
     val height by remember {
@@ -115,19 +116,21 @@ private fun InternalCXScrollbar(
     }
 
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .graphicsLayer(translationY = viewportHeight * offset)
-            .padding(end = 4.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .graphicsLayer(translationY = viewportHeight * offset)
+                .padding(end = 4.dp),
         contentAlignment = Alignment.TopEnd,
         content = {
             Box(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .width(2.dp)
-                    .fillMaxHeight(fraction = height)
-                    .alpha(alpha)
-                    .background(colors.contentPrimary.copy(alpha = 0.35f))
+                modifier =
+                    Modifier
+                        .clip(CircleShape)
+                        .width(2.dp)
+                        .fillMaxHeight(fraction = height)
+                        .alpha(alpha)
+                        .background(colors.contentPrimary.copy(alpha = 0.35f))
             )
         }
     )

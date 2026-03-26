@@ -31,18 +31,20 @@ internal fun DraftLinkComponent(
     onRemoveClicked: () -> Unit
 ) {
 
-    val icon = when (link.type) {
-        LinkDto.LinkType.Url -> Res.drawable.icon_link
-        LinkDto.LinkType.Phone -> Res.drawable.icon_phone
-        LinkDto.LinkType.Email -> Res.drawable.icon_email
-    }
+    val icon =
+        when (link.type) {
+            LinkDto.LinkType.Url -> Res.drawable.icon_link
+            LinkDto.LinkType.Phone -> Res.drawable.icon_phone
+            LinkDto.LinkType.Email -> Res.drawable.icon_email
+        }
 
     Row(
-        modifier = modifier
-            .widthIn(min = 200.dp)
-            .background(colors.backgroundSecondary)
-            .padding(horizontal = sizes.regular)
-            .padding(vertical = sizes.small),
+        modifier =
+            modifier
+                .widthIn(min = 200.dp)
+                .background(colors.backgroundSecondary)
+                .padding(horizontal = sizes.regular)
+                .padding(vertical = sizes.small),
         verticalAlignment = Alignment.CenterVertically,
         content = {
             CXIcon(icon)

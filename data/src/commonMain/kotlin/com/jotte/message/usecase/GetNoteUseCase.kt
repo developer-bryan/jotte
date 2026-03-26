@@ -5,8 +5,6 @@ import com.jotte.message.repository.NoteRepository
 
 class GetNoteUseCase(private val noteRepository: NoteRepository) {
 
-    suspend operator fun invoke(noteId: Long): FullNote {
-        return noteRepository.queryNote(noteId)
-    }
+    suspend operator fun invoke(noteId: Long): FullNote = noteRepository.queryNote(noteId)
 
 }

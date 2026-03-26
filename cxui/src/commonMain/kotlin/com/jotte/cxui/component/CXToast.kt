@@ -40,10 +40,11 @@ fun CXToast(
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .windowInsetsPadding(WindowInsets.statusBars)
-            .padding(top = sizes.huge),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.statusBars)
+                .padding(top = sizes.huge),
         contentAlignment = Alignment.TopCenter
     ) {
         AnimatedContent(
@@ -54,13 +55,14 @@ fun CXToast(
 
                 if (msgRes != null) {
                     Box(
-                        modifier = modifier
-                            .padding(horizontal = sizes.medium)
-                            .fillMaxWidth()
-                            .clip(shapes.toastShape)
-                            .background(colors.contentPrimary)
-                            .padding(horizontal = sizes.regular)
-                            .padding(vertical = sizes.small),
+                        modifier =
+                            modifier
+                                .padding(horizontal = sizes.medium)
+                                .fillMaxWidth()
+                                .clip(shapes.toastShape)
+                                .background(colors.contentPrimary)
+                                .padding(horizontal = sizes.regular)
+                                .padding(vertical = sizes.small),
                         contentAlignment = Alignment.Center,
                         content = {
                             CXText(

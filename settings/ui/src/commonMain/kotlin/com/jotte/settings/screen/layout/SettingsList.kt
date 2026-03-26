@@ -40,11 +40,12 @@ internal fun SettingsList(
                                 labelResId = setting.label,
                                 icon = setting.icon,
                                 trailingContent = {
-                                    val text = when (state.appearance) {
-                                        AppAppearance.LIGHT -> Res.string.light_theme
-                                        AppAppearance.DARK -> Res.string.dark_theme
-                                        AppAppearance.SYSTEM -> Res.string.system_theme
-                                    }
+                                    val text =
+                                        when (state.appearance) {
+                                            AppAppearance.LIGHT -> Res.string.light_theme
+                                            AppAppearance.DARK -> Res.string.dark_theme
+                                            AppAppearance.SYSTEM -> Res.string.system_theme
+                                        }
                                     SettingsValueText(text)
                                 },
                                 onClick = { onSettingClicked(setting) }
@@ -56,11 +57,12 @@ internal fun SettingsList(
                                 labelResId = setting.label,
                                 icon = setting.icon,
                                 trailingContent = {
-                                    val text = if (state.soundEffectsEnabled) {
-                                        Res.string.enabled
-                                    } else {
-                                        Res.string.disabled
-                                    }
+                                    val text =
+                                        if (state.soundEffectsEnabled) {
+                                            Res.string.enabled
+                                        } else {
+                                            Res.string.disabled
+                                        }
                                     SettingsValueText(text)
                                 },
                                 onClick = { onSettingClicked(setting) }

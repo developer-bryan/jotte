@@ -1,9 +1,9 @@
 package com.jotte.message.di
 
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import com.jotte.message.persistence.dao.NoteDao
 import com.jotte.message.persistence.NotesDatabase
 import com.jotte.message.persistence.dao.MediaDao
+import com.jotte.message.persistence.dao.NoteDao
 import com.jotte.message.persistence.dao.RoomDao
 import com.jotte.message.persistence.dao.WhiteboardDao
 import com.jotte.message.persistence.notesDatabaseBuilder
@@ -31,38 +31,39 @@ import org.koin.dsl.module
 
 internal fun databaseName() = StringQualifier("database_name")
 
-fun provideNotesModule() = module {
+fun provideNotesModule() =
+    module {
 
-    single<String>(
-        qualifier = databaseName(),
-        definition = { "jotte_notes.db" }
-    )
+        single<String>(
+            qualifier = databaseName(),
+            definition = { "jotte_notes.db" }
+        )
 
-    single<NotesDatabase> {
-        notesDatabaseBuilder(get<String>(databaseName()))
-            .setQueryCoroutineContext(Dispatchers.IO)
-            .setDriver(BundledSQLiteDriver())
-            .build()
+        single<NotesDatabase> {
+            notesDatabaseBuilder(get<String>(databaseName()))
+                .setQueryCoroutineContext(Dispatchers.IO)
+                .setDriver(BundledSQLiteDriver())
+                .build()
+        }
+
+        single<NoteDao> { get<NotesDatabase>().noteDao() }
+        single<RoomDao> { get<NotesDatabase>().roomDao() }
+        single<MediaDao> { get<NotesDatabase>().fileDao() }
+        single<WhiteboardDao> { get<NotesDatabase>().whiteboardDao() }
+
+        factory<NoteRepository> { NoteRepositoryImpl(get()) }
+        factory<RoomRepository> { RoomRepositoryImpl(get()) }
+        factory<MediaRepository> { MediaRepositoryImpl(get()) }
+        factory<WhiteboardRepository> { WhiteboardRepositoryImpl(get()) }
+
+        factory<CreateRoomUseCase> { CreateRoomUseCase(get()) }
+        factory<DeleteAudioUseCase> { DeleteAudioUseCase(get(), get(), get(), get()) }
+        factory<DeleteMediaUseCase> { DeleteMediaUseCase(get(), get(), get(), get()) }
+        factory<DeleteNoteUseCase> { DeleteNoteUseCase(get(), get(), get()) }
+        factory<DeleteRoomUseCase> { DeleteRoomUseCase(get(), get(), get()) }
+        factory<RenameRoomUseCase> { RenameRoomUseCase(get()) }
+        factory<GetNoteUseCase> { GetNoteUseCase(get()) }
+        factory<GetWhiteboardUseCase> { GetWhiteboardUseCase(get()) }
+
+        factory<CheckShouldDeleteNoteUseCase> { CheckShouldDeleteNoteUseCase() }
     }
-
-    single<NoteDao> { get<NotesDatabase>().noteDao() }
-    single<RoomDao> { get<NotesDatabase>().roomDao() }
-    single<MediaDao> { get<NotesDatabase>().fileDao() }
-    single<WhiteboardDao> { get<NotesDatabase>().whiteboardDao() }
-
-    factory<NoteRepository> { NoteRepositoryImpl(get()) }
-    factory<RoomRepository> { RoomRepositoryImpl(get()) }
-    factory<MediaRepository> { MediaRepositoryImpl(get()) }
-    factory<WhiteboardRepository> { WhiteboardRepositoryImpl(get()) }
-
-    factory<CreateRoomUseCase> { CreateRoomUseCase(get()) }
-    factory<DeleteAudioUseCase> { DeleteAudioUseCase(get(), get(), get(), get()) }
-    factory<DeleteMediaUseCase> { DeleteMediaUseCase(get(), get(), get(), get()) }
-    factory<DeleteNoteUseCase> { DeleteNoteUseCase(get(), get(), get()) }
-    factory<DeleteRoomUseCase> { DeleteRoomUseCase(get(), get(), get()) }
-    factory<RenameRoomUseCase> { RenameRoomUseCase(get()) }
-    factory<GetNoteUseCase> { GetNoteUseCase(get()) }
-    factory<GetWhiteboardUseCase> { GetWhiteboardUseCase(get()) }
-
-    factory<CheckShouldDeleteNoteUseCase> { CheckShouldDeleteNoteUseCase() }
-}

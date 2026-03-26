@@ -33,10 +33,11 @@ fun FocusRing(
 
     val alpha by animateFloatAsState(
         targetValue = if (visible && tapOffset != null) 1f else 0f,
-        animationSpec = tween(
-            durationMillis = 250,
-            easing = LinearOutSlowInEasing
-        )
+        animationSpec =
+            tween(
+                durationMillis = 250,
+                easing = LinearOutSlowInEasing
+            )
     )
 
     LaunchedEffect(tapOffset) {
@@ -50,17 +51,17 @@ fun FocusRing(
     if (tapOffset == null) return
 
     Box(
-        modifier = modifier
-            .graphicsLayer {
-                translationX = tapOffset.x - (ringSize.toPx() / 2)
-                translationY = tapOffset.y - (ringSize.toPx() / 2)
-                this.alpha = alpha
-            }
-            .size(ringSize)
-            .border(
-                width = 2.dp,
-                color = Color.White.copy(alpha = alpha),
-                shape = CircleShape
-            )
+        modifier =
+            modifier
+                .graphicsLayer {
+                    translationX = tapOffset.x - (ringSize.toPx() / 2)
+                    translationY = tapOffset.y - (ringSize.toPx() / 2)
+                    this.alpha = alpha
+                }.size(ringSize)
+                .border(
+                    width = 2.dp,
+                    color = Color.White.copy(alpha = alpha),
+                    shape = CircleShape
+                )
     )
 }

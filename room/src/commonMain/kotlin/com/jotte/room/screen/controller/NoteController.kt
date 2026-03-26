@@ -30,20 +30,22 @@ internal class NoteController(
     private val noteState: NoteState
 ) {
 
-    val mediaCarouselItems = noteState.media.map {
-        MediaCarouselItem(fileName = it.fileName, mediaId = it.mediaId)
-    }
+    val mediaCarouselItems =
+        noteState.media.map {
+            MediaCarouselItem(fileName = it.fileName, mediaId = it.mediaId)
+        }
 
-    val popupActions = buildList {
-        if (noteState.content != null) {
-            add(NotePopupActions.CopyText)
+    val popupActions =
+        buildList {
+            if (noteState.content != null) {
+                add(NotePopupActions.CopyText)
+            }
+            if (noteState.audio != null) {
+                add(NotePopupActions.SaveAudio)
+            }
+            add(NotePopupActions.Edit)
+            add(NotePopupActions.Delete)
         }
-        if (noteState.audio != null) {
-            add(NotePopupActions.SaveAudio)
-        }
-        add(NotePopupActions.Edit)
-        add(NotePopupActions.Delete)
-    }
 
     var popupVisible by mutableStateOf(false)
 
@@ -57,21 +59,27 @@ internal class NoteController(
         toastController.show(Res.string.generic_error_message)
     }
 
-    fun showPopup() { popupVisible = true }
+    fun showPopup() {
+        popupVisible = true
+    }
 
-    fun hidePopup() { popupVisible = false }
+    fun hidePopup() {
+        popupVisible = false
+    }
 
     fun hasMediaAttachments() = mediaCarouselItems.isNotEmpty()
 
     fun handleLinkClick(link: NoteState.LinkState) {
         when (link.type) {
-            LinkDto.LinkType.Url -> if (!linkHandler.openUrl(link.link)) {
-                toastController.show(Res.string.invalid_link_msg)
-            }
+            LinkDto.LinkType.Url ->
+                if (!linkHandler.openUrl(link.link)) {
+                    toastController.show(Res.string.invalid_link_msg)
+                }
 
-            LinkDto.LinkType.Phone -> if (!linkHandler.handlePhoneNumber(link.link)) {
-                toastController.show(Res.string.invalid_link_msg)
-            }
+            LinkDto.LinkType.Phone ->
+                if (!linkHandler.handlePhoneNumber(link.link)) {
+                    toastController.show(Res.string.invalid_link_msg)
+                }
 
             LinkDto.LinkType.Email -> Unit // TODO: Handle Email
         }
@@ -93,14 +101,15 @@ internal fun rememberNoteController(noteState: NoteState): NoteController {
     val clipboard = LocalClipboardController.current
     val linkHandler = LocalLinkHandler.current
 
-    val noteController = remember(noteState) {
-        NoteController(
-            toastController = toastController,
-            clipboardController = clipboard,
-            linkHandler = linkHandler,
-            noteState = noteState
-        )
-    }
+    val noteController =
+        remember(noteState) {
+            NoteController(
+                toastController = toastController,
+                clipboardController = clipboard,
+                linkHandler = linkHandler,
+                noteState = noteState
+            )
+        }
 
     LaunchedEffect(noteController.popupVisible) {
         if (noteController.popupVisible) {

@@ -27,9 +27,7 @@ import io.github.alexzhirkevich.compottie.rememberLottiePainter
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun NotesEmptyLayout(
-    modifier: Modifier = Modifier
-) {
+internal fun NotesEmptyLayout(modifier: Modifier = Modifier) {
 
     val composition by rememberLottieComposition {
         val json = Res.readBytes("files/empty_notes.json").decodeToString()
@@ -41,9 +39,10 @@ internal fun NotesEmptyLayout(
     )
 
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(bottom = 98.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(bottom = 98.dp),
         contentAlignment = Alignment.Center,
         content = {
             Column(
@@ -51,13 +50,15 @@ internal fun NotesEmptyLayout(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
                     Image(
-                        painter = rememberLottiePainter(
-                            composition = composition,
-                            progress = { progress },
-                        ),
-                        modifier = modifier
-                            .width(280.dp)
-                            .height(175.dp),
+                        painter =
+                            rememberLottiePainter(
+                                composition = composition,
+                                progress = { progress },
+                            ),
+                        modifier =
+                            modifier
+                                .width(280.dp)
+                                .height(175.dp),
                         contentDescription = "Lottie animation"
                     )
                     CXText(

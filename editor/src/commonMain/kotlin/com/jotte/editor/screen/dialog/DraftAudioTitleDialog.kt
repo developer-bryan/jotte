@@ -58,23 +58,25 @@ internal fun DialogController<Nothing>.DraftAudioTitleDialog(
         properties = DialogProperties(),
         content = {
             Column(
-                modifier = Modifier
-                    .clip(shapes.alertDialogShape)
-                    .background(colors.backgroundPrimary)
-                    .padding(horizontal = sizes.medium)
-                    .padding(vertical = sizes.medium),
+                modifier =
+                    Modifier
+                        .clip(shapes.alertDialogShape)
+                        .background(colors.backgroundPrimary)
+                        .padding(horizontal = sizes.medium)
+                        .padding(vertical = sizes.medium),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
                     DialogTitle(stringResource(Res.string.rename_audio_dialog_title))
                     Spacer(Modifier.height(sizes.regular))
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(sizes.interactableHeight)
-                            .clip(shapes.roundedButtonShape)
-                            .background(colors.backgroundSecondary)
-                            .padding(horizontal = sizes.small)
-                            .clickable { focusRequester.requestFocus() },
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(sizes.interactableHeight)
+                                .clip(shapes.roundedButtonShape)
+                                .background(colors.backgroundSecondary)
+                                .padding(horizontal = sizes.small)
+                                .clickable { focusRequester.requestFocus() },
                         contentAlignment = Alignment.CenterStart,
                         content = {
                             AudioNameInputForm(

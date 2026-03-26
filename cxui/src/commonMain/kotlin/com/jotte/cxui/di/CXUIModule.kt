@@ -11,19 +11,20 @@ import kotlinx.coroutines.SupervisorJob
 import org.koin.dsl.module
 import org.koin.dsl.onClose
 
-fun provideCXUIModule() = module {
+fun provideCXUIModule() =
+    module {
 
-    single<SoundEffectsPlayer> {
+        single<SoundEffectsPlayer> {
 
-        val player = SoundEffectsPlayerImpl()
-        val flow = get<SettingsRepository>().readSoundEffects()
+            val player = SoundEffectsPlayerImpl()
+            val flow = get<SettingsRepository>().readSoundEffects()
 
-        SoundEffectsDecorator(
-            player = player,
-            soundEffectsEnabledFlag = flow,
-            scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-        )
+            SoundEffectsDecorator(
+                player = player,
+                soundEffectsEnabledFlag = flow,
+                scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+            )
 
-    }.onClose { it?.release() }
+        }.onClose { it?.release() }
 
-}
+    }

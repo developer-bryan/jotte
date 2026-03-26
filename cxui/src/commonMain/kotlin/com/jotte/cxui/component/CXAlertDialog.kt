@@ -37,11 +37,12 @@ fun CXAlertDialog(
         properties = DialogProperties(),
         content = {
             Column(
-                modifier = Modifier
-                    .clip(shapes.alertDialogShape)
-                    .background(colors.backgroundPrimary)
-                    .padding(horizontal = sizes.medium)
-                    .padding(vertical = sizes.medium),
+                modifier =
+                    Modifier
+                        .clip(shapes.alertDialogShape)
+                        .background(colors.backgroundPrimary)
+                        .padding(horizontal = sizes.medium)
+                        .padding(vertical = sizes.medium),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
                     icon?.let {

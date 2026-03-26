@@ -34,17 +34,19 @@ fun CXButton(
 
     val haptics = LocalHapticFeedback.current
 
-    val buttonColors = ButtonDefaults.buttonColors(
-        backgroundColor = backgroundColor,
-        contentColor = contentColor,
-        disabledBackgroundColor = backgroundColor.copy(alpha = 0.25F),
-        disabledContentColor = contentColor.copy(alpha = 0.05F)
-    )
+    val buttonColors =
+        ButtonDefaults.buttonColors(
+            backgroundColor = backgroundColor,
+            contentColor = contentColor,
+            disabledBackgroundColor = backgroundColor.copy(alpha = 0.25F),
+            disabledContentColor = contentColor.copy(alpha = 0.05F)
+        )
 
     Button(
-        modifier = Modifier
-            .height(sizes.interactableHeight)
-            .then(modifier),
+        modifier =
+            Modifier
+                .height(sizes.interactableHeight)
+                .then(modifier),
         enabled = enabled,
         elevation = elevation,
         shape = shape,

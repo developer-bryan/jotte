@@ -34,22 +34,23 @@ internal fun NoteLinkComponent(
     onClick: () -> Unit
 ) {
 
-    val icon = when (link.type) {
-        LinkDto.LinkType.Url -> Res.drawable.icon_link
-        LinkDto.LinkType.Phone -> Res.drawable.icon_phone
-        LinkDto.LinkType.Email -> Res.drawable.icon_email
-    }
+    val icon =
+        when (link.type) {
+            LinkDto.LinkType.Url -> Res.drawable.icon_link
+            LinkDto.LinkType.Phone -> Res.drawable.icon_phone
+            LinkDto.LinkType.Email -> Res.drawable.icon_email
+        }
 
     Row(
-        modifier = modifier
-            .widthIn(min = 200.dp)
-            .background(colors.backgroundSecondary)
-            .clickable(
-                onClickLabel = "open link",
-                onClick = onClick
-            )
-            .padding(horizontal = sizes.regular)
-            .padding(vertical = sizes.small),
+        modifier =
+            modifier
+                .widthIn(min = 200.dp)
+                .background(colors.backgroundSecondary)
+                .clickable(
+                    onClickLabel = "open link",
+                    onClick = onClick
+                ).padding(horizontal = sizes.regular)
+                .padding(vertical = sizes.small),
         verticalAlignment = Alignment.CenterVertically,
         content = {
             CXIcon(icon)
@@ -73,29 +74,32 @@ private fun Preview() {
             content = {
                 NoteLinkComponent(
                     modifier = Modifier.background(colors.backgroundPrimary),
-                    link = NoteState.LinkState(
-                        id = "",
-                        type = LinkDto.LinkType.Url,
-                        link = "www.jottenotes.app"
-                    ),
+                    link =
+                        NoteState.LinkState(
+                            id = "",
+                            type = LinkDto.LinkType.Url,
+                            link = "www.jottenotes.app"
+                        ),
                     onClick = {}
                 )
                 NoteLinkComponent(
                     modifier = Modifier.background(colors.backgroundPrimary),
-                    link = NoteState.LinkState(
-                        id = "",
-                        type = LinkDto.LinkType.Phone,
-                        link = "8582302231"
-                    ),
+                    link =
+                        NoteState.LinkState(
+                            id = "",
+                            type = LinkDto.LinkType.Phone,
+                            link = "8582302231"
+                        ),
                     onClick = {}
                 )
                 NoteLinkComponent(
                     modifier = Modifier.background(colors.backgroundPrimary),
-                    link = NoteState.LinkState(
-                        id = "",
-                        type = LinkDto.LinkType.Email,
-                        link = "bryan.mills@jotte.app"
-                    ),
+                    link =
+                        NoteState.LinkState(
+                            id = "",
+                            type = LinkDto.LinkType.Email,
+                            link = "bryan.mills@jotte.app"
+                        ),
                     onClick = {}
                 )
             }

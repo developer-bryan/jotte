@@ -45,11 +45,12 @@ actual class AudioPlayer actual constructor(private val scope: CoroutineScope) {
         memScoped {
             val error = alloc<ObjCObjectVar<NSError?>>()
 
-            player = AVAudioPlayer(nsurl, error.ptr).apply {
-                meteringEnabled = true
-                numberOfLoops = -1
-                volume = 1.0F
-            }
+            player =
+                AVAudioPlayer(nsurl, error.ptr).apply {
+                    meteringEnabled = true
+                    numberOfLoops = -1
+                    volume = 1.0F
+                }
 
             if (player == null || error.value != null) {
                 val errorMessage = error.value?.localizedDescription ?: ""

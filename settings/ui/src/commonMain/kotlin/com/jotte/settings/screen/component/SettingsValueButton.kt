@@ -27,21 +27,20 @@ internal fun SettingsValueButton(
 ) {
 
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(shapes.roundedSettingsValueButtonShape)
-            .clickable(
-                onClickLabel = "",
-                onClick = onClick
-            )
-            .buildModifier {
-                if (isSelectedValue) {
-                    this.background(colors.contentPrimaryLowAlpha)
-                } else {
-                    this
-                }
-            }
-            .padding(sizes.small),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clip(shapes.roundedSettingsValueButtonShape)
+                .clickable(
+                    onClickLabel = "",
+                    onClick = onClick
+                ).buildModifier {
+                    if (isSelectedValue) {
+                        this.background(colors.contentPrimaryLowAlpha)
+                    } else {
+                        this
+                    }
+                }.padding(sizes.small),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(sizes.extraSmall),
         content = {

@@ -10,8 +10,11 @@ expect class AudioPlayer(scope: CoroutineScope) {
     val isPlaying: Flow<Boolean>
 
     fun setupPlayer(file: PlatformFile)
+
     fun play()
+
     fun stop()
+
     fun pause()
 
     fun dispose()

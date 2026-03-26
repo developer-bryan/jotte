@@ -52,38 +52,44 @@ internal class DecoratedCaptureSession : AVCaptureSession() {
     }
 
     @OptIn(ExperimentalForeignApi::class)
-    internal fun setFocusPoint(x: Double, y: Double) = getCurrentDevice()?.let {
+    internal fun setFocusPoint(
+        x: Double,
+        y: Double
+    ) = getCurrentDevice()?.let {
         it.focusPointOfInterest = CGPointMake(x, y)
         it.focusMode = AVCaptureFocusModeAutoFocus
     }
 
     @OptIn(ExperimentalForeignApi::class)
-    internal fun setExposurePoint(x: Double, y: Double) = getCurrentDevice()?.let {
+    internal fun setExposurePoint(
+        x: Double,
+        y: Double
+    ) = getCurrentDevice()?.let {
         it.exposurePointOfInterest = CGPointMake(x, y)
         it.exposureMode = AVCaptureExposureModeContinuousAutoExposure
     }
 
     internal fun getCurrentDevice() = (this.inputs.firstOrNull() as? AVCaptureDeviceInput)?.device
 
-    internal fun getCurrentFlash() =
-        getCurrentDevice()?.flashMode ?: AVCaptureFlashModeOff
+    internal fun getCurrentFlash() = getCurrentDevice()?.flashMode ?: AVCaptureFlashModeOff
 
-    internal fun getCurrentPosition() =
-        getCurrentDevice()?.position ?: AVCaptureDevicePositionBack
+    internal fun getCurrentPosition() = getCurrentDevice()?.position ?: AVCaptureDevicePositionBack
 
-    internal fun displayZoomFactor() =
-        getCurrentDevice()?.displayVideoZoomFactorMultiplier ?: 1.0
+    internal fun displayZoomFactor() = getCurrentDevice()?.displayVideoZoomFactorMultiplier ?: 1.0
 
     internal fun currentZoom() = getCurrentDevice()?.videoZoomFactor
 
-    internal fun canFocus() = getCurrentDevice()?.let {
-        it.focusPointOfInterestSupported && it.isFocusModeSupported(AVCaptureFocusModeAutoFocus)
-    } == true
+    internal fun canFocus() =
+        getCurrentDevice()?.let {
+            it.focusPointOfInterestSupported && it.isFocusModeSupported(AVCaptureFocusModeAutoFocus)
+        } == true
 
-    internal fun canSetExposure() = getCurrentDevice()?.let {
-        it.exposurePointOfInterestSupported && it.isExposureModeSupported(
-            AVCaptureExposureModeContinuousAutoExposure
-        )
-    } == true
+    internal fun canSetExposure() =
+        getCurrentDevice()?.let {
+            it.exposurePointOfInterestSupported &&
+                it.isExposureModeSupported(
+                    AVCaptureExposureModeContinuousAutoExposure
+                )
+        } == true
 
 }

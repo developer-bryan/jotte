@@ -23,12 +23,17 @@ internal class PaintedPath {
 
     private fun moveTo(point: Offset) = path.moveTo(point.x, point.y)
 
-    private fun quadraticTo(point1: Offset, point2: Offset) =
-        path.quadraticTo(point1.x, point1.y, point2.x, point2.y)
+    private fun quadraticTo(
+        point1: Offset,
+        point2: Offset
+    ) = path.quadraticTo(point1.x, point1.y, point2.x, point2.y)
 
     private fun lineTo(point: Offset) = path.lineTo(point.x, point.y)
 
-    private fun calculateMidpoint(start: Offset, end: Offset): Offset {
+    private fun calculateMidpoint(
+        start: Offset,
+        end: Offset
+    ): Offset {
         val xCoord = (start.x + end.x) * 0.5F
         val yCoord = (start.y + end.y) * 0.5F
 

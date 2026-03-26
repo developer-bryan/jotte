@@ -52,21 +52,21 @@ fun CXButtonOption(
 ) {
 
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(sizes.interactableHeight)
-            .clickable(
-                role = Role.Button,
-                onClick = onClick
-            )
-            .padding(horizontal = sizes.regular)
-            .semantics(
-                mergeDescendants = true,
-                properties = {
-                    contentDescription = label
-                    role = Role.Button
-                }
-            ),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(sizes.interactableHeight)
+                .clickable(
+                    role = Role.Button,
+                    onClick = onClick
+                ).padding(horizontal = sizes.regular)
+                .semantics(
+                    mergeDescendants = true,
+                    properties = {
+                        contentDescription = label
+                        role = Role.Button
+                    }
+                ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(sizes.small),
         content = {

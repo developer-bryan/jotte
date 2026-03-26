@@ -32,14 +32,14 @@ internal fun NoteAudioComponent(
 ) {
 
     Row(
-        modifier = modifier
-            .height(sizes.interactableHeight)
-            .background(colors.backgroundSecondary, CircleShape)
-            .combinedClickable(
-                onClick = onClick,
-                onLongClick = onLongClick
-            )
-            .padding(sizes.small),
+        modifier =
+            modifier
+                .height(sizes.interactableHeight)
+                .background(colors.backgroundSecondary, CircleShape)
+                .combinedClickable(
+                    onClick = onClick,
+                    onLongClick = onLongClick
+                ).padding(sizes.small),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(sizes.extraSmall),
         content = {
@@ -57,12 +57,13 @@ internal fun NoteAudioComponent(
 private fun Preview() {
     CXTheme(isDarkMode = true) {
         NoteAudioComponent(
-            audio = NoteState.AudioState(
-                id = "",
-                file = PlatformFile(""),
-                duration = 1000,
-                title = "",
-            ),
+            audio =
+                NoteState.AudioState(
+                    id = "",
+                    file = PlatformFile(""),
+                    duration = 1000,
+                    title = "",
+                ),
             onClick = {},
             onLongClick = {}
         )

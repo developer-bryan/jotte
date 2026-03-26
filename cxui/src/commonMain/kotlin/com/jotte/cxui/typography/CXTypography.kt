@@ -18,11 +18,10 @@ data class CXTypography internal constructor(
 )
 
 @Composable
-internal fun createTypographyAttributes(): CXTypography {
-    return CXTypographySpecs(
+internal fun createTypographyAttributes(): CXTypography =
+    CXTypographySpecs(
         normalFont = FontFamily(CXFont.Normal),
         mediumFont = FontFamily(CXFont.Medium),
         semiBoldFont = FontFamily(CXFont.SemiBold),
         blackFont = FontFamily(CXFont.Black),
     ).createTypography()
-}

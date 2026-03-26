@@ -5,8 +5,6 @@ import com.jotte.message.repository.WhiteboardRepository
 
 class GetWhiteboardUseCase(private val repository: WhiteboardRepository) {
 
-    suspend operator fun invoke(): WhiteboardDto? {
-        return repository.queryWhiteboard()
-    }
+    suspend operator fun invoke(): WhiteboardDto? = repository.queryWhiteboard()
 
 }

@@ -54,16 +54,17 @@ actual class PermissionManagerImpl : PermissionManager {
             return
         }
 
-        val launcher = rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.RequestPermission(),
-            onResult = { isGranted ->
-                if (isGranted) {
-                    onResult(PermissionResult.Allowed)
-                } else {
-                    onResult(PermissionResult.Rejected)
+        val launcher =
+            rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.RequestPermission(),
+                onResult = { isGranted ->
+                    if (isGranted) {
+                        onResult(PermissionResult.Allowed)
+                    } else {
+                        onResult(PermissionResult.Rejected)
+                    }
                 }
-            }
-        )
+            )
 
         if (level == PackageManager.PERMISSION_DENIED) {
             LaunchedEffect(Unit) { launcher.launch(permission) }
@@ -74,16 +75,18 @@ actual class PermissionManagerImpl : PermissionManager {
     @Composable
     actual override fun navigateToSettings() {
         val context = LocalContext.current
-        val intent = Intent(
-            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-            Uri.fromParts("package", context.packageName, null)
-        )
+        val intent =
+            Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.fromParts("package", context.packageName, null)
+            )
         context.startActivity(intent)
     }
 
-    fun hasPermission(permission: String): Boolean = ContextCompat.checkSelfPermission(
-        ApplicationProvider.getApplication()!!,
-        permission
-    ) == PackageManager.PERMISSION_GRANTED
+    fun hasPermission(permission: String): Boolean =
+        ContextCompat.checkSelfPermission(
+            ApplicationProvider.getApplication()!!,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
 
 }

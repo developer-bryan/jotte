@@ -18,12 +18,13 @@ internal fun ShutterButton(
 ) {
 
     Box(
-        modifier = modifier
-            .size(72.dp)
-            .background(White, CircleShape)
-            .clickable(
-                role = Role.Button,
-                onClick = onClick
-            )
+        modifier =
+            modifier
+                .size(72.dp)
+                .background(White, CircleShape)
+                .clickable(
+                    role = Role.Button,
+                    onClick = onClick
+                )
     )
 }

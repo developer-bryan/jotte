@@ -8,13 +8,17 @@ import kotlin.time.ExperimentalTime
 interface RoomRepository {
 
     fun observeRooms(): Flow<List<RoomDto>>
+
     fun observeRoom(roomId: Long): Flow<RoomDto?>
 
     suspend fun queryRoom(id: Long): RoomDto
 
     suspend fun insertRoom(room: RoomDto): Long
 
-    suspend fun updateRoomName(id: Long, name: String): Int
+    suspend fun updateRoomName(
+        id: Long,
+        name: String
+    ): Int
 
     @OptIn(ExperimentalTime::class)
     suspend fun updateRoomModified(

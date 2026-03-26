@@ -16,8 +16,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.jotte.cxui.extension.ColumnExtension.lazySpace
 import com.jotte.cxui.component.CXScrollbar
+import com.jotte.cxui.extension.ColumnExtension.lazySpace
 import com.jotte.cxui.theme.sizes
 import com.jotte.room.model.state.NoteState
 import com.jotte.room.screen.component.NoteComponent
@@ -83,9 +83,10 @@ internal fun NotesList(
 
         NoteListQuickScrollButton(
             isVisible = !isFullscreen && showQuickScrollButton,
-            modifier = Modifier
-                .padding(sizes.regular)
-                .align(Alignment.BottomCenter),
+            modifier =
+                Modifier
+                    .padding(sizes.regular)
+                    .align(Alignment.BottomCenter),
             onClick = { scope.launch { listState.animateScrollToItem(0) } }
         )
 

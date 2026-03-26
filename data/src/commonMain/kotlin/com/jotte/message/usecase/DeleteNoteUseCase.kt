@@ -12,22 +12,23 @@ class DeleteNoteUseCase(
     private val mediaRepository: MediaRepository,
 ) {
 
-    suspend operator fun invoke(noteId: Long): Result<Boolean> = runCatching {
-        val note = noteRepository.queryNote(noteId)
+    suspend operator fun invoke(noteId: Long): Result<Boolean> =
+        runCatching {
+            val note = noteRepository.queryNote(noteId)
 
-        val rowsDeleted = noteRepository.deleteNote(noteId)
+            val rowsDeleted = noteRepository.deleteNote(noteId)
 
-        note.media?.forEach {
-            mediaRepository.deleteMedia(it)
-            VirtualFile(it.fileName, false).asFile().delete(false)
+            note.media?.forEach {
+                mediaRepository.deleteMedia(it)
+                VirtualFile(it.fileName, false).asFile().delete(false)
+            }
+
+            note.links?.let {
+                val ids = it.map { link -> link.linkId }
+                noteRepository.deleteLink(ids)
+            }
+
+            roomRepository.updateRoomModified(note.note.roomId)
+            rowsDeleted > 0
         }
-
-        note.links?.let {
-            val ids = it.map { link -> link.linkId }
-            noteRepository.deleteLink(ids)
-        }
-
-        roomRepository.updateRoomModified(note.note.roomId)
-        rowsDeleted > 0
-    }
 }

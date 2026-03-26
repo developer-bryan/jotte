@@ -23,9 +23,10 @@ val EmptyInsets = WindowInsets()
 @Composable
 fun Dp.asPx() = asPx(density)
 
-fun Dp.asPx(density: Density): Float = with(density) {
-    this@asPx.toPx()
-}
+fun Dp.asPx(density: Density): Float =
+    with(density) {
+        this@asPx.toPx()
+    }
 
 @Composable
 fun Float.asDp() = with(density) { this@asDp.toDp() }
@@ -58,8 +59,8 @@ fun ViewConfiguration.getCustomViewConfig(
     minimumFlingVelocity: Float = this.minimumFlingVelocity,
     minimumTouchTargetSize: DpSize = this.minimumTouchTargetSize,
     touchSlop: Float = this.touchSlop,
-): ViewConfiguration {
-    return object : ViewConfiguration {
+): ViewConfiguration =
+    object : ViewConfiguration {
         override val doubleTapMinTimeMillis: Long = doubleTapTimeoutMillis
         override val doubleTapTimeoutMillis: Long = doubleTapMinTimeMillis
         override val handwritingGestureLineMargin: Float = handwritingGestureLineMargin
@@ -70,4 +71,3 @@ fun ViewConfiguration.getCustomViewConfig(
         override val minimumTouchTargetSize: DpSize = minimumTouchTargetSize
         override val touchSlop: Float = touchSlop
     }
-}

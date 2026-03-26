@@ -40,20 +40,22 @@ internal class WhiteboardViewModel(
     private val _paths = MutableStateFlow<ArrayDeque<WhiteboardPath>>(ArrayDeque())
     val paths: Flow<ArrayDeque<WhiteboardPath>> = _paths
 
-    val hasUnsavedChanges = combine(
-        flow = snapshot,
-        flow2 = paths,
-        transform = { snapshot, current -> current.lastOrNull() != snapshot.lastOrNull() }
-    )
+    val hasUnsavedChanges =
+        combine(
+            flow = snapshot,
+            flow2 = paths,
+            transform = { snapshot, current -> current.lastOrNull() != snapshot.lastOrNull() }
+        )
 
     val undoEnabled = paths.map { it.isNotEmpty() }
 
     fun saveWhiteboardToGallery(snapshot: ImageBitmap) {
         viewModelScope.launch(
-            context = CoroutineExceptionHandler { _, error ->
-                println(error)
-                event.trySend(WhiteboardEvent.OnMediaDownloadFailure)
-            },
+            context =
+                CoroutineExceptionHandler { _, error ->
+                    println(error)
+                    event.trySend(WhiteboardEvent.OnMediaDownloadFailure)
+                },
             block = {
                 val file = FileKit.cacheFile(downloadFileName)
                 val bytes = snapshot.encodeToByteArray(ImageFormat.PNG)
@@ -71,10 +73,11 @@ internal class WhiteboardViewModel(
 
     fun loadPaths() {
         viewModelScope.launch(
-            context = CoroutineExceptionHandler { _, error ->
-                event.trySend(WhiteboardEvent.OnWhiteboardLoadError)
-                println(error)
-            },
+            context =
+                CoroutineExceptionHandler { _, error ->
+                    event.trySend(WhiteboardEvent.OnWhiteboardLoadError)
+                    println(error)
+                },
             block = {
                 getWhiteboardUseCase()
                     ?.paths
@@ -110,10 +113,11 @@ internal class WhiteboardViewModel(
 
     fun updateWhiteboard() {
         viewModelScope.launch(
-            context = CoroutineExceptionHandler { _, error ->
-                println(error)
-                event.trySend(WhiteboardEvent.OnSaveError)
-            },
+            context =
+                CoroutineExceptionHandler { _, error ->
+                    println(error)
+                    event.trySend(WhiteboardEvent.OnSaveError)
+                },
             block = {
                 val paths = paths.first().toList()
                 updateWhiteboardUseCase(paths)

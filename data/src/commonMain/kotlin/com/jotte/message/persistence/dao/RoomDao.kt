@@ -27,9 +27,15 @@ interface RoomDao {
     fun observeRoom(roomId: Long): Flow<RoomDto?>
 
     @Query("UPDATE rooms SET name = :name WHERE id = :roomId")
-    suspend fun updateRoomName(roomId: Long, name: String): Int
+    suspend fun updateRoomName(
+        roomId: Long,
+        name: String
+    ): Int
 
     @Query("UPDATE rooms SET modifiedOn = :modifiedOn WHERE id = :roomId")
-    suspend fun updateRoomLastModified(roomId: Long, modifiedOn: Long): Int
+    suspend fun updateRoomLastModified(
+        roomId: Long,
+        modifiedOn: Long
+    ): Int
 
 }

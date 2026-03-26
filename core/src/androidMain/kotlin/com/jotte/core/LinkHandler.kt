@@ -7,11 +7,12 @@ import android.net.Uri
 actual class LinkHandler {
     actual fun openUrl(url: String): Boolean {
         return try {
-            val safeUrl = if (url.startsWith("http://") || url.startsWith("https://")) {
-                url
-            } else {
-                "https://$url"
-            }
+            val safeUrl =
+                if (url.startsWith("http://") || url.startsWith("https://")) {
+                    url
+                } else {
+                    "https://$url"
+                }
             val context = ApplicationProvider.getApplication() ?: return false
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(safeUrl))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -22,8 +23,8 @@ actual class LinkHandler {
         }
     }
 
-    actual fun handlePhoneNumber(phoneNumber: String): Boolean {
-        return try {
+    actual fun handlePhoneNumber(phoneNumber: String): Boolean =
+        try {
             val context = ApplicationProvider.getApplication()!!
             val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -32,6 +33,5 @@ actual class LinkHandler {
         } catch (e: ActivityNotFoundException) {
             false
         }
-    }
 
 }

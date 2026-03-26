@@ -21,9 +21,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
-import com.jotte.camera.model.state.CameraState
 import com.jotte.camera.model.Zoomable
 import com.jotte.camera.model.intent.Intent
+import com.jotte.camera.model.state.CameraState
 import com.jotte.camera.usecase.GetCameraProcessProviderUseCase
 import com.jotte.core.VirtualFile
 import kotlinx.coroutines.Dispatchers
@@ -58,12 +58,13 @@ internal class CameraViewModel(
             Intent.ToggleFlash -> toggleFlash()
             Intent.StopCamera -> process?.unbindAll()
             Intent.ToggleGridLines -> config.update { it.copy(showGridLines = !it.showGridLines) }
-            is Intent.StartCamera -> bindCamera(
-                intent.lifecycleOwner,
-                if (config.value.position == LENS_FACING_BACK) rear else selfie,
-                imageCapture,
-                preview,
-            )
+            is Intent.StartCamera ->
+                bindCamera(
+                    intent.lifecycleOwner,
+                    if (config.value.position == LENS_FACING_BACK) rear else selfie,
+                    imageCapture,
+                    preview,
+                )
 
             is Intent.Initialize -> {
                 viewModelScope.launch {
@@ -112,9 +113,11 @@ internal class CameraViewModel(
     @Suppress("MagicNumber")
     private fun setFocusPoint(offset: Offset) {
         val point = meteringPointFactory.createPoint(offset.x, offset.y)
-        val action = FocusMeteringAction.Builder(point, FocusMeteringAction.FLAG_AF)
-            .setAutoCancelDuration(3, TimeUnit.SECONDS)
-            .build()
+        val action =
+            FocusMeteringAction
+                .Builder(point, FocusMeteringAction.FLAG_AF)
+                .setAutoCancelDuration(3, TimeUnit.SECONDS)
+                .build()
 
         camera?.cameraControl?.startFocusAndMetering(action)
         config.update { it.copy(focusOffset = offset) }
@@ -161,10 +164,11 @@ internal class CameraViewModel(
 
         process?.unbindAll()
 
-        val useCaseGroup = UseCaseGroup
-            .Builder()
-            .apply { useCases.forEach { addUseCase(it) } }
-            .build()
+        val useCaseGroup =
+            UseCaseGroup
+                .Builder()
+                .apply { useCases.forEach { addUseCase(it) } }
+                .build()
 
         camera = process?.bindToLifecycle(owner, lens, useCaseGroup)
 
@@ -183,7 +187,12 @@ internal class CameraViewModel(
     }
 
     internal inner class ZoomableProvider : Zoomable {
-        override fun getZoom(): Float = camera?.cameraInfo?.zoomState?.value?.zoomRatio ?: 1f
+        override fun getZoom(): Float =
+            camera
+                ?.cameraInfo
+                ?.zoomState
+                ?.value
+                ?.zoomRatio ?: 1f
 
         override fun getZoomRange(): ClosedRange<Float> =
             camera?.cameraInfo?.zoomState?.value?.let {

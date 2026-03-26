@@ -43,23 +43,25 @@ fun <T : CarouselItem> CXMediaCarousel(
         content = {
             itemsIndexed(items) { index, item ->
 
-                val shape = when (index) {
-                    0 if items.size > 1 -> shapes.mediaPreviewHeadShape
-                    0 -> shapes.mediaPreviewShape
-                    items.lastIndex -> shapes.mediaPreviewTailShape
-                    else -> shapes.flatShape
-                }
+                val shape =
+                    when (index) {
+                        0 if (items.size > 1) -> shapes.mediaPreviewHeadShape
+                        0 -> shapes.mediaPreviewShape
+                        items.lastIndex -> shapes.mediaPreviewTailShape
+                        else -> shapes.flatShape
+                    }
 
                 Box(
-                    modifier = Modifier
-                        .width(itemSize)
-                        .height(itemSize)
-                        .clip(shape)
-                        .background(Color.Black.copy(alpha = 0.25F))
-                        .combinedClickable(
-                            onClick = { onItemClick(item) },
-                            onLongClick = { onItemLongClick(item) }
-                        ),
+                    modifier =
+                        Modifier
+                            .width(itemSize)
+                            .height(itemSize)
+                            .clip(shape)
+                            .background(Color.Black.copy(alpha = 0.25F))
+                            .combinedClickable(
+                                onClick = { onItemClick(item) },
+                                onLongClick = { onItemLongClick(item) }
+                            ),
                     content = {
                         AsyncImage(
                             model = item.path,

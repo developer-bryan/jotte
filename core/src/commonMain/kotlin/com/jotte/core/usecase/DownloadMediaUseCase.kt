@@ -24,8 +24,7 @@ class DownloadMediaUseCase(val imageRegex: Regex) {
             check(path.name.contains(imageRegex))
             FileKit.saveImageToGallery(file)
             true
-        }
-            .onSuccess(onSuccess)
+        }.onSuccess(onSuccess)
             .onFailure(onFailure)
 
     }

@@ -24,17 +24,20 @@ internal fun NoteListQuickScrollButton(
     AnimatedVisibility(
         visible = isVisible,
         modifier = modifier,
-        enter = slideInVertically(
-            animationSpec = spring(Spring.DampingRatioMediumBouncy),
-            initialOffsetY = { it }
-        ),
-        exit = slideOutVertically(
-            animationSpec = tween(
-                durationMillis = 250,
-                easing = LinearOutSlowInEasing
+        enter =
+            slideInVertically(
+                animationSpec = spring(Spring.DampingRatioMediumBouncy),
+                initialOffsetY = { it }
             ),
-            targetOffsetY = { it }
-        ),
+        exit =
+            slideOutVertically(
+                animationSpec =
+                    tween(
+                        durationMillis = 250,
+                        easing = LinearOutSlowInEasing
+                    ),
+                targetOffsetY = { it }
+            ),
         content = {
             CXButtonIcon(
                 icon = Res.drawable.icon_arrow_down,

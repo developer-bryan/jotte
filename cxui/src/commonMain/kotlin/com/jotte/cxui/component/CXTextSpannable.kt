@@ -20,27 +20,29 @@ fun CXTextSpannable(
     onClick: ((tag: String) -> Unit)? = null
 ) {
 
-    val annotatedString = with(AnnotatedString.Builder(base)) {
-        targets.forEach { spanTarget ->
-            val start = base.indexOf(spanTarget.target)
-            val end = start + spanTarget.target.length
+    val annotatedString =
+        with(AnnotatedString.Builder(base)) {
+            targets.forEach { spanTarget ->
+                val start = base.indexOf(spanTarget.target)
+                val end = start + spanTarget.target.length
 
-            addStyle(spanStyle, start, end)
-            if (spanTarget.isClickable) {
-                addLink(
-                    clickable = LinkAnnotation.Clickable(
-                        tag = spanTarget.tag,
-                        styles = TextLinkStyles(spanStyle),
-                        linkInteractionListener = { onClick?.invoke(spanTarget.tag) }
-                    ),
-                    start = start,
-                    end = end
-                )
+                addStyle(spanStyle, start, end)
+                if (spanTarget.isClickable) {
+                    addLink(
+                        clickable =
+                            LinkAnnotation.Clickable(
+                                tag = spanTarget.tag,
+                                styles = TextLinkStyles(spanStyle),
+                                linkInteractionListener = { onClick?.invoke(spanTarget.tag) }
+                            ),
+                        start = start,
+                        end = end
+                    )
+                }
             }
-        }
 
-        toAnnotatedString()
-    }
+            toAnnotatedString()
+        }
 
     Text(
         text = annotatedString,
