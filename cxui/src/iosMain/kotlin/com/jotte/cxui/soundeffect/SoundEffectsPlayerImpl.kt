@@ -15,13 +15,14 @@ actual class SoundEffectsPlayerImpl : SoundEffectsPlayer {
         try {
             NSURL.URLWithString(URLString = soundEffect.uri)?.let { media ->
 
-                val player = if (players.containsKey(media)) {
-                    players[media]
-                } else {
-                    val player = AVAudioPlayer(media, error = null)
-                    players[media] = player
-                    player
-                }
+                val player =
+                    if (players.containsKey(media)) {
+                        players[media]
+                    } else {
+                        val player = AVAudioPlayer(media, error = null)
+                        players[media] = player
+                        player
+                    }
 
                 player?.prepareToPlay()
                 player?.play()

@@ -6,21 +6,23 @@ import org.junit.Test
 class RegexTest {
 
     val links = "www.google.com"
-    val phones = listOf(
-        "8582302231",
-        "(858)2302231",
-        "(858) 2302231",
-        "858-230-2231",
-        "858 230-2231",
-        "858 230 2231",
-        "1 858 230 2231",
-        "+1 858 230 2231",
-    )
+    val phones =
+        listOf(
+            "8582302231",
+            "(858)2302231",
+            "(858) 2302231",
+            "858-230-2231",
+            "858 230-2231",
+            "858 230 2231",
+            "1 858 230 2231",
+            "+1 858 230 2231",
+        )
 
-    val emails = listOf(
-        "example@email.com",
-        "123@email.com",
-    )
+    val emails =
+        listOf(
+            "example@email.com",
+            "123@email.com",
+        )
 
     val linkPattern = """\b((https?|ftp)://)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(/[^\s]*)?\b"""
     val phonePattern = """(\+?\d{1,2}[- ]?)?\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})"""

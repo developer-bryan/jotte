@@ -6,10 +6,18 @@ import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
 
-    fun <T> readValue(key: Preferences.Key<T>, defaultValue: T?): Flow<T?>
-    suspend fun <T> putValue(key: Preferences.Key<T>, value: T)
+    fun <T> readValue(
+        key: Preferences.Key<T>,
+        defaultValue: T?
+    ): Flow<T?>
+
+    suspend fun <T> putValue(
+        key: Preferences.Key<T>,
+        value: T
+    )
 
     fun readAppAppearance(): Flow<AppAppearance?>
+
     fun readSoundEffects(): Flow<Boolean?>
 
 }

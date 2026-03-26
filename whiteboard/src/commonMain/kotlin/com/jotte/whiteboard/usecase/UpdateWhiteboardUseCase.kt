@@ -9,14 +9,15 @@ internal class UpdateWhiteboardUseCase(private val repository: WhiteboardReposit
 
     suspend operator fun invoke(whiteboardPaths: List<WhiteboardPath>) {
 
-        val paths = whiteboardPaths.map {
-            val offsets = it.points.map { WhiteboardDto.PathOffset(it.x, it.y) }
-            WhiteboardDto.Path(
-                offsets = offsets,
-                color = it.color.color.toArgb(),
-                width = it.size.value
-            )
-        }
+        val paths =
+            whiteboardPaths.map {
+                val offsets = it.points.map { WhiteboardDto.PathOffset(it.x, it.y) }
+                WhiteboardDto.Path(
+                    offsets = offsets,
+                    color = it.color.color.toArgb(),
+                    width = it.size.value
+                )
+            }
 
         val whiteboard = WhiteboardDto(paths = paths)
 

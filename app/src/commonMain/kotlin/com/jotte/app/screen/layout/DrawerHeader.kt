@@ -28,11 +28,12 @@ internal fun DrawerHeader(
 ) {
 
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .windowInsetsPadding(WindowInsets.statusBars)
-            .padding(start = sizes.regular)
-            .padding(bottom = sizes.small),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .windowInsetsPadding(WindowInsets.statusBars)
+                .padding(start = sizes.regular)
+                .padding(bottom = sizes.small),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
         content = {

@@ -3,11 +3,11 @@ package com.jotte.app.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jotte.app.model.event.MainEvent
+import com.jotte.app.usecase.MapRoomUseCase
 import com.jotte.cxui.soundeffect.SoundEffect
 import com.jotte.cxui.soundeffect.SoundEffectsPlayer
 import com.jotte.message.repository.RoomRepository
 import com.jotte.message.usecase.CreateRoomUseCase
-import com.jotte.app.usecase.MapRoomUseCase
 import com.jotte.message.usecase.DeleteRoomUseCase
 import com.jotte.message.usecase.RenameRoomUseCase
 import kotlinx.coroutines.channels.Channel
@@ -35,11 +35,12 @@ internal class MainViewModel(
 
     private val selectedRoomId = MutableStateFlow<Long?>(null)
 
-    val currentRoomId = combine(
-        flow = _rooms,
-        flow2 = selectedRoomId,
-        transform = { rooms, selected -> selected ?: rooms.firstOrNull()?.id }
-    )
+    val currentRoomId =
+        combine(
+            flow = _rooms,
+            flow2 = selectedRoomId,
+            transform = { rooms, selected -> selected ?: rooms.firstOrNull()?.id }
+        )
 
     fun setSelectedRoom(roomId: Long) {
         selectedRoomId.tryEmit(roomId)
@@ -50,8 +51,7 @@ internal class MainViewModel(
             createRoomUseCase()
                 .onSuccess {
                     soundEffectsPlayer.playSound(SoundEffect.SoundEffectCreation)
-                }
-                .onFailure { /* Handle Error */ }
+                }.onFailure { /* Handle Error */ }
         }
     }
 
@@ -64,13 +64,15 @@ internal class MainViewModel(
                         selectedRoomId.emit(null)
                     }
                     event.send(MainEvent.OnRoomDeleted)
-                }
-                .onFailure { /* handle */ }
+                }.onFailure { /* handle */ }
 
         }
     }
 
-    fun renameRoom(roomId: Long, newName: String) {
+    fun renameRoom(
+        roomId: Long,
+        newName: String
+    ) {
         viewModelScope.launch {
             renameRoomUseCase(roomId, newName)
             event.send(MainEvent.OnRoomRenamed)

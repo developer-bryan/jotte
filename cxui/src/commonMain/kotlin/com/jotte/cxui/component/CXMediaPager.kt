@@ -31,8 +31,8 @@ import com.jotte.cxui.controller.PagerItem
 import com.jotte.cxui.controller.rememberDialogController
 import com.jotte.cxui.delete_media_dialog_body
 import com.jotte.cxui.delete_media_dialog_title
-import com.jotte.cxui.grant_gallery_access
 import com.jotte.cxui.extension.RowExtension.FillSpace
+import com.jotte.cxui.grant_gallery_access
 import com.jotte.cxui.icon_close
 import com.jotte.cxui.icon_save
 import com.jotte.cxui.icon_trash
@@ -47,10 +47,11 @@ fun <T : PagerItem> CXMediaPager(
     onDeleteClicked: (item: T) -> Unit
 ) {
 
-    val pagerState = rememberPagerState(
-        initialPage = controller.initialIndex,
-        pageCount = { controller.pagerItems.size }
-    )
+    val pagerState =
+        rememberPagerState(
+            initialPage = controller.initialIndex,
+            pageCount = { controller.pagerItems.size }
+        )
 
     val shouldRequestDownloadPermission = remember { mutableStateOf(false) }
     val toastState = LocalToastController.current
@@ -65,18 +66,20 @@ fun <T : PagerItem> CXMediaPager(
         }
     )
 
-    val removeMediaDialogController = rememberDialogController<T>(
-        title = Res.string.delete_media_dialog_title,
-        body = Res.string.delete_media_dialog_body,
-        onPositiveButtonClick = { it?.let(onDeleteClicked) }
-    )
+    val removeMediaDialogController =
+        rememberDialogController<T>(
+            title = Res.string.delete_media_dialog_title,
+            body = Res.string.delete_media_dialog_body,
+            onPositiveButtonClick = { it?.let(onDeleteClicked) }
+        )
 
     CompositionLocalProvider(LocalColor.provides(CXDarkColors())) {
         Box(
-            modifier = modifier
-                .fillMaxSize()
-                .background(Pallete.Black)
-                .windowInsetsPadding(WindowInsets.systemBars),
+            modifier =
+                modifier
+                    .fillMaxSize()
+                    .background(Pallete.Black)
+                    .windowInsetsPadding(WindowInsets.systemBars),
             content = {
 
                 Row(
@@ -110,9 +113,10 @@ fun <T : PagerItem> CXMediaPager(
 
                 HorizontalPager(
                     state = pagerState,
-                    modifier = Modifier
-                        .aspectRatio(sizes.aspectRatio43)
-                        .align(Alignment.Center),
+                    modifier =
+                        Modifier
+                            .aspectRatio(sizes.aspectRatio43)
+                            .align(Alignment.Center),
                     pageContent = { item ->
                         AsyncImage(
                             model = controller.pagerItems[item].path,

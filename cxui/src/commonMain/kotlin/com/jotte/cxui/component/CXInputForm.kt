@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,21 +65,20 @@ fun CXInputForm(
     }
 
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .heightIn(
-                min = sizes.interactableHeight,
-                max = sizes.interactableHeight * 3
-            )
-            .clip(shapes.roundedInputFormShape)
-            .clickable(
-                enabled = enabled,
-                onClickLabel = stringResource(Res.string.input_form_onclick_accessibility),
-                onClick = focusRequester::requestFocus
-            )
-            .background(colors.backgroundSecondary)
-            .padding(horizontal = sizes.regular)
-            .padding(vertical = sizes.small),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .heightIn(
+                    min = sizes.interactableHeight,
+                    max = sizes.interactableHeight * 3
+                ).clip(shapes.roundedInputFormShape)
+                .clickable(
+                    enabled = enabled,
+                    onClickLabel = stringResource(Res.string.input_form_onclick_accessibility),
+                    onClick = focusRequester::requestFocus
+                ).background(colors.backgroundSecondary)
+                .padding(horizontal = sizes.regular)
+                .padding(vertical = sizes.small),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(sizes.extraSmall),
         content = {

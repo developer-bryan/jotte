@@ -10,17 +10,18 @@ import org.koin.dsl.module
 
 fun settingsFileName() = StringQualifier("settingsFileName")
 
-fun provideSettingsDataModule() = module {
+fun provideSettingsDataModule() =
+    module {
 
-    single<String>(
-        qualifier = settingsFileName(),
-        definition = { "jotte_settings.preferences_pb" }
-    )
+        single<String>(
+            qualifier = settingsFileName(),
+            definition = { "jotte_settings.preferences_pb" }
+        )
 
-    single<DataStore<Preferences>> {
-        createDataStore(get<String>(settingsFileName()))
+        single<DataStore<Preferences>> {
+            createDataStore(get<String>(settingsFileName()))
+        }
+
+        factory<SettingsRepository> { SettingsRepositoryImpl(get()) }
+
     }
-
-    factory<SettingsRepository> { SettingsRepositoryImpl(get()) }
-
-}

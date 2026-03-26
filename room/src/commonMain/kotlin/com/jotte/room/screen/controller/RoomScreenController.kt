@@ -6,16 +6,16 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import com.jotte.core.usecase.DownloadMediaUseCase
 import com.jotte.core.usecase.LocalDownloadMediaUseCase
 import com.jotte.cxui.Res
-import com.jotte.cxui.controller.CXToastController
 import com.jotte.cxui.composition.LocalToastController
 import com.jotte.cxui.controller.CXPagerController
+import com.jotte.cxui.controller.CXToastController
 import com.jotte.cxui.controller.rememberPagerController
 import com.jotte.cxui.media_deleted
 import com.jotte.cxui.media_download
@@ -45,7 +45,10 @@ internal class RoomScreenController(
         filePagerController.removeItemById(itemId)
     }
 
-    fun onMediaItemClicked(allItems: List<MediaDto>, selectedIndex: Int) {
+    fun onMediaItemClicked(
+        allItems: List<MediaDto>,
+        selectedIndex: Int
+    ) {
         filePagerController.setItems(
             items = allItems.map { FilePagerItem(it) },
             initialIndex = selectedIndex

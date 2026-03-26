@@ -11,7 +11,10 @@ import org.koin.compose.koinInject
 
 interface PermissionManager {
     @Composable
-    fun providePermission(permission: Permission, onResult: (PermissionResult) -> Unit)
+    fun providePermission(
+        permission: Permission,
+        onResult: (PermissionResult) -> Unit
+    )
 
     @Composable
     fun navigateToSettings()

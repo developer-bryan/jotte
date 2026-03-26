@@ -26,11 +26,12 @@ internal fun AppearanceSettingsSheet(
 ) {
 
     Column(
-        modifier = modifier
-            .padding(top = sizes.small)
-            .padding(bottom = sizes.huge)
-            .fillMaxWidth()
-            .padding(horizontal = sizes.regular),
+        modifier =
+            modifier
+                .padding(top = sizes.small)
+                .padding(bottom = sizes.huge)
+                .fillMaxWidth()
+                .padding(horizontal = sizes.regular),
         verticalArrangement = Arrangement.spacedBy(sizes.small),
         content = {
 

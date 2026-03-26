@@ -22,21 +22,22 @@ class CoroutineTimer(
     private var startTime = 0L
 
     private val _elapsedTime = MutableStateFlow(0L)
+    val elapsedTime: StateFlow<Long> = _elapsedTime
 
-    val rawElapsed: StateFlow<Long> = _elapsedTime
-    val convertedElapsed = rawElapsed.map(conversionStrategy::invoke)
+    val elapsedTimeConverted = elapsedTime.map(conversionStrategy::invoke)
 
     fun start(intervalMs: Long = 100) {
         if (job?.isActive == true) return
 
         startTime = Clock.System.now().toEpochMilliseconds() - _elapsedTime.value
 
-        job = scope.launch {
-            while (isActive) {
-                _elapsedTime.value = Clock.System.now().toEpochMilliseconds() - startTime
-                delay(intervalMs)
+        job =
+            scope.launch {
+                while (isActive) {
+                    _elapsedTime.value = Clock.System.now().toEpochMilliseconds() - startTime
+                    delay(intervalMs)
+                }
             }
-        }
     }
 
     fun stop() {

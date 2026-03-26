@@ -26,13 +26,14 @@ fun CXIcon(
 
     Icon(
         painter = painterResource(icon),
-        modifier = modifier
-            .size(size)
-            .shadow(
-                elevation = elevation,
-                shape = CircleShape,
-                clip = false
-            ),
+        modifier =
+            modifier
+                .size(size)
+                .shadow(
+                    elevation = elevation,
+                    shape = CircleShape,
+                    clip = false
+                ),
         contentDescription = contentDescription,
         tint = tint
     )

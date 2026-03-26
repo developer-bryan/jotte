@@ -18,10 +18,11 @@ internal fun RoomMetricsSheet(
 ) {
 
     Column(
-        modifier = modifier
-            .padding(top = sizes.medium)
-            .padding(bottom = sizes.huge)
-            .padding(horizontal = sizes.regular),
+        modifier =
+            modifier
+                .padding(top = sizes.medium)
+                .padding(bottom = sizes.huge)
+                .padding(horizontal = sizes.regular),
         content = {
 
             CXText(

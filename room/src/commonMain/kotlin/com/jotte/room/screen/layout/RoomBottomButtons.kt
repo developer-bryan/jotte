@@ -27,10 +27,11 @@ internal fun RoomBottomButtons(
 ) {
 
     Row(
-        modifier = modifier
-            .windowInsetsPadding(WindowInsets.navigationBars)
-            .padding(horizontal = sizes.regular)
-            .padding(top = sizes.small),
+        modifier =
+            modifier
+                .windowInsetsPadding(WindowInsets.navigationBars)
+                .padding(horizontal = sizes.regular)
+                .padding(top = sizes.small),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(sizes.extraSmall),
         content = {

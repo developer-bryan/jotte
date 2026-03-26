@@ -20,8 +20,8 @@ actual fun ToggleSystemDecorTheme(useLightDecor: Boolean) {
     }
 }
 
-private fun getSystemBarStyle(useLightDecor: Boolean): SystemBarStyle {
-    return if (useLightDecor) {
+private fun getSystemBarStyle(useLightDecor: Boolean): SystemBarStyle =
+    if (useLightDecor) {
         SystemBarStyle.dark(Color.TRANSPARENT)
     } else {
         SystemBarStyle.light(
@@ -29,4 +29,3 @@ private fun getSystemBarStyle(useLightDecor: Boolean): SystemBarStyle {
             darkScrim = Color.TRANSPARENT
         )
     }
-}

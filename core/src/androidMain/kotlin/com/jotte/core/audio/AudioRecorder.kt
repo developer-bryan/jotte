@@ -30,13 +30,14 @@ actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
         this.outputFile = outputDestinationFile
 
         if (recorder == null) {
-            recorder = MediaRecorder().apply {
-                setAudioSource(MediaRecorder.AudioSource.MIC)
-                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-                setAudioSamplingRate(HZ)
-                setOnErrorListener { _, _, _ -> cancelRecording() }
-            }
+            recorder =
+                MediaRecorder().apply {
+                    setAudioSource(MediaRecorder.AudioSource.MIC)
+                    setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                    setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                    setAudioSamplingRate(HZ)
+                    setOnErrorListener { _, _, _ -> cancelRecording() }
+                }
         }
 
         recorder?.setOutputFile(outputDestinationFile.path)
@@ -46,8 +47,8 @@ actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
         _isRecording.tryEmit(true)
     }
 
-    actual fun finishRecording(): Result<PlatformFile> {
-        return runCatching {
+    actual fun finishRecording(): Result<PlatformFile> =
+        runCatching {
             recorder?.stop()
             recorder?.release()
             timer.stop()
@@ -56,7 +57,6 @@ actual class AudioRecorder actual constructor(_timer: CoroutineTimer) {
             checkNotNull(output)
             output
         }
-    }
 
     actual fun cancelRecording() {
         runCatching {

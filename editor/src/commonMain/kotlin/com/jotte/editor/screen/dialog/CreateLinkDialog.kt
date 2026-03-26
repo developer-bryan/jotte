@@ -26,8 +26,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.PopupProperties
 import com.jotte.core.di.emailRegex
-import com.jotte.core.di.urlRegex
 import com.jotte.core.di.phoneRegex
+import com.jotte.core.di.urlRegex
 import com.jotte.cxui.Res
 import com.jotte.cxui.add
 import com.jotte.cxui.component.CXButton
@@ -80,11 +80,12 @@ internal fun DialogController<Nothing>.CreateLinkDialog(
         }
     }
     val saveEnabled by derivedStateOf {
-        value.isNotEmpty() && when (type) {
-            LinkDto.LinkType.Url -> urlRegex.toRegex().matches(value)
-            LinkDto.LinkType.Phone -> phoneRegex.toRegex().matches(value)
-            LinkDto.LinkType.Email -> emailRegex.toRegex().matches(value)
-        }
+        value.isNotEmpty() &&
+            when (type) {
+                LinkDto.LinkType.Url -> urlRegex.toRegex().matches(value)
+                LinkDto.LinkType.Phone -> phoneRegex.toRegex().matches(value)
+                LinkDto.LinkType.Email -> emailRegex.toRegex().matches(value)
+            }
     }
 
     Dialog(
@@ -93,15 +94,16 @@ internal fun DialogController<Nothing>.CreateLinkDialog(
         content = {
 
             Column(
-                modifier = modifier
-                    .wrapContentHeight()
-                    .background(colors.backgroundPrimary, shapes.alertDialogShape)
-                    .padding(
-                        top = sizes.medium,
-                        start = sizes.regular,
-                        end = sizes.regular,
-                        bottom = sizes.large
-                    ),
+                modifier =
+                    modifier
+                        .wrapContentHeight()
+                        .background(colors.backgroundPrimary, shapes.alertDialogShape)
+                        .padding(
+                            top = sizes.medium,
+                            start = sizes.regular,
+                            end = sizes.regular,
+                            bottom = sizes.large
+                        ),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
 
@@ -132,10 +134,11 @@ internal fun DialogController<Nothing>.CreateLinkDialog(
                         enabled = saveEnabled,
                         text = stringResource(Res.string.add),
                         onClick = {
-                            val link = DraftLinkState(
-                                link = value,
-                                type = type
-                            )
+                            val link =
+                                DraftLinkState(
+                                    link = value,
+                                    type = type
+                                )
                             onLinkCreated(link)
                         }
                     )
@@ -159,14 +162,14 @@ private fun LinkTypeSelector(
         modifier = modifier.fillMaxWidth(),
         content = {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(sizes.interactableHeight)
-                    .background(colors.backgroundSecondary, CircleShape)
-                    .clickable(
-                        onClick = { menuVisible = !menuVisible }
-                    )
-                    .padding(horizontal = sizes.regular),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(sizes.interactableHeight)
+                        .background(colors.backgroundSecondary, CircleShape)
+                        .clickable(
+                            onClick = { menuVisible = !menuVisible }
+                        ).padding(horizontal = sizes.regular),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 content = {

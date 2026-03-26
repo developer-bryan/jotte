@@ -19,16 +19,17 @@ internal fun CameraGestureComponent(
 ) {
 
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .pointerInput("tap") { detectTapGestures(onTap = onTap) }
-            .pointerInput("zoom") {
-                detectTransformGestures { _, _, delta, _ ->
-                    val currentZoom = zoomable.getZoom()
-                    val range = zoomable.getZoomRange()
-                    val zoom = (currentZoom * delta).coerceIn(range)
-                    onZoomChange(zoom)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .pointerInput("tap") { detectTapGestures(onTap = onTap) }
+                .pointerInput("zoom") {
+                    detectTransformGestures { _, _, delta, _ ->
+                        val currentZoom = zoomable.getZoom()
+                        val range = zoomable.getZoomRange()
+                        val zoom = (currentZoom * delta).coerceIn(range)
+                        onZoomChange(zoom)
+                    }
                 }
-            }
     )
 }

@@ -45,32 +45,34 @@ internal fun NoteComponent(
     onDeleteNoteClicked: () -> Unit
 ) {
 
-    val audioFileSaver = rememberFileSaverPicker(
-        src = noteState.audio?.file,
-        onSuccess = { controller.onAudioFileSaved() },
-        onFailure = { _, _ -> controller.onAudioFileSaveFailure() }
-    )
+    val audioFileSaver =
+        rememberFileSaverPicker(
+            src = noteState.audio?.file,
+            onSuccess = { controller.onAudioFileSaved() },
+            onFailure = { _, _ -> controller.onAudioFileSaveFailure() }
+        )
 
-    val deleteNoteDialogController = rememberDialogController<Nothing>(
-        title = Res.string.delete_note_dialog_title,
-        body = Res.string.delete_note_dialog_body,
-        onPositiveButtonClick = { onDeleteNoteClicked() }
-    )
+    val deleteNoteDialogController =
+        rememberDialogController<Nothing>(
+            title = Res.string.delete_note_dialog_title,
+            body = Res.string.delete_note_dialog_body,
+            onPositiveButtonClick = { onDeleteNoteClicked() }
+        )
 
     Box {
         Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .background(if (controller.popupVisible) colors.accentReducedAlpha else colors.backgroundPrimary)
-                .combinedClickable(
-                    onLongClickLabel = stringResource(Res.string.note_long_click_desc),
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() },
-                    onClick = {},
-                    onLongClick = controller::showPopup
-                )
-                .padding(horizontal = sizes.regular)
-                .padding(vertical = sizes.small),
+            modifier =
+                modifier
+                    .fillMaxWidth()
+                    .background(if (controller.popupVisible) colors.accentReducedAlpha else colors.backgroundPrimary)
+                    .combinedClickable(
+                        onLongClickLabel = stringResource(Res.string.note_long_click_desc),
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() },
+                        onClick = {},
+                        onLongClick = controller::showPopup
+                    ).padding(horizontal = sizes.regular)
+                    .padding(vertical = sizes.small),
             verticalArrangement = Arrangement.spacedBy(sizes.small),
             horizontalAlignment = Alignment.Start,
             content = {
@@ -86,11 +88,12 @@ internal fun NoteComponent(
                             style = typography.headerFour
                         )
                         Box(
-                            modifier = Modifier
-                                .padding(horizontal = sizes.extraTiny)
-                                .weight(1F)
-                                .height(1.dp)
-                                .background(colors.contentPrimaryReducedAlpha, CircleShape)
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = sizes.extraTiny)
+                                    .weight(1F)
+                                    .height(1.dp)
+                                    .background(colors.contentPrimaryReducedAlpha, CircleShape)
                         )
                         CXText(
                             text = noteState.createdOnTime,

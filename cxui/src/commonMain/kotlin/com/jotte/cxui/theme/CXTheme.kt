@@ -55,18 +55,20 @@ fun CXTheme(
     val size = CXSize()
     val typography = createTypographyAttributes()
 
-    val textSelectionColors = remember {
-        TextSelectionColors(
-            handleColor = colors.accentColor,
-            backgroundColor = colors.accentColor.copy(alpha = 0.4F)
-        )
-    }
+    val textSelectionColors =
+        remember {
+            TextSelectionColors(
+                handleColor = colors.accentColor,
+                backgroundColor = colors.accentColor.copy(alpha = 0.4F)
+            )
+        }
 
     val localViewConfig = LocalViewConfiguration.current
 
-    val customViewConfiguration = remember {
-        localViewConfig.getCustomViewConfig(longPressTimeoutMillis = 150L)
-    }
+    val customViewConfiguration =
+        remember {
+            localViewConfig.getCustomViewConfig(longPressTimeoutMillis = 150L)
+        }
 
     CompositionLocalProvider(
         LocalColor provides colors,

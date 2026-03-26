@@ -8,12 +8,12 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.jotte.cxui.extension.EmptyInsets
-import com.jotte.cxui.theme.CXThemeBox
 import com.jotte.app.navigation.route.Route
-import com.jotte.app.viewmodel.MainViewModel
 import com.jotte.app.screen.EmptyRoomsScreen
 import com.jotte.app.screen.MainScreen
+import com.jotte.app.viewmodel.MainViewModel
+import com.jotte.cxui.extension.EmptyInsets
+import com.jotte.cxui.theme.CXThemeBox
 import org.koin.compose.viewmodel.koinViewModel
 
 @Destination
@@ -34,19 +34,20 @@ internal fun NavGraphBuilder.MainDestination(
 
             AnimatedContent(hasRooms) { hasRooms ->
                 when (hasRooms) {
-                    true -> MainScreen(
-                        viewModel = viewModel,
-                        onAudioClicked = {
-                            val audioRoute = Route.AudioNote(it)
-                            navController.navigate(audioRoute)
-                        },
-                        onEditorClicked = { roomId, noteId ->
-                            val editorRoute = Route.Editor(roomId, noteId)
-                            navController.navigate(editorRoute)
-                        },
-                        onWhiteboardClicked = { graphController.navigate(Route.WhiteboardGraph.destination) },
-                        onSettingsCLicked = { graphController.navigate(Route.SettingsGraph.destination) }
-                    )
+                    true ->
+                        MainScreen(
+                            viewModel = viewModel,
+                            onAudioClicked = {
+                                val audioRoute = Route.AudioNote(it)
+                                navController.navigate(audioRoute)
+                            },
+                            onEditorClicked = { roomId, noteId ->
+                                val editorRoute = Route.Editor(roomId, noteId)
+                                navController.navigate(editorRoute)
+                            },
+                            onWhiteboardClicked = { graphController.navigate(Route.WhiteboardGraph.destination) },
+                            onSettingsCLicked = { graphController.navigate(Route.SettingsGraph.destination) }
+                        )
 
                     false -> EmptyRoomsScreen(viewModel::createNewRoom)
                     else -> Unit

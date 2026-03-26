@@ -35,13 +35,14 @@ internal fun PaintColorSelector(
                 span = { GridItemSpan(1) },
                 itemContent = { paintColor ->
                     Box(
-                        modifier = Modifier
-                            .aspectRatio(1F)
-                            .background(paintColor.color)
-                            .clickable(
-                                onClickLabel = "select this color", // TODO: Move to A11Y strings
-                                onClick = { onColorSelected(paintColor) }
-                            )
+                        modifier =
+                            Modifier
+                                .aspectRatio(1F)
+                                .background(paintColor.color)
+                                .clickable(
+                                    onClickLabel = "select this color", // TODO: Move to A11Y strings
+                                    onClick = { onColorSelected(paintColor) }
+                                )
                     )
                 }
             )

@@ -8,8 +8,8 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -54,13 +54,14 @@ fun WhiteboardScreen(
 
     val viewModel: WhiteboardViewModel = koinInject()
     val controller: PathController = rememberPathController(viewModel::addNewPath)
-    val confirmBackDialogController = rememberDialogController<Nothing>(
-        title = Res.string.exit_whiteboard_dialog_title,
-        body = Res.string.exit_whiteboard_dialog_body,
-        positiveButton = Res.string.yes,
-        negativebutton = Res.string.no,
-        onPositiveButtonClick = { onBackClicked() }
-    )
+    val confirmBackDialogController =
+        rememberDialogController<Nothing>(
+            title = Res.string.exit_whiteboard_dialog_title,
+            body = Res.string.exit_whiteboard_dialog_body,
+            positiveButton = Res.string.yes,
+            negativebutton = Res.string.no,
+            onPositiveButtonClick = { onBackClicked() }
+        )
 
     val paths by viewModel.paths.collectAsState(emptyList())
     val hasUnsavedChanges by viewModel.hasUnsavedChanges.collectAsState(false)
@@ -88,12 +89,13 @@ fun WhiteboardScreen(
     }
 
     val shouldCheckPhotoWritePermission = remember { mutableStateOf(false) }
-    val rememberPhotoWritePermission = rememberPermission(
-        permission = Permission.PhotoWrite,
-        shouldCheckPermission = shouldCheckPhotoWritePermission,
-        onPermissionGranted = { saveWhiteboardSnapshot() },
-        onPermissionDenied = { toastController.showError(Res.string.grant_gallery_access) }
-    )
+    val rememberPhotoWritePermission =
+        rememberPermission(
+            permission = Permission.PhotoWrite,
+            shouldCheckPermission = shouldCheckPhotoWritePermission,
+            onPermissionGranted = { saveWhiteboardSnapshot() },
+            onPermissionDenied = { toastController.showError(Res.string.grant_gallery_access) }
+        )
 
     ModalBottomSheetLayout(
         sheetState = sheetState,
@@ -122,9 +124,10 @@ fun WhiteboardScreen(
                         )
 
                         WhiteboardBody(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1F),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .weight(1F),
                             controller = controller,
                             graphicsLayer = captureGraphicsLayer,
                             paths = paths,

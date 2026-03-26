@@ -12,16 +12,17 @@ import com.jotte.cxui.composition.LocalColor
 import com.jotte.whiteboard.screen.WhiteboardScreen
 
 @Destination
-internal fun NavGraphBuilder.WhiteboardDestination(navController: NavController) = composable(
-    route = Route.Whiteboard.destination,
-    enterTransition = { EnterTransition.None },
-    exitTransition = { ExitTransition.None },
-    popEnterTransition = { EnterTransition.None },
-    popExitTransition = { ExitTransition.None },
-    content = {
+internal fun NavGraphBuilder.WhiteboardDestination(navController: NavController) =
+    composable(
+        route = Route.Whiteboard.destination,
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
+        popEnterTransition = { EnterTransition.None },
+        popExitTransition = { ExitTransition.None },
+        content = {
 
-        CompositionLocalProvider(LocalColor provides CXLightColors()) {
-            WhiteboardScreen { navController.popBackStack() }
+            CompositionLocalProvider(LocalColor provides CXLightColors()) {
+                WhiteboardScreen { navController.popBackStack() }
+            }
         }
-    }
-)
+    )

@@ -3,6 +3,7 @@ package com.jotte.audioplayer.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jotte.audioplayer.model.event.AudioPlayerEvent
+import com.jotte.audioplayer.model.state.AudioScreenState
 import com.jotte.core.audio.AudioPlayer
 import com.jotte.core.storageFile
 import com.jotte.cxui.soundeffect.SoundEffect
@@ -10,7 +11,6 @@ import com.jotte.cxui.soundeffect.SoundEffectsPlayer
 import com.jotte.message.data.NoteDto
 import com.jotte.message.repository.NoteRepository
 import com.jotte.message.usecase.DeleteAudioUseCase
-import com.jotte.audioplayer.model.state.AudioScreenState
 import io.github.vinceglb.filekit.FileKit
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.Channel
@@ -40,10 +40,11 @@ internal class AudioNoteViewModel(
 
     fun loadAudioNote(audioId: String) {
         viewModelScope.launch(
-            context = CoroutineExceptionHandler { _, exception ->
-                println(exception)
-                _state.tryEmit(AudioScreenState.Error)
-            },
+            context =
+                CoroutineExceptionHandler { _, exception ->
+                    println(exception)
+                    _state.tryEmit(AudioScreenState.Error)
+                },
             block = {
                 val note = repository.queryNoteByAudioId(audioId)
                 val audio = note?.audio
@@ -57,11 +58,12 @@ internal class AudioNoteViewModel(
 
                 player.setupPlayer(file)
 
-                val audioState = AudioScreenState.Success(
-                    title = audio.title,
-                    duration = audio.duration,
-                    file = file
-                )
+                val audioState =
+                    AudioScreenState.Success(
+                        title = audio.title,
+                        duration = audio.duration,
+                        file = file
+                    )
 
                 this@AudioNoteViewModel.note.emit(note)
                 _state.emit(audioState)
@@ -71,10 +73,11 @@ internal class AudioNoteViewModel(
 
     fun deleteAudio() {
         viewModelScope.launch(
-            context = CoroutineExceptionHandler { _, throwable ->
-                println(throwable)
-                event.trySend(AudioPlayerEvent.OnError)
-            },
+            context =
+                CoroutineExceptionHandler { _, throwable ->
+                    println(throwable)
+                    event.trySend(AudioPlayerEvent.OnError)
+                },
             block = {
                 val audioId = note.value!!.audio!!.audioId
                 checkNotNull(audioId) { "Missing Audio" }
@@ -82,8 +85,7 @@ internal class AudioNoteViewModel(
                     .onSuccess {
                         soundEffectsPlayer.playSound(SoundEffect.SoundEffectRemoval)
                         event.trySend(AudioPlayerEvent.OnAudioRemoved)
-                    }
-                    .onFailure { event.trySend(AudioPlayerEvent.OnError) }
+                    }.onFailure { event.trySend(AudioPlayerEvent.OnError) }
             }
         )
     }

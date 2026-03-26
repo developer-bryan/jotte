@@ -26,14 +26,15 @@ actual class AudioPlayer actual constructor(private val scope: CoroutineScope) {
 
     private var player: ExoPlayer? = null
 
-    private val playerListener = object : Player.Listener {
-        override fun onIsPlayingChanged(isPlaying: Boolean) {
-            _isPlaying.value = isPlaying
-            if (isPlaying) {
-                trackTime()
+    private val playerListener =
+        object : Player.Listener {
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                _isPlaying.value = isPlaying
+                if (isPlaying) {
+                    trackTime()
+                }
             }
         }
-    }
 
     @Throws(FileNotFoundException::class, IllegalStateException::class)
     actual fun setupPlayer(file: PlatformFile) {
@@ -41,27 +42,29 @@ actual class AudioPlayer actual constructor(private val scope: CoroutineScope) {
         val context = ApplicationProvider.getApplication()
         checkNotNull(context)
 
-        val uri = when (val androidFile = file.androidFile) {
-            is AndroidFile.FileWrapper -> {
-                val fileToCheck = androidFile.file
-                if (!fileToCheck.exists()) {
-                    throw FileNotFoundException("file not found")
+        val uri =
+            when (val androidFile = file.androidFile) {
+                is AndroidFile.FileWrapper -> {
+                    val fileToCheck = androidFile.file
+                    if (!fileToCheck.exists()) {
+                        throw FileNotFoundException("file not found")
+                    }
+                    Uri.fromFile(fileToCheck)
                 }
-                Uri.fromFile(fileToCheck)
+
+                is AndroidFile.UriWrapper -> androidFile.uri
             }
 
-            is AndroidFile.UriWrapper -> androidFile.uri
-        }
+        player =
+            ExoPlayer.Builder(context).build().apply {
+                val mediaItem = MediaItem.fromUri(uri)
 
-        player = ExoPlayer.Builder(context).build().apply {
-            val mediaItem = MediaItem.fromUri(uri)
+                setMediaItem(mediaItem)
+                repeatMode = REPEAT_MODE_ONE
+                playWhenReady = true
 
-            setMediaItem(mediaItem)
-            repeatMode = REPEAT_MODE_ONE
-            playWhenReady = true
-
-            addListener(playerListener)
-        }
+                addListener(playerListener)
+            }
 
     }
 

@@ -26,9 +26,10 @@ internal fun DraftContentInputForm(
 
     BasicTextField(
         value = message,
-        modifier = modifier
-            .focusRequester(focusRequester)
-            .padding(start = sizes.small),
+        modifier =
+            modifier
+                .focusRequester(focusRequester)
+                .padding(start = sizes.small),
         onValueChange = onMessageChanged::invoke,
         cursorBrush = SolidColor(colors.contentPrimary),
         textStyle = typography.bodyOne.copy(color = colors.contentPrimary),

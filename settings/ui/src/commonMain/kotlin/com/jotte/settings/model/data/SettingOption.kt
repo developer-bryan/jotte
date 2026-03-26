@@ -24,12 +24,11 @@ internal sealed class SettingOption(
     )
 
     companion object {
-        fun asList(): List<SettingOption> {
-            return listOf(
+        fun asList(): List<SettingOption> =
+            listOf(
                 Appearance,
                 SoundEffects
             )
-        }
     }
 
 }

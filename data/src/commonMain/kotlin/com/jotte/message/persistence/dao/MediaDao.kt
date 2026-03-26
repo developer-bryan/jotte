@@ -20,11 +20,10 @@ interface MediaDao {
     suspend fun deleteMedia(file: MediaDto): Int
 
     @Transaction
-    suspend fun deleteMedia(files: List<MediaDto>): Int {
-        return files.fold(
+    suspend fun deleteMedia(files: List<MediaDto>): Int =
+        files.fold(
             initial = 0,
             operation = { acc, value -> acc + deleteMedia(value) }
         )
-    }
 
 }

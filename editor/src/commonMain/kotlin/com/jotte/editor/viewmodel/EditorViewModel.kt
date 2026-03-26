@@ -53,43 +53,46 @@ internal class EditorViewModel(
     private val mutableContentValue = MutableStateFlow("")
     val contentValue: Flow<String> = mutableContentValue
 
-    val draft = combine(
-        flow = audio,
-        flow2 = attachments,
-        flow3 = snapshot,
-        flow4 = contentValue,
-        flow5 = links,
-        transform = { audio, attachments, note, contentValue, links ->
+    val draft =
+        combine(
+            flow = audio,
+            flow2 = attachments,
+            flow3 = snapshot,
+            flow4 = contentValue,
+            flow5 = links,
+            transform = { audio, attachments, note, contentValue, links ->
 
-            val canSubmit = if (note == null) {
-                contentValue != "" || audio != null || attachments.isNotEmpty() || links.isNotEmpty()
-            } else {
-                note.note.content?.value != contentValue ||
-                    note.note.audio?.fileName != audio?.file?.fileName ||
-                    note.note.audio?.duration != audio?.duration ||
-                    note.note.audio?.title != audio?.title ||
-                    attachments.any { attachment ->
-                        note.media?.none { it.fileName == attachment.fileName } == true
-                    } ||
-                    links.any { !linksSnapshot.contains(it.toString()) } ||
-                    links.size != note.links?.size
+                val canSubmit =
+                    if (note == null) {
+                        contentValue != "" || audio != null || attachments.isNotEmpty() || links.isNotEmpty()
+                    } else {
+                        note.note.content?.value != contentValue ||
+                            note.note.audio?.fileName != audio?.file?.fileName ||
+                            note.note.audio?.duration != audio?.duration ||
+                            note.note.audio?.title != audio?.title ||
+                            attachments.any { attachment ->
+                                note.media?.none { it.fileName == attachment.fileName } == true
+                            } ||
+                            links.any { !linksSnapshot.contains(it.toString()) } ||
+                            links.size != note.links?.size
+                    }
+
+                val draftContent =
+                    contentValue
+                        .takeIf { it.isNotEmpty() }
+                        ?.let { DraftContentState(value = it) }
+
+                DraftState(
+                    roomId = roomId.value,
+                    noteId = noteId.value,
+                    canSubmit = canSubmit,
+                    content = draftContent,
+                    audio = audio,
+                    media = attachments,
+                    links = links
+                )
             }
-
-            val draftContent = contentValue
-                .takeIf { it.isNotEmpty() }
-                ?.let { DraftContentState(value = it) }
-
-            DraftState(
-                roomId = roomId.value,
-                noteId = noteId.value,
-                canSubmit = canSubmit,
-                content = draftContent,
-                audio = audio,
-                media = attachments,
-                links = links
-            )
-        }
-    )
+        )
 
     init {
         noteId.value?.let { id ->
@@ -97,20 +100,22 @@ internal class EditorViewModel(
                 val note = getNoteUseCase(id)
                 val links = ArrayList<DraftLinkState>()
                 val content = note.note.content?.let { DraftContentState(it.value) }
-                val audio = note.note.audio?.let {
-                    DraftAudioState(
-                        file = VirtualFile(it.fileName, false),
-                        duration = it.duration,
-                        title = it.title
-                    )
-                }
+                val audio =
+                    note.note.audio?.let {
+                        DraftAudioState(
+                            file = VirtualFile(it.fileName, false),
+                            duration = it.duration,
+                            title = it.title
+                        )
+                    }
                 val attachments = note.media?.map { VirtualFile(it.fileName, false) }
                 note.links?.forEach {
-                    val link = DraftLinkState(
-                        id = it.linkId,
-                        link = it.link,
-                        type = it.linkType
-                    )
+                    val link =
+                        DraftLinkState(
+                            id = it.linkId,
+                            link = it.link,
+                            type = it.linkType
+                        )
                     links.add(link)
                     linksSnapshot.add(link.toString())
                 }
@@ -124,24 +129,26 @@ internal class EditorViewModel(
         }
     }
 
-    fun removeAttachment(file: VirtualFile) = viewModelScope.launch {
-        val currentAttachments = attachments.value
-        val modifiedAttachments = currentAttachments.filter { it.fileName != file.fileName }
+    fun removeAttachment(file: VirtualFile) =
+        viewModelScope.launch {
+            val currentAttachments = attachments.value
+            val modifiedAttachments = currentAttachments.filter { it.fileName != file.fileName }
 
-        attachments.emit(ArrayList(modifiedAttachments))
-        soundEffectsPlayer.playSound(SoundEffect.SoundEffectRemoval)
-    }
+            attachments.emit(ArrayList(modifiedAttachments))
+            soundEffectsPlayer.playSound(SoundEffect.SoundEffectRemoval)
+        }
 
     fun removeAudio() = viewModelScope.launch { audio.emit(null) }
 
     // TODO: Check if we can remove?
-    fun clearDraft() = viewModelScope.launch {
-        snapshot.emit(null)
-        mutableContentValue.emit("")
-        audio.emit(null)
-        attachments.emit(ArrayList())
-        linksSnapshot.clear()
-    }
+    fun clearDraft() =
+        viewModelScope.launch {
+            snapshot.emit(null)
+            mutableContentValue.emit("")
+            audio.emit(null)
+            attachments.emit(ArrayList())
+            linksSnapshot.clear()
+        }
 
     fun setContentValue(value: String) {
         viewModelScope.launch {
@@ -149,47 +156,55 @@ internal class EditorViewModel(
         }
     }
 
-    fun addAttachment(file: VirtualFile) = viewModelScope.launch {
-        val newAttachmentsList = attachments.value + file
-        attachments.emit(newAttachmentsList as ArrayList)
-    }
+    fun addAttachment(file: VirtualFile) =
+        viewModelScope.launch {
+            val newAttachmentsList = attachments.value + file
+            attachments.emit(newAttachmentsList as ArrayList)
+        }
 
-    fun addAudioFile(file: PlatformFile, duration: Long) = viewModelScope.launch {
+    fun addAudioFile(
+        file: PlatformFile,
+        duration: Long
+    ) = viewModelScope.launch {
         val virtualFile = file.asVirtualFile()
         val newAudio =
             audio.value?.copy(virtualFile, duration) ?: DraftAudioState(virtualFile, duration)
         audio.emit(newAudio)
     }
 
-    fun setAudioTitle(title: String) = viewModelScope.launch {
-        val newAudio = audio.value?.copy(title = title)
-        audio.emit(newAudio)
-    }
-
-    fun addLink(link: DraftLinkState) = viewModelScope.launch {
-        val newLinksList = links.value + link
-        links.emit(newLinksList as ArrayList)
-    }
-
-    fun removeLink(link: DraftLinkState) = viewModelScope.launch {
-        val newLinksList = links.value - link
-        links.emit(newLinksList as ArrayList)
-    }
-
-    fun submit() = viewModelScope.launch(
-        context = CoroutineExceptionHandler { _, error -> println(error) },
-        block = {
-            val draft = draft.first()
-
-            if (draft.noteId == null) {
-                createNoteUseCase(draft)
-            } else {
-                updateNoteUseCase(draft)
-            }
-
-            event.send(EditorEvent.OnDraftSubmitted)
-            soundEffectsPlayer.playSound(SoundEffect.SoundEffectCreation)
-            clearDraft()
+    fun setAudioTitle(title: String) =
+        viewModelScope.launch {
+            val newAudio = audio.value?.copy(title = title)
+            audio.emit(newAudio)
         }
-    )
+
+    fun addLink(link: DraftLinkState) =
+        viewModelScope.launch {
+            val newLinksList = links.value + link
+            links.emit(newLinksList as ArrayList)
+        }
+
+    fun removeLink(link: DraftLinkState) =
+        viewModelScope.launch {
+            val newLinksList = links.value - link
+            links.emit(newLinksList as ArrayList)
+        }
+
+    fun submit() =
+        viewModelScope.launch(
+            context = CoroutineExceptionHandler { _, error -> println(error) },
+            block = {
+                val draft = draft.first()
+
+                if (draft.noteId == null) {
+                    createNoteUseCase(draft)
+                } else {
+                    updateNoteUseCase(draft)
+                }
+
+                event.send(EditorEvent.OnDraftSubmitted)
+                soundEffectsPlayer.playSound(SoundEffect.SoundEffectCreation)
+                clearDraft()
+            }
+        )
 }

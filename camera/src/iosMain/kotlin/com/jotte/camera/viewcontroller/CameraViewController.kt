@@ -34,11 +34,11 @@ import platform.Foundation.NSSelectorFromString
 import platform.UIKit.UIColor
 import platform.UIKit.UIViewController
 import platform.darwin.NSObject
+import platform.posix.QOS_CLASS_USER_INITIATED
+import kotlin.time.ExperimentalTime
 import platform.darwin.dispatch_async as runAsync
 import platform.darwin.dispatch_get_global_queue as backgroundQueue
 import platform.darwin.dispatch_get_main_queue as mainQueue
-import platform.posix.QOS_CLASS_USER_INITIATED
-import kotlin.time.ExperimentalTime
 
 private const val TAG = "CameraViewController"
 private const val MAX_ZOOM_RANGE = 30F
@@ -58,10 +58,12 @@ internal class CameraViewController(
 
     private val photoOutput: AVCapturePhotoOutput = AVCapturePhotoOutput()
 
-    val zoomable = object : Zoomable {
-        override fun getZoom(): Float = session.currentZoom()?.toFloat() ?: 2F
-        override fun getZoomRange(): ClosedRange<Float> = (1f..MAX_ZOOM_RANGE)
-    }
+    val zoomable =
+        object : Zoomable {
+            override fun getZoom(): Float = session.currentZoom()?.toFloat() ?: 2F
+
+            override fun getZoomRange(): ClosedRange<Float> = (1f..MAX_ZOOM_RANGE)
+        }
 
     override fun viewDidLoad() {
         super.viewDidLoad()
@@ -93,11 +95,12 @@ internal class CameraViewController(
         NSNotificationCenter.defaultCenter.removeObserver(this)
     }
 
-    fun getDisplayZoom(zoom: Float): Float {
-        return zoom * session.displayZoomFactor().toFloat()
-    }
+    fun getDisplayZoom(zoom: Float): Float = zoom * session.displayZoomFactor().toFloat()
 
-    fun setZoom(zoom: Float, isDisplayZoom: Boolean = false) {
+    fun setZoom(
+        zoom: Float,
+        isDisplayZoom: Boolean = false
+    ) {
         session.runConfigurationChange { device ->
             val displayFactor = if (isDisplayZoom) session.displayZoomFactor() else 1.0
             val newZoom = zoom.div(displayFactor)
@@ -120,30 +123,34 @@ internal class CameraViewController(
         }
         photoOutput.capturePhotoWithSettings(
             settings = captureSettings,
-            delegate = object : NSObject(), AVCapturePhotoCaptureDelegateProtocol {
-                override fun captureOutput(
-                    output: AVCapturePhotoOutput,
-                    didFinishProcessingPhoto: AVCapturePhoto,
-                    error: NSError?
-                ) {
-                    if (error != null) {
-                        Logger.e(tag = TAG, messageString = "Error capturing iOS photo")
-                        return
+            delegate =
+                object : NSObject(), AVCapturePhotoCaptureDelegateProtocol {
+                    override fun captureOutput(
+                        output: AVCapturePhotoOutput,
+                        didFinishProcessingPhoto: AVCapturePhoto,
+                        error: NSError?
+                    ) {
+                        if (error != null) {
+                            Logger.e(tag = TAG, messageString = "Error capturing iOS photo")
+                            return
+                        }
+
+                        Logger.i(
+                            tag = TAG,
+                            messageString = "iOS Photo Captured. Sending as byte array."
+                        )
+
+                        val data: NSData = didFinishProcessingPhoto.fileDataRepresentation() ?: return
+                        onResult(data)
                     }
-
-                    Logger.i(
-                        tag = TAG,
-                        messageString = "iOS Photo Captured. Sending as byte array."
-                    )
-
-                    val data: NSData = didFinishProcessingPhoto.fileDataRepresentation() ?: return
-                    onResult(data)
                 }
-            }
         )
     }
 
-    fun setFocus(originX: Float, originY: Float) {
+    fun setFocus(
+        originX: Float,
+        originY: Float
+    ) {
         if (!session.canFocus() || !session.canSetExposure()) return
 
         session.runConfigurationChange {
@@ -168,11 +175,12 @@ internal class CameraViewController(
     }
 
     private fun setupCameraPreview() {
-        val layer = AVCaptureVideoPreviewLayer(session = session).apply {
-            frame = view.bounds
-            videoGravity = AVLayerVideoGravityResizeAspectFill
-            view.layer.addSublayer(this)
-        }
+        val layer =
+            AVCaptureVideoPreviewLayer(session = session).apply {
+                frame = view.bounds
+                videoGravity = AVLayerVideoGravityResizeAspectFill
+                view.layer.addSublayer(this)
+            }
         this.previewLayer = layer
     }
 

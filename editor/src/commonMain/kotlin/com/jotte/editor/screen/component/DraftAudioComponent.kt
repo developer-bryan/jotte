@@ -53,10 +53,11 @@ internal fun DraftAudioComponent(
             )
 
             Row(
-                modifier = Modifier
-                    .height(sizes.interactableHeight)
-                    .background(colors.backgroundSecondary, CircleShape)
-                    .padding(sizes.small),
+                modifier =
+                    Modifier
+                        .height(sizes.interactableHeight)
+                        .background(colors.backgroundSecondary, CircleShape)
+                        .padding(sizes.small),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(sizes.extraSmall),
                 content = {

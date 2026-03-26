@@ -15,8 +15,8 @@ class DeleteMediaUseCase(
     private val checkIfShouldDeleteNoteUseCase: CheckShouldDeleteNoteUseCase
 ) {
 
-    suspend operator fun invoke(media: MediaDto): Result<Boolean> {
-        return runCatching {
+    suspend operator fun invoke(media: MediaDto): Result<Boolean> =
+        runCatching {
             val join = repository.queryMediaJoin(media.mediaId)
             checkNotNull(join)
 
@@ -32,12 +32,10 @@ class DeleteMediaUseCase(
 
             repository.deleteMedia(media)
             roomRepository.updateRoomModified(note.note.roomId)
+        }.mapCatching { rowsDeleted ->
+            val file = FileKit.storageFile(media.fileName)
+            file.delete(false)
+            rowsDeleted > 0
         }
-            .mapCatching { rowsDeleted ->
-                val file = FileKit.storageFile(media.fileName)
-                file.delete(false)
-                rowsDeleted > 0
-            }
-    }
 
 }

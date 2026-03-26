@@ -4,12 +4,12 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
-import com.jotte.message.data.MediaDto
-import com.jotte.message.data.LinkDto
-import com.jotte.message.data.NoteDto
-import com.jotte.message.data.join.MediaJoin
 import com.jotte.message.data.FullNote
+import com.jotte.message.data.LinkDto
+import com.jotte.message.data.MediaDto
+import com.jotte.message.data.NoteDto
 import com.jotte.message.data.join.LinkJoin
+import com.jotte.message.data.join.MediaJoin
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -37,12 +37,11 @@ interface NoteDao {
     suspend fun deleteLink(linkId: String): Int
 
     @Transaction
-    suspend fun deleteLink(linkIds: List<String>): Int {
-        return linkIds.fold(
+    suspend fun deleteLink(linkIds: List<String>): Int =
+        linkIds.fold(
             initial = 0,
             operation = { acc, value -> acc + deleteLink(value) }
         )
-    }
 
     @Upsert
     suspend fun insertNote(note: NoteDto): Long
@@ -60,12 +59,11 @@ interface NoteDao {
     suspend fun insertLinkJoin(linkJoin: LinkJoin): Long
 
     @Transaction
-    suspend fun deleteNotes(noteIds: List<Long>): Int {
-        return noteIds.fold(0) { acc, value ->
+    suspend fun deleteNotes(noteIds: List<Long>): Int =
+        noteIds.fold(0) { acc, value ->
             val rows = deleteNote(value)
             acc + rows
         }
-    }
 
     @Transaction
     suspend fun insertNote(

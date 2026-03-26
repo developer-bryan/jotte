@@ -20,10 +20,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.viewinterop.UIKitView
 import androidx.compose.ui.zIndex
-import com.jotte.camera.model.rememberCameraLayoutState
 import com.jotte.camera.di.provideIOSCameraModule
 import com.jotte.camera.model.CameraState
 import com.jotte.camera.model.Zoomable
+import com.jotte.camera.model.rememberCameraLayoutState
 import com.jotte.camera.screen.component.CameraGestureComponent
 import com.jotte.camera.screen.component.FocusRing
 import com.jotte.camera.screen.component.GridLines
@@ -93,33 +93,37 @@ private fun ICameraLayout(
 ) {
 
     BoxWithConstraints(
-        modifier = modifier
-            .background(colors.backgroundPrimary)
-            .windowInsetsPadding(WindowInsets.systemBars)
+        modifier =
+            modifier
+                .background(colors.backgroundPrimary)
+                .windowInsetsPadding(WindowInsets.systemBars)
     ) {
 
         UIKitView(
-            modifier = Modifier
-                .zIndex(state.rearCameraZOrder)
-                .align(Alignment.Center)
-                .aspectRatio(sizes.aspectRatio43),
+            modifier =
+                Modifier
+                    .zIndex(state.rearCameraZOrder)
+                    .align(Alignment.Center)
+                    .aspectRatio(sizes.aspectRatio43),
             factory = { rearViewController.view }
         )
 
         UIKitView(
-            modifier = Modifier
-                .zIndex(state.selfieCameraZOrder)
-                .align(Alignment.Center)
-                .aspectRatio(sizes.aspectRatio43),
+            modifier =
+                Modifier
+                    .zIndex(state.selfieCameraZOrder)
+                    .align(Alignment.Center)
+                    .aspectRatio(sizes.aspectRatio43),
             factory = { selfieViewController.view }
         )
 
         AnimatedVisibility(
             visible = state.showGridLines,
-            modifier = Modifier
-                .align(Alignment.Center)
-                .fillMaxSize()
-                .aspectRatio(sizes.aspectRatio43),
+            modifier =
+                Modifier
+                    .align(Alignment.Center)
+                    .fillMaxSize()
+                    .aspectRatio(sizes.aspectRatio43),
             content = { GridLines(Modifier.fillMaxSize()) }
         )
 
@@ -131,11 +135,12 @@ private fun ICameraLayout(
 
         ActionButtonsLayout(
             isFlashToggled = state.flashOn,
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.statusBars)
-                .fillMaxWidth()
-                .align(Alignment.TopCenter)
-                .padding(sizes.regular),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.statusBars)
+                    .fillMaxWidth()
+                    .align(Alignment.TopCenter)
+                    .padding(sizes.regular),
             onCloseClicked = onCloseClicked,
             onGridLinesClicked = onGridLinesClicked,
             onFlashClicked = onFlashClicked,

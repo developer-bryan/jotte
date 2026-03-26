@@ -26,21 +26,21 @@ import org.jetbrains.compose.resources.stringResource
 
 @Suppress("MagicNumber")
 @Composable
-internal fun EmptyRoomsScreen(
-    onCreateRoomClicked: () -> Unit
-) {
+internal fun EmptyRoomsScreen(onCreateRoomClicked: () -> Unit) {
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colors.backgroundPrimary)
-            .padding(horizontal = sizes.regular),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(colors.backgroundPrimary)
+                .padding(horizontal = sizes.regular),
         contentAlignment = Alignment.Center,
         content = {
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.45F),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.45F),
                 content = {
                     Column(
                         modifier = Modifier.align(Alignment.TopCenter),

@@ -22,9 +22,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.jotte.camera.di.provideAndroidCameraModule
-import com.jotte.camera.model.state.CameraState
 import com.jotte.camera.model.Zoomable
 import com.jotte.camera.model.intent.Intent
+import com.jotte.camera.model.state.CameraState
 import com.jotte.camera.screen.component.CameraGestureComponent
 import com.jotte.camera.screen.component.FocusRing
 import com.jotte.camera.screen.component.GridLines
@@ -95,9 +95,10 @@ internal fun ICameraLayout(
     Box(modifier.fillMaxSize()) {
 
         AndroidView(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .fillMaxSize(),
+            modifier =
+                Modifier
+                    .align(Alignment.Center)
+                    .fillMaxSize(),
             factory = { context ->
                 PreviewView(context).also {
                     onPreviewReady(
@@ -110,9 +111,10 @@ internal fun ICameraLayout(
 
         AnimatedVisibility(
             visible = config.showGridLines,
-            modifier = Modifier
-                .align(Alignment.Center)
-                .fillMaxSize(),
+            modifier =
+                Modifier
+                    .align(Alignment.Center)
+                    .fillMaxSize(),
             content = {
                 GridLines(modifier = Modifier.fillMaxSize())
             }
@@ -126,11 +128,12 @@ internal fun ICameraLayout(
 
         ActionButtonsLayout(
             isFlashToggled = config.flashEnabled,
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .windowInsetsPadding(WindowInsets.statusBars)
-                .padding(end = sizes.regular)
-                .padding(top = sizes.regular),
+            modifier =
+                Modifier
+                    .align(Alignment.TopEnd)
+                    .windowInsetsPadding(WindowInsets.statusBars)
+                    .padding(end = sizes.regular)
+                    .padding(top = sizes.regular),
             onCloseClicked = onCloseClicked,
             onGridLinesClicked = onGridClicked,
             onFlashClicked = onFlashClicked,

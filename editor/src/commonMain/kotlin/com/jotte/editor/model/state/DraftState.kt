@@ -16,4 +16,5 @@ internal class DraftState(
 )
 
 fun MediaDto.asPlatformFile() = FileKit.storageFile(fileName)
+
 fun MediaDto.getExtension() = fileName.substringAfter('.')

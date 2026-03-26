@@ -36,22 +36,24 @@ internal fun AudioRecordingChip(
     val isRecording by controller.isRecording.collectAsState(false)
     val duration by controller.durationConverted.collectAsState(0L.toFormattedRuntime())
 
-    val cancelRecordingDialogController = rememberDialogController<Nothing>(
-        title = Res.string.cancel_recording_dialog_title,
-        body = Res.string.cancel_recording_dialog_body,
-        onPositiveButtonClick = { controller.cancelRecording() }
-    )
+    val cancelRecordingDialogController =
+        rememberDialogController<Nothing>(
+            title = Res.string.cancel_recording_dialog_title,
+            body = Res.string.cancel_recording_dialog_body,
+            onPositiveButtonClick = { controller.cancelRecording() }
+        )
 
     LaunchedEffect(Unit) {
         controller.beginRecording()
     }
 
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(sizes.interactableHeight)
-            .background(colors.accentColor, shapes.roundedButtonShape)
-            .padding(sizes.extraTiny),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(sizes.interactableHeight)
+                .background(colors.accentColor, shapes.roundedButtonShape)
+                .padding(sizes.extraTiny),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
         content = {

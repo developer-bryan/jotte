@@ -49,10 +49,11 @@ fun rememberDrawerState(): AnchoredDraggableState<String> {
     return remember {
         AnchoredDraggableState(
             initialValue = CLOSED,
-            anchors = DraggableAnchors {
-                CLOSED at 0f
-                OPEN at drawerWidth
-            },
+            anchors =
+                DraggableAnchors {
+                    CLOSED at 0f
+                    OPEN at drawerWidth
+                },
             positionalThreshold = { distance: Float -> distance * 0.3f },
             velocityThreshold = { with(density) { 100.dp.toPx() } },
             snapAnimationSpec = tween(),
@@ -85,35 +86,39 @@ fun CXDrawerScaffold(
 
     val bodyOffset by derivedStateOf { IntOffset(draggableState.requireOffset().toInt(), 0) }
 
-    val scrimAlpha = derivedStateOf {
-        val distance = with(draggableState.anchors) { positionOf(OPEN) - positionOf(CLOSED) }
-        val fraction = draggableState.requireOffset() / distance
+    val scrimAlpha =
+        derivedStateOf {
+            val distance = with(draggableState.anchors) { positionOf(OPEN) - positionOf(CLOSED) }
+            val fraction = draggableState.requireOffset() / distance
 
-        @Suppress("MagicNumber")
-        lerp(0F, 0.25F, fraction)
-    }
+            @Suppress("MagicNumber")
+            lerp(0F, 0.25F, fraction)
+        }
 
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .anchoredDraggable(
-                enabled = dragEnabled,
-                state = draggableState,
-                orientation = Orientation.Horizontal
-            ),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .anchoredDraggable(
+                    enabled = dragEnabled,
+                    state = draggableState,
+                    orientation = Orientation.Horizontal
+                ),
         content = {
 
             Box(
-                modifier = Modifier
-                    .wrapContentSize()
-                    .offset { drawerOffset },
+                modifier =
+                    Modifier
+                        .wrapContentSize()
+                        .offset { drawerOffset },
                 content = { drawerContent() }
             )
 
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .offset { bodyOffset },
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .offset { bodyOffset },
                 content = {
                     bodyContent()
                     Scrim(
@@ -137,25 +142,25 @@ private fun Scrim(
     val contentDescription = stringResource(Res.string.close_drawer)
 
     Canvas(
-        modifier = Modifier
-            .fillMaxSize()
-            .buildModifier {
-                if (isVisible) {
-                    pointerInput(
-                        key1 = onClose,
-                        block = { detectTapGestures { onClose() } }
-                    )
-                        .semantics(mergeDescendants = true) {
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .buildModifier {
+                    if (isVisible) {
+                        pointerInput(
+                            key1 = onClose,
+                            block = { detectTapGestures { onClose() } }
+                        ).semantics(mergeDescendants = true) {
                             this.contentDescription = contentDescription
                             onClick {
                                 onClose()
                                 true
                             }
                         }
-                } else {
-                    this
-                }
-            },
+                    } else {
+                        this
+                    }
+                },
         onDraw = { drawRect(color = Color.Black, alpha = alpha) }
     )
 }

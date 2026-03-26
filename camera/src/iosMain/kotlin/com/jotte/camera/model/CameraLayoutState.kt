@@ -39,7 +39,10 @@ internal class CameraLayoutState(
 
     override fun getZoomRange(): ClosedRange<Float> = viewController.zoomable.getZoomRange()
 
-    fun setFocusOffset(screenOffset: Offset, normalizedOffset: Offset) {
+    fun setFocusOffset(
+        screenOffset: Offset,
+        normalizedOffset: Offset
+    ) {
         state = state.copy(focusOffset = screenOffset)
         viewController.setFocus(normalizedOffset.x, normalizedOffset.y)
     }
@@ -67,14 +70,15 @@ internal class CameraLayoutState(
 
         viewController.startSession()
 
-        state = state.copy(
-            zoom = 1F,
-            flashOn = false,
-            focusOffset = null,
-            rearCameraZOrder = rearCameraZOrder,
-            selfieCameraZOrder = selfieCameraZOrder,
-            isRearCameraInFocus = rearCameraZOrder > selfieCameraZOrder,
-        )
+        state =
+            state.copy(
+                zoom = 1F,
+                flashOn = false,
+                focusOffset = null,
+                rearCameraZOrder = rearCameraZOrder,
+                selfieCameraZOrder = selfieCameraZOrder,
+                isRearCameraInFocus = rearCameraZOrder > selfieCameraZOrder,
+            )
 
         viewController.setZoom(1F, true)
     }

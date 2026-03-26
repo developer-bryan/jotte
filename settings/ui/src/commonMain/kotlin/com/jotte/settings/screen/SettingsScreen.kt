@@ -7,11 +7,11 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.jotte.cxui.Res
 import com.jotte.cxui.composition.LocalToastController
@@ -63,15 +63,17 @@ fun SettingsScreen(
         sheetShape = shapes.roundedSheetShape,
         sheetContent = {
             when (settingSheet) {
-                SettingSheet.AppearanceSheet -> AppearanceSettingsSheet(
-                    appAppearance = settingsState.appearance,
-                    onClick = viewModel::updateAppAppearance
-                )
+                SettingSheet.AppearanceSheet ->
+                    AppearanceSettingsSheet(
+                        appAppearance = settingsState.appearance,
+                        onClick = viewModel::updateAppAppearance
+                    )
 
-                SettingSheet.SoundEffectSheet -> SoundEffectsSettingsSheet(
-                    soundEffectsEnabled = settingsState.soundEffectsEnabled,
-                    onClick = viewModel::updateSoundEffects
-                )
+                SettingSheet.SoundEffectSheet ->
+                    SoundEffectsSettingsSheet(
+                        soundEffectsEnabled = settingsState.soundEffectsEnabled,
+                        onClick = viewModel::updateSoundEffects
+                    )
 
                 else -> {}
             }
@@ -89,10 +91,11 @@ fun SettingsScreen(
                             state = settingsState,
                             modifier = Modifier.padding(top = sizes.small),
                             onSettingClicked = {
-                                settingSheet = when (it) {
-                                    SettingOption.Appearance -> SettingSheet.AppearanceSheet
-                                    SettingOption.SoundEffects -> SettingSheet.SoundEffectSheet
-                                }
+                                settingSheet =
+                                    when (it) {
+                                        SettingOption.Appearance -> SettingSheet.AppearanceSheet
+                                        SettingOption.SoundEffects -> SettingSheet.SoundEffectSheet
+                                    }
                                 scope.launch { sheetState.show() }
                             }
                         )

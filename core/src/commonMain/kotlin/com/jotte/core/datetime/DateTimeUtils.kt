@@ -17,6 +17,7 @@ fun Long.toDate(timezone: TimeZone = TimeZone.currentSystemDefault()): LocalDate
     Instant.fromEpochMilliseconds(this).toLocalDateTime(timezone)
 
 fun getMonthFrom(timestamp: Long): Month = timestamp.toDate().month
+
 fun getYearFrom(timestamp: Long): Int = timestamp.toDate().year
 
 fun Long.toFormattedRuntime(): String {

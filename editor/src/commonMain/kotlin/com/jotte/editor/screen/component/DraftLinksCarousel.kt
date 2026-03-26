@@ -29,12 +29,13 @@ internal fun DraftLinksCarousel(
             itemsIndexed(
                 items = links,
                 itemContent = { index, link ->
-                    val shape = when (index) {
-                        0 if links.size > 1 -> shapes.mediaPreviewHeadShape
-                        0 -> shapes.mediaPreviewShape
-                        links.lastIndex -> shapes.mediaPreviewTailShape
-                        else -> shapes.flatShape
-                    }
+                    val shape =
+                        when (index) {
+                            0 if links.size > 1 -> shapes.mediaPreviewHeadShape
+                            0 -> shapes.mediaPreviewShape
+                            links.lastIndex -> shapes.mediaPreviewTailShape
+                            else -> shapes.flatShape
+                        }
 
                     DraftLinkComponent(
                         link = link,

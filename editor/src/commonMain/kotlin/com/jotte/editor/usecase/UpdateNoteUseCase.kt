@@ -4,8 +4,8 @@ import com.jotte.core.copyCacheToStorage
 import com.jotte.core.storageFile
 import com.jotte.editor.model.state.DraftState
 import com.jotte.editor.model.state.asPlatformFile
-import com.jotte.message.data.MediaDto
 import com.jotte.message.data.LinkDto
+import com.jotte.message.data.MediaDto
 import com.jotte.message.data.NoteDto
 import com.jotte.message.repository.MediaRepository
 import com.jotte.message.repository.NoteRepository
@@ -35,24 +35,28 @@ internal class UpdateNoteUseCase(
 
         // MARK MEDIAS THAT EXIST IN DRAFT BUT NOT ORIGINAL
         val newMedia =
-            draft.media.filter { new -> originalMedia.none { old -> old.fileName == new.fileName } }
+            draft.media
+                .filter { new -> originalMedia.none { old -> old.fileName == new.fileName } }
                 .map { MediaDto(fileName = it.fileName) }
 
         // MARK MEDIAS THAT EXIST IN ORIGINAL BUT NOT IN DRAFT
         val mediaToDelete =
             originalMedia.filter { old -> draft.media.none { new -> old.fileName == new.fileName } }
 
-        val links = draft.links.map {
-            val link = LinkDto(
-                link = it.link,
-                linkType = it.type
-            )
-            it.id?.let { id -> link.copy(linkId = id) } ?: link
-        }
+        val links =
+            draft.links.map {
+                val link =
+                    LinkDto(
+                        link = it.link,
+                        linkType = it.type
+                    )
+                it.id?.let { id -> link.copy(linkId = id) } ?: link
+            }
 
-        val linksToRemove = originalLinks
-            .filter { old -> draft.links.none { new -> old.linkId == new.id } }
-            .map { it.linkId }
+        val linksToRemove =
+            originalLinks
+                .filter { old -> draft.links.none { new -> old.linkId == new.id } }
+                .map { it.linkId }
 
         // SET CONTENT
         draft.content?.let {
@@ -72,11 +76,12 @@ internal class UpdateNoteUseCase(
                 FileKit.copyCacheToStorage(draft.audio.file.fileName)
             }
 
-            val updatedAudio = NoteDto.Audio(
-                fileName = draft.audio.file.fileName,
-                duration = draft.audio.duration,
-                title = draft.audio.title
-            )
+            val updatedAudio =
+                NoteDto.Audio(
+                    fileName = draft.audio.file.fileName,
+                    duration = draft.audio.duration,
+                    title = draft.audio.title
+                )
             updatedNote = updatedNote.copy(audio = updatedAudio)
         } else {
             // DELETE OLD AUDIO FILE AND SET AUDIO TO NULL

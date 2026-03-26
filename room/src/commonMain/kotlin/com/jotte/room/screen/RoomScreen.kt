@@ -18,8 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.jotte.cxui.Res
 import com.jotte.cxui.component.CXMediaPager
-import com.jotte.cxui.extension.asEffect
 import com.jotte.cxui.default_room_name
+import com.jotte.cxui.extension.asEffect
 import com.jotte.cxui.theme.shapes
 import com.jotte.room.model.event.RoomEvent
 import com.jotte.room.model.state.RoomMetricsState
@@ -68,23 +68,24 @@ fun RoomScreen(
         sheetShape = shapes.roundedSheetShape,
         sheetContent = {
             when (controller.screenSheet) {
-                RoomScreenSheet.RoomActionsSheet -> RoomActionsSheet(
-                    onRenameRoomClicked = {
-                        onRenameRoomClicked()
-                        controller.hideSheet()
-                    },
-                    onFullScreenClicked = {
-                        controller.enterFullscreen()
-                        controller.hideSheet()
-                    },
-                    onViewMetricsClicked = {
-                        controller.showSheet(RoomScreenSheet.RoomMetricsSheet)
-                    },
-                    onDeleteClicked = {
-                        onDeleteRoomClicked()
-                        controller.hideSheet()
-                    }
-                )
+                RoomScreenSheet.RoomActionsSheet ->
+                    RoomActionsSheet(
+                        onRenameRoomClicked = {
+                            onRenameRoomClicked()
+                            controller.hideSheet()
+                        },
+                        onFullScreenClicked = {
+                            controller.enterFullscreen()
+                            controller.hideSheet()
+                        },
+                        onViewMetricsClicked = {
+                            controller.showSheet(RoomScreenSheet.RoomMetricsSheet)
+                        },
+                        onDeleteClicked = {
+                            onDeleteRoomClicked()
+                            controller.hideSheet()
+                        }
+                    )
 
                 RoomScreenSheet.RoomMetricsSheet -> RoomMetricsSheet(metrics)
             }
@@ -97,8 +98,9 @@ fun RoomScreen(
                         visible = !controller.isFullscreen,
                         content = {
                             RoomToolbar(
-                                roomTitle = roomName
-                                    ?: stringResource(Res.string.default_room_name),
+                                roomTitle =
+                                    roomName
+                                        ?: stringResource(Res.string.default_room_name),
                                 onDrawerClicked = onDrawerClicked
                             )
                         }
@@ -143,9 +145,10 @@ fun RoomScreen(
 
                 if (controller.isFullscreen) {
                     ExitFullscreenPill(
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .windowInsetsPadding(WindowInsets.navigationBars),
+                        modifier =
+                            Modifier
+                                .align(Alignment.BottomCenter)
+                                .windowInsetsPadding(WindowInsets.navigationBars),
                         onCloseFullScreenClicked = controller::exitFullscreen
                     )
                 }

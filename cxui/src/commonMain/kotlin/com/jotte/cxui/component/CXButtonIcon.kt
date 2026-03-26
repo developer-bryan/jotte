@@ -35,35 +35,38 @@ fun CXButtonIcon(
     onLongClick: (() -> Unit)? = null
 ) {
 
-    val accessibilityModifier = if (contentDescription != null) {
-        Modifier.semantics(
-            mergeDescendants = false,
-            properties = {
-                this.contentDescription = contentDescription
-                role = Role.Button
-            }
-        )
-    } else {
-        Modifier
-    }
+    val accessibilityModifier =
+        if (contentDescription != null) {
+            Modifier.semantics(
+                mergeDescendants = false,
+                properties = {
+                    this.contentDescription = contentDescription
+                    role = Role.Button
+                }
+            )
+        } else {
+            Modifier
+        }
 
     Box(
-        modifier = modifier
-            .size(size)
-            .clip(CircleShape)
-            .background(backgroundColor)
-            .then(accessibilityModifier)
-            .combinedClickable(
-                onClick = onClick,
-                onLongClick = onLongClick
-            ),
+        modifier =
+            modifier
+                .size(size)
+                .clip(CircleShape)
+                .background(backgroundColor)
+                .then(accessibilityModifier)
+                .combinedClickable(
+                    onClick = onClick,
+                    onLongClick = onLongClick
+                ),
         content = {
             Icon(
                 painter = painterResource(icon),
                 contentDescription = null,
-                modifier = Modifier
-                    .size(iconSize)
-                    .align(Alignment.Center),
+                modifier =
+                    Modifier
+                        .size(iconSize)
+                        .align(Alignment.Center),
                 tint = iconColor
             )
         }

@@ -10,11 +10,12 @@ actual class LinkHandler {
 
     actual fun openUrl(url: String): Boolean {
 
-        val safeUrl = if (url.startsWith("http://") || url.startsWith("https://")) {
-            url
-        } else {
-            "https://$url"
-        }
+        val safeUrl =
+            if (url.startsWith("http://") || url.startsWith("https://")) {
+                url
+            } else {
+                "https://$url"
+            }
 
         val nsurl = NSURL.URLWithString(safeUrl) ?: return false
 

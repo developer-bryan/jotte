@@ -26,9 +26,10 @@ internal fun WhiteboardFooter(
 ) {
 
     Row(
-        modifier = modifier
-            .padding(horizontal = sizes.regular)
-            .padding(top = sizes.small),
+        modifier =
+            modifier
+                .padding(horizontal = sizes.regular)
+                .padding(top = sizes.small),
         horizontalArrangement = Arrangement.spacedBy(sizes.extraSmall),
         verticalAlignment = Alignment.CenterVertically,
         content = {

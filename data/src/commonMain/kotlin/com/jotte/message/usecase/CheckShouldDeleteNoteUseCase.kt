@@ -15,18 +15,17 @@ import com.jotte.message.data.FullNote
  */
 class CheckShouldDeleteNoteUseCase {
 
-    fun shouldDeleteOnContentRemoval(note: FullNote): Boolean {
-        return note.media.isNullOrEmpty() && note.note.audio == null
-    }
+    fun shouldDeleteOnContentRemoval(note: FullNote): Boolean = note.media.isNullOrEmpty() && note.note.audio == null
 
-    fun shouldDeleteOnMediaRemoval(note: FullNote, fileId: String): Boolean {
-        return note.note.content == null && with(note.media) {
-            this == null || (this.size == 1 && fileId == this.first().mediaId)
-        }
-    }
+    fun shouldDeleteOnMediaRemoval(
+        note: FullNote,
+        fileId: String
+    ): Boolean =
+        note.note.content == null &&
+            with(note.media) {
+                this == null || (this.size == 1 && fileId == this.first().mediaId)
+            }
 
-    fun shouldDeleteOnAudioRemoval(note: FullNote): Boolean {
-        return note.note.content == null && note.media.isNullOrEmpty()
-    }
+    fun shouldDeleteOnAudioRemoval(note: FullNote): Boolean = note.note.content == null && note.media.isNullOrEmpty()
 
 }

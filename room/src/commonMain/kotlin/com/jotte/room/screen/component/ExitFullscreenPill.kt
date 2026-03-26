@@ -27,11 +27,12 @@ internal fun ExitFullscreenPill(
 ) {
 
     Row(
-        modifier = modifier
-            .clip(shapes.roundedButtonShape)
-            .background(color = colors.contentPrimary.copy(alpha = 0.25F))
-            .clickable(onClick = onCloseFullScreenClicked)
-            .padding(sizes.small),
+        modifier =
+            modifier
+                .clip(shapes.roundedButtonShape)
+                .background(color = colors.contentPrimary.copy(alpha = 0.25F))
+                .clickable(onClick = onCloseFullScreenClicked)
+                .padding(sizes.small),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(sizes.extraSmall),
     ) {

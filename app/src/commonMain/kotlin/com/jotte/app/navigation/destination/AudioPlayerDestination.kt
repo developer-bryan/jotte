@@ -7,11 +7,11 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.jotte.app.navigation.route.Route
+import com.jotte.audioplayer.screen.AudioNoteScreen
 import com.jotte.cxui.color.CXDarkColors
 import com.jotte.cxui.composition.LocalColor
 import com.jotte.cxui.theme.CXThemeBox
-import com.jotte.audioplayer.screen.AudioNoteScreen
-import com.jotte.app.navigation.route.Route
 
 @Destination
 internal fun NavGraphBuilder.AudioNoteDestination(navController: NavController) =

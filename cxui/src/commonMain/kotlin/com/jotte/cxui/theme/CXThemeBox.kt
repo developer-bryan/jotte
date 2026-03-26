@@ -36,18 +36,20 @@ fun CXThemeBox(
 
     ToggleSystemDecorTheme(useLightSystemDecor)
 
-    val backgroundModifier = if (windowBrush != null) {
-        Modifier.background(windowBrush)
-    } else {
-        Modifier.background(windowBackground)
-    }
+    val backgroundModifier =
+        if (windowBrush != null) {
+            Modifier.background(windowBrush)
+        } else {
+            Modifier.background(windowBackground)
+        }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .then(backgroundModifier)
-            .windowInsetsPadding(windowInsets)
-            .then(modifier),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .then(backgroundModifier)
+                .windowInsetsPadding(windowInsets)
+                .then(modifier),
         content = content
     )
 }

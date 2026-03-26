@@ -28,11 +28,12 @@ internal class PathController(private val onPaintEnd: (WhiteboardPath) -> Unit) 
     }
 
     fun endPaint() {
-        val whiteboardPath = WhiteboardPath(
-            points = activeOffsets.toList(),
-            size = activeSize,
-            color = activeColor
-        )
+        val whiteboardPath =
+            WhiteboardPath(
+                points = activeOffsets.toList(),
+                size = activeSize,
+                color = activeColor
+            )
 
         onPaintEnd(whiteboardPath)
         activeOffsets.clear()
@@ -49,6 +50,5 @@ internal class PathController(private val onPaintEnd: (WhiteboardPath) -> Unit) 
 }
 
 @Composable
-internal fun rememberPathController(onPaintEnd: (WhiteboardPath) -> Unit): PathController {
-    return remember { PathController(onPaintEnd) }
-}
+internal fun rememberPathController(onPaintEnd: (WhiteboardPath) -> Unit): PathController =
+    remember { PathController(onPaintEnd) }

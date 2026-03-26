@@ -29,8 +29,8 @@ class DeleteAudioUseCase(
     private val checkShouldDeleteNoteUseCase: CheckShouldDeleteNoteUseCase
 ) {
 
-    suspend operator fun invoke(audioId: String): Result<Unit> {
-        return runCatching {
+    suspend operator fun invoke(audioId: String): Result<Unit> =
+        runCatching {
 
             val note: FullNote? = noteRepository.queryNoteWithFilesByAudioId(audioId)
             checkNotNull(note)
@@ -57,6 +57,5 @@ class DeleteAudioUseCase(
 
             roomRepository.updateRoomModified(roomId)
         }
-    }
 
 }

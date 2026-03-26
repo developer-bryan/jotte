@@ -18,16 +18,17 @@ internal class SettingsViewModel(private val repository: SettingsRepository) : V
 
     val event = Channel<SettingsEvent>(UNLIMITED)
 
-    val settingsState = combine(
-        flow = repository.readAppAppearance(),
-        flow2 = repository.readSoundEffects(),
-        transform = { appearance, soundEffects ->
-            SettingsState(
-                appearance = appearance ?: AppAppearance.SYSTEM,
-                soundEffectsEnabled = soundEffects ?: true
-            )
-        }
-    )
+    val settingsState =
+        combine(
+            flow = repository.readAppAppearance(),
+            flow2 = repository.readSoundEffects(),
+            transform = { appearance, soundEffects ->
+                SettingsState(
+                    appearance = appearance ?: AppAppearance.SYSTEM,
+                    soundEffectsEnabled = soundEffects ?: true
+                )
+            }
+        )
 
     fun updateAppAppearance(appAppearance: AppAppearance) {
         viewModelScope.launch {
@@ -39,15 +40,16 @@ internal class SettingsViewModel(private val repository: SettingsRepository) : V
     }
 
     fun updateSoundEffects(enabled: Boolean) {
-        viewModelScope.launch {
-            repository.putValue(
-                key = SoundEffectsKey,
-                value = enabled
-            )
-        }.invokeOnCompletion {
-            val soundEffectsEvent = if (enabled) OnSoundEffectsEnabled else OnSoundEffectsDisabled
-            event.trySend(soundEffectsEvent)
-        }
+        viewModelScope
+            .launch {
+                repository.putValue(
+                    key = SoundEffectsKey,
+                    value = enabled
+                )
+            }.invokeOnCompletion {
+                val soundEffectsEvent = if (enabled) OnSoundEffectsEnabled else OnSoundEffectsDisabled
+                event.trySend(soundEffectsEvent)
+            }
     }
 
 }

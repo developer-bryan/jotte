@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,11 +41,12 @@ internal fun <T> DialogController<T>.RenameRoomDialog(
         properties = DialogProperties(),
         content = {
             Column(
-                modifier = Modifier
-                    .clip(shapes.alertDialogShape)
-                    .background(colors.backgroundPrimary)
-                    .padding(horizontal = sizes.medium)
-                    .padding(vertical = sizes.medium),
+                modifier =
+                    Modifier
+                        .clip(shapes.alertDialogShape)
+                        .background(colors.backgroundPrimary)
+                        .padding(horizontal = sizes.medium)
+                        .padding(vertical = sizes.medium),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = {
                     DialogTitle(stringResource(Res.string.rename_room_dialog_title))

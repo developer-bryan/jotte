@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     `kotlin-dsl`
 }
@@ -12,6 +10,7 @@ repositories {
 
 dependencies {
     implementation(libs.detekt)
+    implementation(libs.ktlint)
 }
 
 tasks {
@@ -25,7 +24,11 @@ gradlePlugin {
     plugins {
         register("detektPlugin") {
             id = libs.plugins.jotte.convention.detekt.get().pluginId
-            implementationClass = "DetektConfigurationPlugin"
+            implementationClass = "DetektConventionPlugin"
+        }
+        register("ktlintPlugin") {
+            id = libs.plugins.jotte.convention.ktlint.get().pluginId
+            implementationClass = "KtlintConventionPlugin"
         }
     }
 }

@@ -27,23 +27,21 @@ internal fun DrawerOptionItem(
     onClick: () -> Unit
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(sizes.interactableHeight)
-            .clickable(
-                onClickLabel = stringResource(onClickLabelResource),
-                onClick = onClick
-            )
-            .padding(horizontal = sizes.regular),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(sizes.interactableHeight)
+                .clickable(
+                    onClickLabel = stringResource(onClickLabelResource),
+                    onClick = onClick
+                ).padding(horizontal = sizes.regular),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(sizes.extraSmall),
         content = {
             CXIcon(iconResource)
             CXText(
                 textId = labelResource,
-                style = typography.bodyOne.copy(
-                    fontWeight = FontWeight.Black
-                )
+                style = typography.bodyOne.copy(fontWeight = FontWeight.Black)
             )
         }
     )
