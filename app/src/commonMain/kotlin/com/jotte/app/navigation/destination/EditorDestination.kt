@@ -1,8 +1,5 @@
 package com.jotte.app.navigation.destination
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -15,10 +12,6 @@ import com.jotte.editor.screen.EditorScreen
 @Destination
 internal fun NavGraphBuilder.EditorDestination(navController: NavController) =
     composable<Route.Editor>(
-        enterTransition = { slideInVertically { it } },
-        exitTransition = { slideOutVertically { it } },
-        popExitTransition = { slideOutVertically { it } },
-        popEnterTransition = { EnterTransition.None },
         content = {
             val args = it.toRoute<Route.Editor>()
             CXThemeBox(

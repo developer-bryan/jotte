@@ -10,7 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import com.jotte.app.di.provideMainModule
 import com.jotte.app.navigation.graph.NavigationGraph
 import com.jotte.app.navigation.graph.SettingsGraph
-import com.jotte.app.navigation.graph.WhiteboardGraph
 import com.jotte.app.navigation.route.Route
 import com.jotte.audioplayer.di.provideAudioNoteModule
 import com.jotte.core.LinkHandler
@@ -127,10 +126,6 @@ fun App() {
                                     composable(
                                         route = Route.MainGraph.destination,
                                         content = { NavigationGraph(graphController) }
-                                    )
-                                    composable(
-                                        route = Route.WhiteboardGraph.destination,
-                                        content = { WhiteboardGraph(graphController) }
                                     )
                                     composable(
                                         route = Route.SettingsGraph.destination,

@@ -1,7 +1,6 @@
 package com.jotte.app.screen
 
 import androidx.compose.foundation.gestures.animateTo
-import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -44,7 +43,7 @@ internal fun MainScreen(
     val draggableState = rememberDrawerState()
 
     val rooms by viewModel.rooms.collectAsState(emptyList())
-    val selectedRoomId by viewModel.currentRoomId.collectAsState(null)
+    val selectedRoomId by viewModel.currentRoomId.collectAsState()
 
     viewModel.event.receiveAsFlow().asEffect { event ->
         when (event) {
@@ -74,42 +73,40 @@ internal fun MainScreen(
             )
         }
 
-    Box {
-        CXDrawerScaffold(
-            draggableState = draggableState,
-            drawerContent = {
-                CompositionLocalProvider(LocalColor provides CXDarkColors()) {
-                    DrawerScreen(
-                        rooms = rooms,
-                        selectedRoomId = selectedRoomId,
-                        onNewRoomClicked = viewModel::createNewRoom,
-                        onRoomSelected = {
-                            viewModel.setSelectedRoom(it)
-                            scope.launch { draggableState.animateTo(CLOSED) }
-                        },
-                        onDeleteRoom = deleteRoomDialog::show,
-                        onRenameRoom = { id, name -> renameRoomDialogController.show(id to name) },
-                        onWhiteboardClicked = onWhiteboardClicked,
-                        onSettingsClicked = onSettingsCLicked
-                    )
-                }
-            },
-            bodyContent = {
-                selectedRoomId?.let { roomId ->
-                    RoomScreen(
-                        roomId = roomId,
-                        onDrawerClicked = { scope.launch { draggableState.animateTo(OPEN) } },
-                        onAudioClicked = onAudioClicked,
-                        onEditorClicked = { noteId -> onEditorClicked(roomId, noteId) },
-                        onRenameRoomClicked = {
-                            rooms.find { it.id == roomId }?.let {
-                                renameRoomDialogController.show(roomId to it.name)
-                            }
-                        },
-                        onDeleteRoomClicked = { deleteRoomDialog.show(roomId) }
-                    )
-                }
+    CXDrawerScaffold(
+        draggableState = draggableState,
+        drawerContent = {
+            CompositionLocalProvider(LocalColor provides CXDarkColors()) {
+                DrawerScreen(
+                    rooms = rooms,
+                    selectedRoomId = selectedRoomId,
+                    onNewRoomClicked = viewModel::createNewRoom,
+                    onRoomSelected = {
+                        viewModel.setSelectedRoom(it)
+                        scope.launch { draggableState.animateTo(CLOSED) }
+                    },
+                    onDeleteRoom = deleteRoomDialog::show,
+                    onRenameRoom = { id, name -> renameRoomDialogController.show(id to name) },
+                    onWhiteboardClicked = onWhiteboardClicked,
+                    onSettingsClicked = onSettingsCLicked
+                )
             }
-        )
-    }
+        },
+        bodyContent = {
+            selectedRoomId?.let { roomId ->
+                RoomScreen(
+                    roomId = roomId,
+                    onDrawerClicked = { scope.launch { draggableState.animateTo(OPEN) } },
+                    onAudioClicked = onAudioClicked,
+                    onEditorClicked = { noteId -> onEditorClicked(roomId, noteId) },
+                    onRenameRoomClicked = {
+                        rooms.find { it.id == roomId }?.let {
+                            renameRoomDialogController.show(roomId to it.name)
+                        }
+                    },
+                    onDeleteRoomClicked = { deleteRoomDialog.show(roomId) }
+                )
+            }
+        }
+    )
 }

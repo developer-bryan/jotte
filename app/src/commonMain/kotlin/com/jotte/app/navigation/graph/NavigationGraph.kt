@@ -1,7 +1,5 @@
 package com.jotte.app.navigation.graph
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -12,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.jotte.app.navigation.destination.AudioNoteDestination
 import com.jotte.app.navigation.destination.EditorDestination
 import com.jotte.app.navigation.destination.MainDestination
+import com.jotte.app.navigation.destination.WhiteboardDestination
 import com.jotte.app.navigation.route.Route
 
 @Composable
@@ -26,15 +25,13 @@ internal fun NavigationGraph(graphController: NavController) {
                 startDestination = Route.MainScreen.destination,
                 navController = navController,
                 modifier = Modifier.fillMaxSize(),
-                enterTransition = { EnterTransition.None },
-                exitTransition = { ExitTransition.None },
-                popEnterTransition = { EnterTransition.None },
-                popExitTransition = { ExitTransition.None }
-            ) {
-                this.MainDestination(navController, graphController)
-                this.AudioNoteDestination(navController)
-                this.EditorDestination(navController)
-            }
+                builder = {
+                    this.MainDestination(navController, graphController)
+                    this.AudioNoteDestination(navController)
+                    this.EditorDestination(navController)
+                    this.WhiteboardDestination(graphController)
+                }
+            )
         }
     )
 }
