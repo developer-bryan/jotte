@@ -22,19 +22,15 @@ internal fun NavGraphBuilder.MainDestination(
     graphController: NavController
 ) = composable(
     route = Route.MainScreen.destination,
-    enterTransition = { EnterTransition.None },
-    exitTransition = { ExitTransition.None },
-    popEnterTransition = { EnterTransition.None },
-    popExitTransition = { ExitTransition.None },
     content = {
         CXThemeBox(windowInsets = EmptyInsets) {
 
             val viewModel = koinViewModel<MainViewModel>()
-            val hasRooms by viewModel.hasRooms.collectAsState(null)
+            val hasRooms by viewModel.hasRooms.collectAsState()
 
             AnimatedContent(hasRooms) { hasRooms ->
                 when (hasRooms) {
-                    true ->
+                    true -> {
                         MainScreen(
                             viewModel = viewModel,
                             onAudioClicked = {
@@ -48,9 +44,15 @@ internal fun NavGraphBuilder.MainDestination(
                             onWhiteboardClicked = { graphController.navigate(Route.WhiteboardGraph.destination) },
                             onSettingsCLicked = { graphController.navigate(Route.SettingsGraph.destination) }
                         )
+                    }
 
-                    false -> EmptyRoomsScreen(viewModel::createNewRoom)
-                    else -> Unit
+                    false -> {
+                        EmptyRoomsScreen(viewModel::createNewRoom)
+                    }
+
+                    else -> {
+                        Unit
+                    }
                 }
             }
         }

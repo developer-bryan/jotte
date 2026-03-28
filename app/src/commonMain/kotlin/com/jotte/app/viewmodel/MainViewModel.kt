@@ -13,8 +13,10 @@ import com.jotte.message.usecase.RenameRoomUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 internal class MainViewModel(
@@ -30,16 +32,26 @@ internal class MainViewModel(
 
     private val _rooms = roomRepository.observeRooms()
     val rooms = _rooms.map { it.map(mapRoomUseCase::invoke) }
-
-    val hasRooms = _rooms.map { it.isNotEmpty() }
-
     private val selectedRoomId = MutableStateFlow<Long?>(null)
+
+    val hasRooms =
+        _rooms
+            .map { it.isNotEmpty() }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = null
+            )
 
     val currentRoomId =
         combine(
             flow = _rooms,
             flow2 = selectedRoomId,
             transform = { rooms, selected -> selected ?: rooms.firstOrNull()?.id }
+        ).stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = null
         )
 
     fun setSelectedRoom(roomId: Long) {
