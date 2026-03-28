@@ -18,9 +18,11 @@ import com.jotte.room.usecase.MapNoteUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 internal class NoteViewModel(
@@ -44,6 +46,11 @@ internal class NoteViewModel(
         noteRepository
             .observeNotes(roomId)
             .map { notes -> notes.map { msg -> mapNoteUseCase(msg) } }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = emptyList()
+            )
 
     val roomMetricsState =
         combine(

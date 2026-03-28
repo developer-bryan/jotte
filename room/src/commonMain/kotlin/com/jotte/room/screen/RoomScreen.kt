@@ -54,7 +54,7 @@ fun RoomScreen(
 
     val roomName by viewModel.roomName.collectAsState(null)
     val metrics by viewModel.roomMetricsState.collectAsState(RoomMetricsState())
-    val messages by viewModel.notes.collectAsState(emptyList())
+    val notes by viewModel.notes.collectAsState()
 
     viewModel.event.receiveAsFlow().asEffect { event ->
         when (event) {
@@ -68,7 +68,7 @@ fun RoomScreen(
         sheetShape = shapes.roundedSheetShape,
         sheetContent = {
             when (controller.screenSheet) {
-                RoomScreenSheet.RoomActionsSheet ->
+                RoomScreenSheet.RoomActionsSheet -> {
                     RoomActionsSheet(
                         onRenameRoomClicked = {
                             onRenameRoomClicked()
@@ -86,8 +86,11 @@ fun RoomScreen(
                             controller.hideSheet()
                         }
                     )
+                }
 
-                RoomScreenSheet.RoomMetricsSheet -> RoomMetricsSheet(metrics)
+                RoomScreenSheet.RoomMetricsSheet -> {
+                    RoomMetricsSheet(metrics)
+                }
             }
         },
         content = {
@@ -107,14 +110,14 @@ fun RoomScreen(
                     )
 
                     Crossfade(
-                        targetState = messages.isNotEmpty(),
+                        targetState = notes.isNotEmpty(),
                         modifier = Modifier.weight(1F),
                         content = { isNotEmpty ->
                             if (!isNotEmpty) {
                                 NotesEmptyLayout()
                             } else {
                                 NotesList(
-                                    notes = messages,
+                                    notes = notes,
                                     modifier = Modifier.fillMaxSize(),
                                     isFullscreen = controller.isFullscreen,
                                     onMediaClicked = { note, index ->
