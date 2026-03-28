@@ -1,8 +1,6 @@
 package com.jotte.app.navigation.destination
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
@@ -41,7 +39,7 @@ internal fun NavGraphBuilder.MainDestination(
                                 val editorRoute = Route.Editor(roomId, noteId)
                                 navController.navigate(editorRoute)
                             },
-                            onWhiteboardClicked = { graphController.navigate(Route.WhiteboardGraph.destination) },
+                            onWhiteboardClicked = { navController.navigate(Route.Whiteboard.destination) },
                             onSettingsCLicked = { graphController.navigate(Route.SettingsGraph.destination) }
                         )
                     }

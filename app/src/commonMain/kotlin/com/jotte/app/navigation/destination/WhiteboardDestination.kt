@@ -1,7 +1,5 @@
 package com.jotte.app.navigation.destination
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -15,12 +13,7 @@ import com.jotte.whiteboard.screen.WhiteboardScreen
 internal fun NavGraphBuilder.WhiteboardDestination(navController: NavController) =
     composable(
         route = Route.Whiteboard.destination,
-        enterTransition = { EnterTransition.None },
-        exitTransition = { ExitTransition.None },
-        popEnterTransition = { EnterTransition.None },
-        popExitTransition = { ExitTransition.None },
         content = {
-
             CompositionLocalProvider(LocalColor provides CXLightColors()) {
                 WhiteboardScreen { navController.popBackStack() }
             }
