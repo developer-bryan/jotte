@@ -1,0 +1,27 @@
+#!/bin/sh
+
+cd "$(git rev-parse --show-toplevel)"
+
+echo "🔍 Running Detekt..."
+./gradlew detekt
+
+if [ $? -ne 0 ]; then
+  echo "❌ Detekt failed. Push aborted."
+  exit 1
+fi
+
+echo "✅ Detekt passed."
+
+echo "🔍 Running ktlint..."
+./gradlew ktlintCheckAll
+
+if [ $? -ne 0 ]; then
+  echo "❌ ktlint failed. Push aborted."
+  echo "💡 Run './gradlew ktlintFormat' to auto-fix formatting issues."
+  exit 1
+fi
+
+echo "✅ ktlint passed."
+echo "🚀 All checks passed. Pushing..."
+
+exit 0
