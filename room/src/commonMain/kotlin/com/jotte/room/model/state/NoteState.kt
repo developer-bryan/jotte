@@ -1,7 +1,7 @@
 package com.jotte.room.model.state
 
-import com.jotte.message.data.LinkDto
-import com.jotte.message.data.MediaDto
+import com.jotte.data.persistence.data.LinkDto
+import com.jotte.data.persistence.data.MediaDto
 import io.github.vinceglb.filekit.PlatformFile
 
 internal class NoteState(

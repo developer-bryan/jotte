@@ -13,8 +13,8 @@ import com.jotte.editor.model.state.DraftLinkState
 import com.jotte.editor.model.state.DraftState
 import com.jotte.editor.usecase.CreateNoteUseCase
 import com.jotte.editor.usecase.UpdateNoteUseCase
-import com.jotte.message.data.FullNote
-import com.jotte.message.usecase.GetNoteUseCase
+import com.jotte.data.persistence.data.FullNote
+import com.jotte.data.usecase.GetNoteUseCase
 import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.BufferOverflow

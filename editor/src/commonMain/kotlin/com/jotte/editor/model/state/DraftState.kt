@@ -2,7 +2,7 @@ package com.jotte.editor.model.state
 
 import com.jotte.core.VirtualFile
 import com.jotte.core.storageFile
-import com.jotte.message.data.MediaDto
+import com.jotte.data.persistence.data.MediaDto
 import io.github.vinceglb.filekit.FileKit
 
 internal class DraftState(

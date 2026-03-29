@@ -1,8 +1,8 @@
 package com.jotte.whiteboard.usecase
 
 import androidx.compose.ui.graphics.toArgb
-import com.jotte.message.data.WhiteboardDto
-import com.jotte.message.repository.WhiteboardRepository
+import com.jotte.data.persistence.data.WhiteboardDto
+import com.jotte.data.repository.WhiteboardRepository
 import com.jotte.whiteboard.model.state.WhiteboardPath
 
 internal class UpdateWhiteboardUseCase(private val repository: WhiteboardRepository) {

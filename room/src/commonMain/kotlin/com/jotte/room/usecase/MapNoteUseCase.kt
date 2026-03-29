@@ -2,8 +2,8 @@ package com.jotte.room.usecase
 
 import com.jotte.core.datetime.usecase.GetFullDateUseCase
 import com.jotte.core.storageFile
-import com.jotte.message.data.FullNote
-import com.jotte.message.data.LinkDto
+import com.jotte.data.persistence.data.FullNote
+import com.jotte.data.persistence.data.LinkDto
 import com.jotte.room.model.state.NoteState
 import io.github.vinceglb.filekit.FileKit
 

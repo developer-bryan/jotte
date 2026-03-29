@@ -19,7 +19,7 @@ import com.jotte.cxui.controller.CXToastController
 import com.jotte.cxui.controller.rememberPagerController
 import com.jotte.cxui.media_deleted
 import com.jotte.cxui.media_download
-import com.jotte.message.data.MediaDto
+import com.jotte.data.persistence.data.MediaDto
 import com.jotte.room.model.data.FilePagerItem
 import com.jotte.room.model.state.RoomScreenSheet
 import io.github.vinceglb.filekit.PlatformFile
