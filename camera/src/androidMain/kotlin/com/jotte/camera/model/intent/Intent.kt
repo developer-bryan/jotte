@@ -4,7 +4,7 @@ import androidx.camera.core.MeteringPointFactory
 import androidx.camera.core.Preview
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.LifecycleOwner
-import com.jotte.core.VirtualFile
+import io.github.vinceglb.filekit.PlatformFile
 
 sealed interface Intent {
     data object ToggleFlash : Intent
@@ -15,7 +15,7 @@ sealed interface Intent {
 
     data class ToggleCamera(val lifecycleOwner: LifecycleOwner) : Intent
 
-    data class CaptureImage(val callback: (VirtualFile) -> Unit) : Intent
+    data class CaptureImage(val callback: (PlatformFile) -> Unit) : Intent
 
     data class StartCamera(val lifecycleOwner: LifecycleOwner) : Intent
 

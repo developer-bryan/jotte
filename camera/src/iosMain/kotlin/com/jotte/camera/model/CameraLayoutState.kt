@@ -10,7 +10,9 @@ import androidx.compose.ui.geometry.Offset
 import com.jotte.camera.di.rearDevice
 import com.jotte.camera.di.selfieDevice
 import com.jotte.camera.viewcontroller.CameraViewController
-import com.jotte.core.VirtualFile
+import com.jotte.core.cacheFile
+import io.github.vinceglb.filekit.FileKit
+import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.utils.toByteArray
 import io.github.vinceglb.filekit.write
 import io.ktor.util.date.getTimeMillis
@@ -28,7 +30,7 @@ internal class CameraLayoutState(
     val scope: CoroutineScope,
     val backViewController: CameraViewController,
     val frontViewController: CameraViewController,
-    private val onMediaCaptured: (VirtualFile) -> Unit
+    private val onMediaCaptured: (PlatformFile) -> Unit
 ) : Zoomable {
 
     var viewController by mutableStateOf(backViewController)
@@ -97,12 +99,12 @@ internal class CameraLayoutState(
         viewController.captureImage {
             scope.launch {
                 withContext(Dispatchers.IO) {
-                    val cacheFile = VirtualFile("camera-media-${getTimeMillis()}.jpg", true)
+                    val file = FileKit.cacheFile("camera-media-${getTimeMillis()}.jpg")
                     val bytes = it.toByteArray()
-                    cacheFile.asFile().write(bytes)
+                    file.write(bytes)
 
                     withContext(Dispatchers.Main) {
-                        onMediaCaptured(cacheFile)
+                        onMediaCaptured(file)
                     }
                 }
             }
@@ -120,7 +122,7 @@ internal class CameraLayoutState(
 }
 
 @Composable
-internal fun rememberCameraLayoutState(onMediaCaptured: (VirtualFile) -> Unit): CameraLayoutState {
+internal fun rememberCameraLayoutState(onMediaCaptured: (PlatformFile) -> Unit): CameraLayoutState {
     val rearDevice = koinInject<AVCaptureDevice>(rearDevice())
     val selfieDevice = koinInject<AVCaptureDevice>(selfieDevice())
     val scope = rememberCoroutineScope()

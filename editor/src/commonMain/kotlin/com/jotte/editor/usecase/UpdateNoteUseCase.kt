@@ -9,9 +9,9 @@ import com.jotte.data.repository.MediaRepository
 import com.jotte.data.repository.NoteRepository
 import com.jotte.data.repository.RoomRepository
 import com.jotte.editor.model.state.DraftState
-import com.jotte.editor.model.state.asPlatformFile
 import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.delete
+import io.github.vinceglb.filekit.name
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -37,12 +37,12 @@ internal class UpdateNoteUseCase(
         // MARK MEDIAS THAT EXIST IN DRAFT BUT NOT ORIGINAL
         val newMedia =
             draft.media
-                .filter { new -> originalMedia.none { old -> old.fileName == new.fileName } }
-                .map { MediaDto(fileName = it.fileName) }
+                .filter { new -> originalMedia.none { old -> old.fileName == new.name } }
+                .map { MediaDto(fileName = it.name) }
 
         // MARK MEDIAS THAT EXIST IN ORIGINAL BUT NOT IN DRAFT
         val mediaToDelete =
-            originalMedia.filter { old -> draft.media.none { new -> old.fileName == new.fileName } }
+            originalMedia.filter { old -> draft.media.none { new -> old.fileName == new.name } }
 
         val links =
             draft.links.map {
@@ -68,18 +68,18 @@ internal class UpdateNoteUseCase(
         if (draft.audio != null) {
             if (originalNote.note.audio != null) {
                 // DELETE OLD AUDIO FILE AND SAVE NEW AUDIO FILE
-                if (originalNote.note.audio!!.fileName != draft.audio.file.fileName) {
+                if (originalNote.note.audio!!.fileName != draft.audio.file.name) {
                     FileKit.storageFile(originalNote.note.audio!!.fileName).delete(false)
-                    FileKit.copyCacheToStorage(draft.audio.file.fileName)
+                    FileKit.copyCacheToStorage(draft.audio.file.name)
                 }
             } else {
                 // SAVE NEW AUDIO FILE
-                FileKit.copyCacheToStorage(draft.audio.file.fileName)
+                FileKit.copyCacheToStorage(draft.audio.file.name)
             }
 
             val updatedAudio =
                 NoteDto.Audio(
-                    fileName = draft.audio.file.fileName,
+                    fileName = draft.audio.file.name,
                     duration = draft.audio.duration,
                     title = draft.audio.title
                 )
@@ -105,7 +105,7 @@ internal class UpdateNoteUseCase(
         }
 
         // REMOVE OLD MEDIA FROM FS
-        mediaToDelete.forEach { it.asPlatformFile().delete(false) }
+        mediaToDelete.forEach { FileKit.storageFile(it.fileName).delete(false) }
 
         roomRepository.updateRoomModified(draft.roomId)
     }

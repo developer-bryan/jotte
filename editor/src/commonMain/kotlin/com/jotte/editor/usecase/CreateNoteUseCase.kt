@@ -10,6 +10,7 @@ import com.jotte.data.repository.NoteRepository
 import com.jotte.data.repository.RoomRepository
 import com.jotte.editor.model.state.DraftState
 import io.github.vinceglb.filekit.FileKit
+import io.github.vinceglb.filekit.name
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -24,8 +25,8 @@ internal class CreateNoteUseCase(
         val links = ArrayList<LinkDto>()
 
         draft.media.map {
-            FileKit.copyCacheToStorage(it.fileName)
-            val file = MediaDto(fileName = it.fileName)
+            FileKit.copyCacheToStorage(it.name)
+            val file = MediaDto(fileName = it.name)
             files.add(file)
         }
 
@@ -41,9 +42,9 @@ internal class CreateNoteUseCase(
         val content = draft.content?.let { NoteDto.Content(it.value) }
         val audio =
             draft.audio?.let {
-                FileKit.copyCacheToStorage(it.file.fileName)
+                FileKit.copyCacheToStorage(it.file.name)
                 NoteDto.Audio(
-                    fileName = it.file.fileName,
+                    fileName = it.file.name,
                     duration = it.duration,
                     title = it.title
                 )

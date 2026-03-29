@@ -30,8 +30,8 @@ import com.jotte.camera.screen.component.FocusRing
 import com.jotte.camera.screen.component.GridLines
 import com.jotte.camera.screen.component.ShutterButton
 import com.jotte.camera.viewmodel.CameraViewModel
-import com.jotte.core.VirtualFile
 import com.jotte.cxui.theme.sizes
+import io.github.vinceglb.filekit.PlatformFile
 import org.koin.compose.getKoin
 import org.koin.compose.koinInject
 
@@ -39,7 +39,7 @@ import org.koin.compose.koinInject
 internal actual fun CameraLayout(
     modifier: Modifier,
     onCloseClicked: () -> Unit,
-    onMediaCaptured: (file: VirtualFile) -> Unit,
+    onMediaCaptured: (file: PlatformFile) -> Unit,
 ) {
 
     getKoin().loadModules(listOf(provideAndroidCameraModule()))

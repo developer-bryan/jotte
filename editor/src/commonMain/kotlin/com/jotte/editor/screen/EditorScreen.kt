@@ -27,7 +27,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import com.jotte.camera.screen.CameraScreen
-import com.jotte.core.VirtualFile
 import com.jotte.core.rememberFileSaverPicker
 import com.jotte.cxui.Res
 import com.jotte.cxui.cancel_recording_dialog_body
@@ -58,6 +57,8 @@ import com.jotte.editor.screen.layout.EditorHeader
 import com.jotte.editor.viewmodel.EditorViewModel
 import com.jotte.editor.viewmodel.NoteId
 import com.jotte.editor.viewmodel.RoomId
+import io.github.vinceglb.filekit.PlatformFile
+import io.github.vinceglb.filekit.extension
 import io.github.vinceglb.filekit.nameWithoutExtension
 import kotlinx.coroutines.flow.consumeAsFlow
 import org.koin.compose.viewmodel.koinViewModel
@@ -98,7 +99,7 @@ fun EditorScreen(
 
     val audioFileSaver =
         rememberFileSaverPicker(
-            src = draft?.audio?.file?.asFile(),
+            src = draft?.audio?.file,
             onSuccess = { toastController.show(Res.string.media_download) },
             onFailure = { _, _ -> toastController.show(Res.string.generic_error_message) }
         )
@@ -114,7 +115,7 @@ fun EditorScreen(
         )
 
     val removeAttachmentDialogController =
-        rememberDialogController<VirtualFile>(
+        rememberDialogController<PlatformFile>(
             title = Res.string.delete_draft_file_dialog_title,
             body = Res.string.delete_draft_file_dialog_body,
             onPositiveButtonClick = { it?.let(viewModel::removeAttachment) }
@@ -212,12 +213,11 @@ fun EditorScreen(
                                     ?: draft
                                         ?.audio
                                         ?.file
-                                        ?.asFile()
                                         ?.nameWithoutExtension
                             fileName?.let {
                                 audioFileSaver.launch(
                                     suggestedName = it,
-                                    extension = draft?.audio?.file?.getExtension()
+                                    extension = draft?.audio?.file?.extension
                                 )
                             }
                         },
