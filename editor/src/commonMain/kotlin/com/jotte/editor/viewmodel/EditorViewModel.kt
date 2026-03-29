@@ -2,8 +2,7 @@ package com.jotte.editor.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jotte.core.VirtualFile
-import com.jotte.core.asVirtualFile
+import com.jotte.core.storageFile
 import com.jotte.cxui.soundeffect.SoundEffect
 import com.jotte.cxui.soundeffect.SoundEffectsPlayer
 import com.jotte.data.persistence.data.FullNote
@@ -15,7 +14,9 @@ import com.jotte.editor.model.state.DraftLinkState
 import com.jotte.editor.model.state.DraftState
 import com.jotte.editor.usecase.CreateNoteUseCase
 import com.jotte.editor.usecase.UpdateNoteUseCase
+import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.PlatformFile
+import io.github.vinceglb.filekit.name
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
@@ -47,7 +48,7 @@ internal class EditorViewModel(
 
     private val snapshot = MutableStateFlow<FullNote?>(null)
     private val audio = MutableStateFlow<DraftAudioState?>(null)
-    private val attachments = MutableStateFlow<ArrayList<VirtualFile>>(ArrayList())
+    private val attachments = MutableStateFlow<ArrayList<PlatformFile>>(ArrayList())
     private val links = MutableStateFlow<ArrayList<DraftLinkState>>(ArrayList())
 
     private val mutableContentValue = MutableStateFlow("")
@@ -67,11 +68,11 @@ internal class EditorViewModel(
                         contentValue != "" || audio != null || attachments.isNotEmpty() || links.isNotEmpty()
                     } else {
                         note.note.content?.value != contentValue ||
-                            note.note.audio?.fileName != audio?.file?.fileName ||
+                            note.note.audio?.fileName != audio?.file?.name ||
                             note.note.audio?.duration != audio?.duration ||
                             note.note.audio?.title != audio?.title ||
                             attachments.any { attachment ->
-                                note.media?.none { it.fileName == attachment.fileName } == true
+                                note.media?.none { it.fileName == attachment.name } == true
                             } ||
                             links.any { !linksSnapshot.contains(it.toString()) } ||
                             links.size != note.links?.size
@@ -103,12 +104,12 @@ internal class EditorViewModel(
                 val audio =
                     note.note.audio?.let {
                         DraftAudioState(
-                            file = VirtualFile(it.fileName, false),
+                            file = FileKit.storageFile(it.fileName),
                             duration = it.duration,
                             title = it.title
                         )
                     }
-                val attachments = note.media?.map { VirtualFile(it.fileName, false) }
+                val attachments = note.media?.map { FileKit.storageFile(it.fileName) }
                 note.links?.forEach {
                     val link =
                         DraftLinkState(
@@ -129,10 +130,10 @@ internal class EditorViewModel(
         }
     }
 
-    fun removeAttachment(file: VirtualFile) =
+    fun removeAttachment(file: PlatformFile) =
         viewModelScope.launch {
             val currentAttachments = attachments.value
-            val modifiedAttachments = currentAttachments.filter { it.fileName != file.fileName }
+            val modifiedAttachments = currentAttachments.filter { it.name != file.name }
 
             attachments.emit(ArrayList(modifiedAttachments))
             soundEffectsPlayer.playSound(SoundEffect.SoundEffectRemoval)
@@ -156,7 +157,7 @@ internal class EditorViewModel(
         }
     }
 
-    fun addAttachment(file: VirtualFile) =
+    fun addAttachment(file: PlatformFile) =
         viewModelScope.launch {
             val newAttachmentsList = attachments.value + file
             attachments.emit(newAttachmentsList as ArrayList)
@@ -166,9 +167,7 @@ internal class EditorViewModel(
         file: PlatformFile,
         duration: Long
     ) = viewModelScope.launch {
-        val virtualFile = file.asVirtualFile()
-        val newAudio =
-            audio.value?.copy(virtualFile, duration) ?: DraftAudioState(virtualFile, duration)
+        val newAudio = audio.value?.copy(file, duration) ?: DraftAudioState(file, duration)
         audio.emit(newAudio)
     }
 

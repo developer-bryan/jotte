@@ -25,13 +25,15 @@ import com.jotte.camera.model.Zoomable
 import com.jotte.camera.model.intent.Intent
 import com.jotte.camera.model.state.CameraState
 import com.jotte.camera.usecase.GetCameraProcessProviderUseCase
-import com.jotte.core.VirtualFile
+import com.jotte.core.cacheFile
+import io.github.vinceglb.filekit.AndroidFile
+import io.github.vinceglb.filekit.FileKit
+import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.io.File
 import java.lang.System.currentTimeMillis
 import java.util.concurrent.TimeUnit
 import kotlin.time.ExperimentalTime
@@ -136,10 +138,10 @@ internal class CameraViewModel(
         camera?.cameraControl?.setZoomRatio(zoom)
     }
 
-    private fun takePicture(callback: (file: VirtualFile) -> Unit) {
+    private fun takePicture(callback: (file: PlatformFile) -> Unit) {
         val fileName = "camera-media-${currentTimeMillis()}.jpeg"
-        val cacheFile = VirtualFile(fileName, true)
-        val outputFile = File(cacheFile.asVirtualPath())
+        val cacheFile = FileKit.cacheFile(fileName)
+        val outputFile = (cacheFile.androidFile as AndroidFile.FileWrapper).file
 
         imageCapture.takePicture(
             ImageCapture.OutputFileOptions.Builder(outputFile).build(),

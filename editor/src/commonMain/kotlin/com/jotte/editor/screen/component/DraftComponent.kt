@@ -12,7 +12,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.graphicsLayer
-import com.jotte.core.VirtualFile
 import com.jotte.cxui.Res
 import com.jotte.cxui.color.Pallete
 import com.jotte.cxui.component.CXButtonIcon
@@ -28,6 +27,7 @@ import com.jotte.cxui.theme.sizes
 import com.jotte.editor.model.state.DraftCarouselItem
 import com.jotte.editor.model.state.DraftLinkState
 import com.jotte.editor.model.state.DraftState
+import io.github.vinceglb.filekit.PlatformFile
 
 @Composable
 internal fun DraftComponent(
@@ -36,7 +36,7 @@ internal fun DraftComponent(
     modifier: Modifier = Modifier,
     focusRequester: FocusRequester,
     onContentValueChanged: (newValue: String) -> Unit,
-    onRemoveMedia: (file: VirtualFile) -> Unit,
+    onRemoveMedia: (file: PlatformFile) -> Unit,
     onRenameAudio: () -> Unit,
     onSaveAudio: () -> Unit,
     onRemoveAudio: () -> Unit,

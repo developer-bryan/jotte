@@ -1,9 +1,9 @@
 package com.jotte.editor.model.state
 
-import com.jotte.core.VirtualFile
+import io.github.vinceglb.filekit.PlatformFile
 
 internal data class DraftAudioState(
-    val file: VirtualFile,
+    val file: PlatformFile,
     val duration: Long,
     val title: String? = null
 )

@@ -21,6 +21,7 @@ import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.theme.typography
 import com.jotte.editor.model.state.DraftAudioState
+import io.github.vinceglb.filekit.name
 
 @Composable
 internal fun DraftAudioComponent(
@@ -63,7 +64,7 @@ internal fun DraftAudioComponent(
                 content = {
                     CXIcon(Res.drawable.icon_audio_wave)
                     CXText(
-                        text = audio.title ?: audio.file.fileName,
+                        text = audio.title ?: audio.file.name,
                         style = typography.bodyOne
                     )
                 }
