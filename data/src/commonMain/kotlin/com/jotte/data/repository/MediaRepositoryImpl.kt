@@ -1,8 +1,8 @@
 package com.jotte.data.repository
 
+import com.jotte.data.persistence.dao.MediaDao
 import com.jotte.data.persistence.data.MediaDto
 import com.jotte.data.persistence.data.join.MediaJoin
-import com.jotte.data.persistence.dao.MediaDao
 
 class MediaRepositoryImpl(private val dao: MediaDao) : MediaRepository {
 

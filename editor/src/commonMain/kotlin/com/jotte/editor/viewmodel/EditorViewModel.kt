@@ -6,6 +6,8 @@ import com.jotte.core.VirtualFile
 import com.jotte.core.asVirtualFile
 import com.jotte.cxui.soundeffect.SoundEffect
 import com.jotte.cxui.soundeffect.SoundEffectsPlayer
+import com.jotte.data.persistence.data.FullNote
+import com.jotte.data.usecase.GetNoteUseCase
 import com.jotte.editor.model.event.EditorEvent
 import com.jotte.editor.model.state.DraftAudioState
 import com.jotte.editor.model.state.DraftContentState
@@ -13,8 +15,6 @@ import com.jotte.editor.model.state.DraftLinkState
 import com.jotte.editor.model.state.DraftState
 import com.jotte.editor.usecase.CreateNoteUseCase
 import com.jotte.editor.usecase.UpdateNoteUseCase
-import com.jotte.data.persistence.data.FullNote
-import com.jotte.data.usecase.GetNoteUseCase
 import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.BufferOverflow

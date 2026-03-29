@@ -46,8 +46,8 @@ import com.jotte.cxui.period_pm
 import com.jotte.cxui.september
 import com.jotte.cxui.theme.CXTheme
 import com.jotte.cxui.theme.sizes
-import com.jotte.editor.di.provideEditorModule
 import com.jotte.data.di.provideNotesModule
+import com.jotte.editor.di.provideEditorModule
 import com.jotte.room.di.provideRoomModule
 import com.jotte.settings.data.di.provideSettingsDataModule
 import com.jotte.settings.data.model.AppAppearance

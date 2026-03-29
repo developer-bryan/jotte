@@ -2,11 +2,11 @@
 
 package com.jotte.data.repository
 
+import com.jotte.data.persistence.dao.NoteDao
 import com.jotte.data.persistence.data.FullNote
 import com.jotte.data.persistence.data.LinkDto
 import com.jotte.data.persistence.data.MediaDto
 import com.jotte.data.persistence.data.NoteDto
-import com.jotte.data.persistence.dao.NoteDao
 import kotlinx.coroutines.flow.Flow
 import kotlin.time.ExperimentalTime
 
