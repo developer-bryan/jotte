@@ -3,7 +3,7 @@ package com.jotte.app.usecase
 import com.jotte.app.model.state.RoomState
 import com.jotte.core.datetime.usecase.FullDate
 import com.jotte.core.datetime.usecase.GetFullDateUseCase
-import com.jotte.message.data.RoomDto
+import com.jotte.data.persistence.data.RoomDto
 
 class MapRoomUseCase(private val getFullDateUseCase: GetFullDateUseCase) {
 

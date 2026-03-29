@@ -6,10 +6,10 @@ import com.jotte.app.model.event.MainEvent
 import com.jotte.app.usecase.MapRoomUseCase
 import com.jotte.cxui.soundeffect.SoundEffect
 import com.jotte.cxui.soundeffect.SoundEffectsPlayer
-import com.jotte.message.repository.RoomRepository
-import com.jotte.message.usecase.CreateRoomUseCase
-import com.jotte.message.usecase.DeleteRoomUseCase
-import com.jotte.message.usecase.RenameRoomUseCase
+import com.jotte.data.repository.RoomRepository
+import com.jotte.data.usecase.CreateRoomUseCase
+import com.jotte.data.usecase.DeleteRoomUseCase
+import com.jotte.data.usecase.RenameRoomUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
 import kotlinx.coroutines.flow.MutableStateFlow

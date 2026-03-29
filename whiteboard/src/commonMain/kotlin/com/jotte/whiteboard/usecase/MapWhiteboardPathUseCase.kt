@@ -3,7 +3,7 @@ package com.jotte.whiteboard.usecase
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.jotte.message.data.WhiteboardDto
+import com.jotte.data.persistence.data.WhiteboardDto
 import com.jotte.whiteboard.model.data.PaintColor
 import com.jotte.whiteboard.model.state.WhiteboardPath
 

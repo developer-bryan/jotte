@@ -18,7 +18,7 @@ import com.jotte.cxui.generic_error_message
 import com.jotte.cxui.invalid_link_msg
 import com.jotte.cxui.media_download
 import com.jotte.cxui.soundeffect.SoundEffect
-import com.jotte.message.data.LinkDto
+import com.jotte.data.persistence.data.LinkDto
 import com.jotte.room.model.data.MediaCarouselItem
 import com.jotte.room.model.data.NotePopupActions
 import com.jotte.room.model.state.NoteState

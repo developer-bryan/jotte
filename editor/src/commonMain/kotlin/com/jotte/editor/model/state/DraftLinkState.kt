@@ -1,6 +1,6 @@
 package com.jotte.editor.model.state
 
-import com.jotte.message.data.LinkDto
+import com.jotte.data.persistence.data.LinkDto
 
 internal data class DraftLinkState(
     val id: String? = null,

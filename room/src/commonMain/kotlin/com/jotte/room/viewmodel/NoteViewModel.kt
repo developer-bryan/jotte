@@ -7,11 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.jotte.core.datetime.usecase.GetFullDateUseCase
 import com.jotte.cxui.soundeffect.SoundEffect
 import com.jotte.cxui.soundeffect.SoundEffectsPlayer
-import com.jotte.message.data.MediaDto
-import com.jotte.message.repository.NoteRepository
-import com.jotte.message.repository.RoomRepository
-import com.jotte.message.usecase.DeleteMediaUseCase
-import com.jotte.message.usecase.DeleteNoteUseCase
+import com.jotte.data.persistence.data.MediaDto
+import com.jotte.data.repository.NoteRepository
+import com.jotte.data.repository.RoomRepository
+import com.jotte.data.usecase.DeleteMediaUseCase
+import com.jotte.data.usecase.DeleteNoteUseCase
 import com.jotte.room.model.event.RoomEvent
 import com.jotte.room.model.state.RoomMetricsState
 import com.jotte.room.usecase.MapNoteUseCase

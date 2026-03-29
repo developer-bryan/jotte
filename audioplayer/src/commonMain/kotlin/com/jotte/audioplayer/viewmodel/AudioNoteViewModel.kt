@@ -8,9 +8,9 @@ import com.jotte.core.audio.AudioPlayer
 import com.jotte.core.storageFile
 import com.jotte.cxui.soundeffect.SoundEffect
 import com.jotte.cxui.soundeffect.SoundEffectsPlayer
-import com.jotte.message.data.NoteDto
-import com.jotte.message.repository.NoteRepository
-import com.jotte.message.usecase.DeleteAudioUseCase
+import com.jotte.data.persistence.data.NoteDto
+import com.jotte.data.repository.NoteRepository
+import com.jotte.data.usecase.DeleteAudioUseCase
 import io.github.vinceglb.filekit.FileKit
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.Channel

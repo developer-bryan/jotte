@@ -21,8 +21,8 @@ import com.jotte.cxui.icon_remove
 import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.theme.typography
+import com.jotte.data.persistence.data.LinkDto
 import com.jotte.editor.model.state.DraftLinkState
-import com.jotte.message.data.LinkDto
 
 @Composable
 internal fun DraftLinkComponent(

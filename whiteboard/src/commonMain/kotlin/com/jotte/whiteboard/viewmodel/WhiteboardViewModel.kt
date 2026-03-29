@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jotte.core.cacheFile
 import com.jotte.core.usecase.DownloadMediaUseCase
-import com.jotte.message.usecase.GetWhiteboardUseCase
+import com.jotte.data.usecase.GetWhiteboardUseCase
 import com.jotte.whiteboard.model.event.WhiteboardEvent
 import com.jotte.whiteboard.model.state.WhiteboardPath
 import com.jotte.whiteboard.usecase.MapWhiteboardPathUseCase
