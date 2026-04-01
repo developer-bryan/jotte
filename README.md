@@ -13,6 +13,7 @@ It's designed to support android 🤖 and ios 🍎 build targets
 and contains features such as
 * Image Capture 📸
 * Audio Recording 🎤
+* Links 🔗
 * Whiteboard ✍️
 * Metrics 📈
 * Fun sound effects 🎶
