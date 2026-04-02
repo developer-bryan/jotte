@@ -44,6 +44,7 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.datetime)
+            implementation(libs.koin.test)
             implementation(kotlin("test"))
         }
     }
