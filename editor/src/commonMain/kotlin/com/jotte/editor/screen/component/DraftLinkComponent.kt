@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +43,7 @@ internal fun DraftLinkComponent(
         modifier =
             modifier
                 .widthIn(min = 200.dp)
-                .background(colors.backgroundSecondary)
+                .background(colors.backgroundSecondary, CircleShape)
                 .padding(horizontal = sizes.regular)
                 .padding(vertical = sizes.small),
         verticalAlignment = Alignment.CenterVertically,

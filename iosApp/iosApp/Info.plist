@@ -12,5 +12,11 @@
 	<string>Allow writing to photos to save stories.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>mailto</string>
+        <string>tel</string>
+        <string>https</string>
+    </array>
 </dict>
 </plist>

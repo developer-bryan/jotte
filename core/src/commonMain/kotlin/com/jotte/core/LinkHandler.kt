@@ -8,4 +8,6 @@ expect class LinkHandler() {
     fun openUrl(url: String): Boolean
 
     fun handlePhoneNumber(phoneNumber: String): Boolean
+
+    fun handleEmail(email: String): Boolean
 }

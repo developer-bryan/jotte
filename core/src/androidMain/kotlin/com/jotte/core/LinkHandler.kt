@@ -34,4 +34,14 @@ actual class LinkHandler {
             false
         }
 
+    actual fun handleEmail(email: String): Boolean =
+        try {
+            val context = ApplicationProvider.getApplication() ?: return false
+            val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$email"))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+            true
+        } catch (e: ActivityNotFoundException) {
+            false
+        }
 }

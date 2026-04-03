@@ -15,7 +15,7 @@ import org.koin.test.inject
 class LinkValidationTest : KoinTest {
 
     val links = "www.google.com"
-    
+
     val phones =
         listOf(
             "6098675309",

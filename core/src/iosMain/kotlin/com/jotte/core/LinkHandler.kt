@@ -18,22 +18,20 @@ actual class LinkHandler {
             }
 
         val nsurl = NSURL.URLWithString(safeUrl) ?: return false
-
-        if (!application.canOpenURL(nsurl)) {
-            return false
-        }
-
-        application.openURL(
-            url = nsurl,
-            options = emptyMap<Any?, Any>(),
-            completionHandler = null
-        )
-        return true
+        return handleNSURL(nsurl)
     }
 
     actual fun handlePhoneNumber(phoneNumber: String): Boolean {
         val nsurl = NSURL(string = "tel:$phoneNumber")
+        return handleNSURL(nsurl)
+    }
 
+    actual fun handleEmail(email: String): Boolean {
+        val nsurl = NSURL.URLWithString("mailto:$email") ?: return false
+        return handleNSURL(nsurl)
+    }
+
+    private fun handleNSURL(nsurl: NSURL): Boolean {
         if (!application.canOpenURL(nsurl)) {
             return false
         }

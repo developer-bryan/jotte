@@ -71,17 +71,23 @@ internal class NoteController(
 
     fun handleLinkClick(link: NoteState.LinkState) {
         when (link.type) {
-            LinkDto.LinkType.Url ->
+            LinkDto.LinkType.Url -> {
                 if (!linkHandler.openUrl(link.link)) {
                     toastController.show(Res.string.invalid_link_msg)
                 }
+            }
 
-            LinkDto.LinkType.Phone ->
+            LinkDto.LinkType.Phone -> {
                 if (!linkHandler.handlePhoneNumber(link.link)) {
                     toastController.show(Res.string.invalid_link_msg)
                 }
+            }
 
-            LinkDto.LinkType.Email -> Unit // TODO: Handle Email
+            LinkDto.LinkType.Email -> {
+                if (!linkHandler.handleEmail(link.link)) {
+                    toastController.show(Res.string.invalid_link_msg)
+                }
+            }
         }
     }
 
