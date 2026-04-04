@@ -38,6 +38,7 @@ import io.github.vinceglb.filekit.name
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
+@Suppress("MagicNumber")
 internal fun NoteActionsSheet(
     params: NoteActionsSheetParams,
     modifier: Modifier = Modifier,

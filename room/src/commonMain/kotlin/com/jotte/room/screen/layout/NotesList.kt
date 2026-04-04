@@ -23,7 +23,6 @@ import com.jotte.room.model.data.NoteActionsSheetParams
 import com.jotte.room.model.state.NoteState
 import com.jotte.room.screen.component.NoteComponent
 import com.jotte.room.screen.component.NoteListQuickScrollButton
-import com.jotte.room.screen.controller.rememberNoteController
 import kotlinx.coroutines.launch
 
 @Composable
@@ -66,7 +65,6 @@ internal fun NotesList(
                     itemContent = { _, noteState ->
                         NoteComponent(
                             noteState = noteState,
-                            controller = rememberNoteController(noteState),
                             onLongPress = onNoteLongPress,
                             onImageClicked = { onMediaClicked(noteState, it) },
                             onPlayAudioClicked = onPlayAudioClicked,

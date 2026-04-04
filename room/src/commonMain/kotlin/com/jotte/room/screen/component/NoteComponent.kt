@@ -20,19 +20,23 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toIntSize
+import com.jotte.core.LocalLinkHandler
 import com.jotte.cxui.Res
 import com.jotte.cxui.component.CXMediaCarousel
 import com.jotte.cxui.component.CXText
 import com.jotte.cxui.composition.LocalSoundEffectPlayer
+import com.jotte.cxui.composition.LocalToastController
+import com.jotte.cxui.invalid_link_msg
 import com.jotte.cxui.modifier.captureBitmap
 import com.jotte.cxui.note_long_click_desc
 import com.jotte.cxui.soundeffect.SoundEffect
 import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.theme.typography
+import com.jotte.data.persistence.data.LinkDto
+import com.jotte.room.model.data.MediaCarouselItem
 import com.jotte.room.model.data.NoteActionsSheetParams
 import com.jotte.room.model.state.NoteState
-import com.jotte.room.screen.controller.NoteController
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.min
@@ -40,7 +44,6 @@ import kotlin.math.min
 @Composable
 internal fun NoteComponent(
     noteState: NoteState,
-    controller: NoteController,
     modifier: Modifier = Modifier,
     onLongPress: (params: NoteActionsSheetParams) -> Unit,
     onImageClicked: (imageIndex: Int) -> Unit,
@@ -50,7 +53,16 @@ internal fun NoteComponent(
     val scope = rememberCoroutineScope()
     val graphicsLayer = rememberGraphicsLayer()
     val soundEffectsPlayer = LocalSoundEffectPlayer.current
+    val toastController = LocalToastController.current
+    val linkHandler = LocalLinkHandler.current
     val sizes = sizes
+
+    val mediaCarouselItems =
+        noteState.media.map {
+            MediaCarouselItem(fileName = it.fileName, mediaId = it.mediaId)
+        }
+
+    fun hasMediaAttachments() = mediaCarouselItems.isNotEmpty()
 
     fun onItemLongClick() {
         scope
@@ -139,16 +151,30 @@ internal fun NoteComponent(
                         NoteLinksCarousel(
                             modifier = Modifier.align(Alignment.End),
                             links = noteState.links,
-                            onLinkClicked = controller::handleLinkClick,
+                            onLinkClicked = { link ->
+                                when (link.type) {
+                                    LinkDto.LinkType.Url ->
+                                        if (!linkHandler.openUrl(link.link)) {
+                                            toastController.show(Res.string.invalid_link_msg)
+                                        }
+
+                                    LinkDto.LinkType.Phone ->
+                                        if (!linkHandler.handlePhoneNumber(link.link)) {
+                                            toastController.show(Res.string.invalid_link_msg)
+                                        }
+
+                                    LinkDto.LinkType.Email -> Unit // TODO: Handle Email
+                                }
+                            },
                             onLinkLongClick = { onItemLongClick() }
                         )
                     }
 
-                    if (controller.hasMediaAttachments()) {
+                    if (hasMediaAttachments()) {
                         CXMediaCarousel(
-                            items = controller.mediaCarouselItems,
+                            items = mediaCarouselItems,
                             modifier = Modifier.align(Alignment.End),
-                            onItemClick = { onImageClicked(controller.mediaCarouselItems.indexOf(it)) },
+                            onItemClick = { onImageClicked(mediaCarouselItems.indexOf(it)) },
                             onItemLongClick = { onItemLongClick() }
                         )
                     }
