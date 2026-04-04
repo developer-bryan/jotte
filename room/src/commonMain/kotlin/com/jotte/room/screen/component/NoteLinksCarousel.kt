@@ -16,7 +16,8 @@ import com.jotte.room.model.state.NoteState
 internal fun NoteLinksCarousel(
     modifier: Modifier = Modifier,
     links: List<NoteState.LinkState>,
-    onLinkClicked: (link: NoteState.LinkState) -> Unit
+    onLinkClicked: (link: NoteState.LinkState) -> Unit,
+    onLinkLongClick: () -> Unit
 ) {
 
     LazyRow(
@@ -41,7 +42,8 @@ internal fun NoteLinksCarousel(
                     NoteLinkComponent(
                         link = link,
                         modifier = Modifier.clip(shape),
-                        onClick = { onLinkClicked(link) }
+                        onClick = { onLinkClicked(link) },
+                        onLongClick = onLinkLongClick
                     )
 
                 }

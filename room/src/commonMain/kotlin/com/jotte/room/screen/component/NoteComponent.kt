@@ -52,6 +52,25 @@ internal fun NoteComponent(
     val soundEffectsPlayer = LocalSoundEffectPlayer.current
     val sizes = sizes
 
+    fun onItemLongClick() {
+        scope
+            .launch {
+                val bmp = graphicsLayer.toImageBitmap()
+                val params =
+                    NoteActionsSheetParams(
+                        noteState = noteState,
+                        bannerImage = bmp,
+                        target = null
+                    )
+
+                onLongPress(params)
+            }.invokeOnCompletion {
+                soundEffectsPlayer?.playSound(
+                    SoundEffect.SoundEffectLongPress
+                )
+            }
+    }
+
     Box(
         modifier =
             modifier
@@ -73,24 +92,7 @@ internal fun NoteComponent(
                             onLongClickLabel = stringResource(Res.string.note_long_click_desc),
                             interactionSource = remember { MutableInteractionSource() },
                             onClick = {},
-                            onLongClick = {
-                                scope
-                                    .launch {
-                                        val bmp = graphicsLayer.toImageBitmap()
-                                        val params =
-                                            NoteActionsSheetParams(
-                                                noteState = noteState,
-                                                bannerImage = bmp,
-                                                target = null
-                                            )
-
-                                        onLongPress(params)
-                                    }.invokeOnCompletion {
-                                        soundEffectsPlayer?.playSound(
-                                            SoundEffect.SoundEffectLongPress
-                                        )
-                                    }
-                            }
+                            onLongClick = { onItemLongClick() }
                         ).padding(horizontal = sizes.regular)
                         .padding(vertical = sizes.small),
                 verticalArrangement = Arrangement.spacedBy(sizes.small),
@@ -129,7 +131,7 @@ internal fun NoteComponent(
                             audio = audio,
                             modifier = Modifier.align(Alignment.End),
                             onClick = { onPlayAudioClicked(audio.id) },
-                            onLongClick = {}
+                            onLongClick = { onItemLongClick() }
                         )
                     }
 
@@ -137,7 +139,8 @@ internal fun NoteComponent(
                         NoteLinksCarousel(
                             modifier = Modifier.align(Alignment.End),
                             links = noteState.links,
-                            onLinkClicked = controller::handleLinkClick
+                            onLinkClicked = controller::handleLinkClick,
+                            onLinkLongClick = { onItemLongClick() }
                         )
                     }
 
@@ -145,7 +148,8 @@ internal fun NoteComponent(
                         CXMediaCarousel(
                             items = controller.mediaCarouselItems,
                             modifier = Modifier.align(Alignment.End),
-                            onItemClick = { onImageClicked(controller.mediaCarouselItems.indexOf(it)) }
+                            onItemClick = { onImageClicked(controller.mediaCarouselItems.indexOf(it)) },
+                            onItemLongClick = { onItemLongClick() }
                         )
                     }
                 }

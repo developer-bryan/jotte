@@ -99,8 +99,14 @@ fun RoomScreen(
                     NoteActionsSheet(
                         params = sheet.params,
                         modifier = modifier,
-                        onEditClicked = onEditorClicked,
-                        onDeleteClicked = viewModel::deleteNote
+                        onEditClicked = {
+                            onEditorClicked(it)
+                            controller.hideSheet()
+                        },
+                        onDeleteClicked = {
+                            viewModel.deleteNote(it)
+                            controller.hideSheet()
+                        }
                     )
                 }
             }

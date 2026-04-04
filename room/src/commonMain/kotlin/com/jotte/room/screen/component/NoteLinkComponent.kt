@@ -2,6 +2,7 @@ package com.jotte.room.screen.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,7 +32,8 @@ import com.jotte.room.model.state.NoteState
 internal fun NoteLinkComponent(
     link: NoteState.LinkState,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onLongClick: () -> Unit
 ) {
 
     val icon =
@@ -46,9 +48,10 @@ internal fun NoteLinkComponent(
             modifier
                 .widthIn(min = 200.dp)
                 .background(colors.backgroundSecondary)
-                .clickable(
+                .combinedClickable(
                     onClickLabel = "open link",
-                    onClick = onClick
+                    onClick = onClick,
+                    onLongClick = onLongClick
                 ).padding(horizontal = sizes.regular)
                 .padding(vertical = sizes.small),
         verticalAlignment = Alignment.CenterVertically,
@@ -80,7 +83,8 @@ private fun Preview() {
                             type = LinkDto.LinkType.Url,
                             link = "www.jottenotes.app"
                         ),
-                    onClick = {}
+                    onClick = {},
+                    onLongClick = {}
                 )
                 NoteLinkComponent(
                     modifier = Modifier.background(colors.backgroundPrimary),
@@ -90,7 +94,8 @@ private fun Preview() {
                             type = LinkDto.LinkType.Phone,
                             link = "8582302231"
                         ),
-                    onClick = {}
+                    onClick = {},
+                    onLongClick = {}
                 )
                 NoteLinkComponent(
                     modifier = Modifier.background(colors.backgroundPrimary),
@@ -100,7 +105,8 @@ private fun Preview() {
                             type = LinkDto.LinkType.Email,
                             link = "bryan.mills@jotte.app"
                         ),
-                    onClick = {}
+                    onClick = {},
+                    onLongClick = {}
                 )
             }
         )
