@@ -3,6 +3,7 @@ package com.jotte.room.screen.sheet
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import com.jotte.cxui.Res
 import com.jotte.cxui.component.CXButtonOption
+import com.jotte.cxui.composition.LocalClipboardController
 import com.jotte.cxui.controller.rememberDialogController
 import com.jotte.cxui.delete_note_dialog_body
 import com.jotte.cxui.delete_note_dialog_title
@@ -36,14 +38,7 @@ internal fun NoteActionsSheet(
     onDeleteClicked: (id: Long) -> Unit
 ) {
 
-    /*
-    val audioFileSaver =
-        rememberFileSaverPicker(
-            src = params.noteState.audio?.file,
-            onSuccess = { controller.onAudioFileSaved() },
-            onFailure = { _, _ -> controller.onAudioFileSaveFailure() }
-        )
-*/
+    val clipboardController = LocalClipboardController.current
 
     val deleteNoteDialogController =
         rememberDialogController<NoteState>(
@@ -51,6 +46,12 @@ internal fun NoteActionsSheet(
             body = Res.string.delete_note_dialog_body,
             onPositiveButtonClick = { it?.let { onDeleteClicked(it.noteId) } }
         )
+
+    fun copyNoteContentToClipboard() {
+        params.noteState.content?.value?.let {
+            clipboardController.copyToClipboard(it)
+        }
+    }
 
     Column(
         modifier =
@@ -66,6 +67,7 @@ internal fun NoteActionsSheet(
                     modifier =
                         Modifier
                             .align(Alignment.CenterHorizontally)
+                            .fillMaxWidth(0.90F)
                             .clip(shapes.mediaPreviewShape)
                 )
             }
@@ -74,7 +76,7 @@ internal fun NoteActionsSheet(
                 CXButtonOption(
                     label = stringResource(Res.string.note_action_copy_text),
                     icon = Res.drawable.icon_copy,
-                    onClick = {}
+                    onClick = { copyNoteContentToClipboard() }
                 )
             }
 

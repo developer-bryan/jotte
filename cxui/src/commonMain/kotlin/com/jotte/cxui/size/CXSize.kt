@@ -25,5 +25,6 @@ data class CXSize internal constructor(
     val roomDrawerWidth: Dp = 326.dp,
     val reducedAlpha: Float = 0.75F,
     val noteContentMaxWidthPercentage: Float = 0.95F,
-    val aspectRatio43: Float = 0.75F
+    val aspectRatio43: Float = 0.75F,
+    val aspectRatio916: Float = 0.56F
 )

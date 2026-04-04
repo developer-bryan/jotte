@@ -20,6 +20,7 @@ import com.jotte.cxui.Res
 import com.jotte.cxui.component.CXMediaPager
 import com.jotte.cxui.default_room_name
 import com.jotte.cxui.extension.asEffect
+import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.shapes
 import com.jotte.room.model.event.RoomEvent
 import com.jotte.room.model.state.RoomMetricsState
@@ -67,6 +68,7 @@ fun RoomScreen(
     ModalBottomSheetLayout(
         sheetState = controller.sheetState,
         sheetShape = shapes.roundedSheetShape,
+        sheetBackgroundColor = colors.backgroundPrimary,
         sheetContent = {
             when (val sheet = controller.screenSheet) {
                 RoomScreenSheet.RoomActionsSheet -> {
