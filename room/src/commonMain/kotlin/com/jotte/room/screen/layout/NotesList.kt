@@ -19,10 +19,10 @@ import androidx.compose.ui.unit.dp
 import com.jotte.cxui.component.CXScrollbar
 import com.jotte.cxui.extension.ColumnExtension.lazySpace
 import com.jotte.cxui.theme.sizes
+import com.jotte.room.model.data.NoteActionsSheetParams
 import com.jotte.room.model.state.NoteState
 import com.jotte.room.screen.component.NoteComponent
 import com.jotte.room.screen.component.NoteListQuickScrollButton
-import com.jotte.room.screen.controller.rememberNoteController
 import kotlinx.coroutines.launch
 
 @Composable
@@ -30,10 +30,9 @@ internal fun NotesList(
     notes: List<NoteState>,
     modifier: Modifier = Modifier,
     isFullscreen: Boolean = false,
+    onNoteLongPress: (params: NoteActionsSheetParams) -> Unit,
     onMediaClicked: (notestate: NoteState, mediaIndex: Int) -> Unit,
     onPlayAudioClicked: (audioId: String) -> Unit,
-    onEditNote: (noteId: Long) -> Unit,
-    onDeleteNote: (id: Long) -> Unit
 ) {
 
     val listState = rememberLazyListState()
@@ -66,11 +65,9 @@ internal fun NotesList(
                     itemContent = { _, noteState ->
                         NoteComponent(
                             noteState = noteState,
-                            controller = rememberNoteController(noteState),
+                            onLongPress = onNoteLongPress,
                             onImageClicked = { onMediaClicked(noteState, it) },
                             onPlayAudioClicked = onPlayAudioClicked,
-                            onEditNoteClicked = { onEditNote(noteState.noteId) },
-                            onDeleteNoteClicked = { onDeleteNote(noteState.noteId) }
                         )
                     }
                 )

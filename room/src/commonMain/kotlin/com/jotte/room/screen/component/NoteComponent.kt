@@ -13,156 +13,173 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.unit.dp
-import com.jotte.core.rememberFileSaverPicker
+import androidx.compose.ui.unit.toIntSize
+import com.jotte.core.LocalLinkHandler
 import com.jotte.cxui.Res
-import com.jotte.cxui.component.CXActionPopup
 import com.jotte.cxui.component.CXMediaCarousel
 import com.jotte.cxui.component.CXText
-import com.jotte.cxui.controller.rememberDialogController
-import com.jotte.cxui.delete_note_dialog_body
-import com.jotte.cxui.delete_note_dialog_title
+import com.jotte.cxui.composition.LocalSoundEffectPlayer
+import com.jotte.cxui.composition.LocalToastController
+import com.jotte.cxui.invalid_link_msg
+import com.jotte.cxui.modifier.captureBitmap
 import com.jotte.cxui.note_long_click_desc
+import com.jotte.cxui.soundeffect.SoundEffect
 import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.theme.typography
-import com.jotte.room.model.data.NotePopupActions
+import com.jotte.data.persistence.data.LinkDto
+import com.jotte.room.model.data.MediaCarouselItem
+import com.jotte.room.model.data.NoteActionsSheetParams
 import com.jotte.room.model.state.NoteState
-import com.jotte.room.screen.controller.NoteController
-import io.github.vinceglb.filekit.extension
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+import kotlin.math.min
 
 @Composable
 internal fun NoteComponent(
     noteState: NoteState,
-    controller: NoteController,
     modifier: Modifier = Modifier,
+    onLongPress: (params: NoteActionsSheetParams) -> Unit,
     onImageClicked: (imageIndex: Int) -> Unit,
     onPlayAudioClicked: (audioId: String) -> Unit,
-    onEditNoteClicked: () -> Unit,
-    onDeleteNoteClicked: () -> Unit
 ) {
 
-    val audioFileSaver =
-        rememberFileSaverPicker(
-            src = noteState.audio?.file,
-            onSuccess = { controller.onAudioFileSaved() },
-            onFailure = { _, _ -> controller.onAudioFileSaveFailure() }
-        )
+    val scope = rememberCoroutineScope()
+    val graphicsLayer = rememberGraphicsLayer()
+    val soundEffectsPlayer = LocalSoundEffectPlayer.current
+    val toastController = LocalToastController.current
+    val linkHandler = LocalLinkHandler.current
+    val sizes = sizes
 
-    val deleteNoteDialogController =
-        rememberDialogController<Nothing>(
-            title = Res.string.delete_note_dialog_title,
-            body = Res.string.delete_note_dialog_body,
-            onPositiveButtonClick = { onDeleteNoteClicked() }
-        )
+    val mediaCarouselItems =
+        noteState.media.map {
+            MediaCarouselItem(fileName = it.fileName, mediaId = it.mediaId)
+        }
 
-    Box {
-        Column(
-            modifier =
-                modifier
-                    .fillMaxWidth()
-                    .background(if (controller.popupVisible) colors.accentReducedAlpha else colors.backgroundPrimary)
-                    .combinedClickable(
-                        onLongClickLabel = stringResource(Res.string.note_long_click_desc),
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource() },
-                        onClick = {},
-                        onLongClick = controller::showPopup
-                    ).padding(horizontal = sizes.regular)
-                    .padding(vertical = sizes.small),
-            verticalArrangement = Arrangement.spacedBy(sizes.small),
-            horizontalAlignment = Alignment.Start,
-            content = {
+    fun hasMediaAttachments() = mediaCarouselItems.isNotEmpty()
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    content = {
-                        CXText(
-                            text = noteState.createdOnDate,
-                            color = colors.accentColor,
-                            style = typography.headerFour
-                        )
-                        Box(
-                            modifier =
-                                Modifier
-                                    .padding(horizontal = sizes.extraTiny)
-                                    .weight(1F)
-                                    .height(1.dp)
-                                    .background(colors.contentPrimaryReducedAlpha, CircleShape)
-                        )
-                        CXText(
-                            text = noteState.createdOnTime,
-                            style = typography.headerFour
+    fun onItemLongClick() {
+        scope
+            .launch {
+                val bmp = graphicsLayer.toImageBitmap()
+                val params =
+                    NoteActionsSheetParams(
+                        noteState = noteState,
+                        bannerImage = bmp,
+                        target = null
+                    )
+
+                onLongPress(params)
+            }.invokeOnCompletion {
+                soundEffectsPlayer?.playSound(
+                    SoundEffect.SoundEffectLongPress
+                )
+            }
+    }
+
+    Box(
+        modifier =
+            modifier
+                .captureBitmap(
+                    graphicsLayer = graphicsLayer,
+                    sizeProvider = {
+                        val width = it.size.width
+                        val height = min(it.size.height, width * sizes.aspectRatio916)
+
+                        Size(width, height).toIntSize()
+                    }
+                ),
+        content = {
+            Column(
+                modifier =
+                    modifier
+                        .fillMaxWidth()
+                        .combinedClickable(
+                            onLongClickLabel = stringResource(Res.string.note_long_click_desc),
+                            interactionSource = remember { MutableInteractionSource() },
+                            onClick = {},
+                            onLongClick = { onItemLongClick() }
+                        ).padding(horizontal = sizes.regular)
+                        .padding(vertical = sizes.small),
+                verticalArrangement = Arrangement.spacedBy(sizes.small),
+                horizontalAlignment = Alignment.Start,
+                content = {
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        content = {
+                            CXText(
+                                text = noteState.createdOnDate,
+                                color = colors.accentColor,
+                                style = typography.headerFour
+                            )
+                            Box(
+                                modifier =
+                                    Modifier
+                                        .padding(horizontal = sizes.extraTiny)
+                                        .weight(1F)
+                                        .height(1.dp)
+                                        .background(colors.contentPrimaryReducedAlpha, CircleShape)
+                            )
+                            CXText(
+                                text = noteState.createdOnTime,
+                                style = typography.headerFour
+                            )
+                        }
+                    )
+
+                    noteState.content?.let { content -> NoteContentComponent(content = content) }
+
+                    noteState.audio?.let { audio ->
+                        NoteAudioComponent(
+                            audio = audio,
+                            modifier = Modifier.align(Alignment.End),
+                            onClick = { onPlayAudioClicked(audio.id) },
+                            onLongClick = { onItemLongClick() }
                         )
                     }
-                )
 
-                noteState.content?.let { content -> NoteContentComponent(content = content) }
+                    if (noteState.links.isNotEmpty()) {
+                        NoteLinksCarousel(
+                            modifier = Modifier.align(Alignment.End),
+                            links = noteState.links,
+                            onLinkClicked = { link ->
+                                when (link.type) {
+                                    LinkDto.LinkType.Url ->
+                                        if (!linkHandler.openUrl(link.link)) {
+                                            toastController.show(Res.string.invalid_link_msg)
+                                        }
 
-                noteState.audio?.let { audio ->
-                    NoteAudioComponent(
-                        audio = audio,
-                        modifier = Modifier.align(Alignment.End),
-                        onClick = { onPlayAudioClicked(audio.id) },
-                        onLongClick = controller::showPopup
-                    )
-                }
+                                    LinkDto.LinkType.Phone ->
+                                        if (!linkHandler.handlePhoneNumber(link.link)) {
+                                            toastController.show(Res.string.invalid_link_msg)
+                                        }
 
-                if (noteState.links.isNotEmpty()) {
-                    NoteLinksCarousel(
-                        modifier = Modifier.align(Alignment.End),
-                        links = noteState.links,
-                        onLinkClicked = controller::handleLinkClick
-                    )
-                }
+                                    LinkDto.LinkType.Email -> Unit // TODO: Handle Email
+                                }
+                            },
+                            onLinkLongClick = { onItemLongClick() }
+                        )
+                    }
 
-                if (controller.hasMediaAttachments()) {
-                    CXMediaCarousel(
-                        items = controller.mediaCarouselItems,
-                        modifier = Modifier.align(Alignment.End),
-                        onItemClick = { onImageClicked(controller.mediaCarouselItems.indexOf(it)) }
-                    )
-                }
-            }
-        )
-        if (controller.popupVisible) {
-            CXActionPopup(
-                alignment = Alignment.BottomStart,
-                onDismissRequest = controller::hidePopup,
-                actions = controller.popupActions,
-                onActionClicked = {
-                    when (it) {
-                        NotePopupActions.CopyText -> {
-                            controller.hidePopup()
-                            controller.copyNoteContentToClipboard()
-                        }
-
-                        NotePopupActions.SaveAudio -> {
-                            noteState.audio?.let {
-                                audioFileSaver.launch(
-                                    suggestedName = it.title ?: "jotte audio",
-                                    extension = it.file.extension
-                                )
-                            }
-                        }
-
-                        NotePopupActions.Edit -> {
-                            controller.hidePopup()
-                            onEditNoteClicked()
-                        }
-
-                        NotePopupActions.Delete -> {
-                            controller.hidePopup()
-                            deleteNoteDialogController.show()
-                        }
+                    if (hasMediaAttachments()) {
+                        CXMediaCarousel(
+                            items = mediaCarouselItems,
+                            modifier = Modifier.align(Alignment.End),
+                            onItemClick = { onImageClicked(mediaCarouselItems.indexOf(it)) },
+                            onItemLongClick = { onItemLongClick() }
+                        )
                     }
                 }
             )
         }
-    }
+    )
 }

@@ -20,6 +20,7 @@ import com.jotte.cxui.Res
 import com.jotte.cxui.component.CXMediaPager
 import com.jotte.cxui.default_room_name
 import com.jotte.cxui.extension.asEffect
+import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.shapes
 import com.jotte.room.model.event.RoomEvent
 import com.jotte.room.model.state.RoomMetricsState
@@ -30,6 +31,7 @@ import com.jotte.room.screen.layout.NotesEmptyLayout
 import com.jotte.room.screen.layout.NotesList
 import com.jotte.room.screen.layout.RoomBottomButtons
 import com.jotte.room.screen.layout.RoomToolbar
+import com.jotte.room.screen.sheet.NoteActionsSheet
 import com.jotte.room.screen.sheet.RoomActionsSheet
 import com.jotte.room.screen.sheet.RoomMetricsSheet
 import com.jotte.room.viewmodel.NoteViewModel
@@ -66,8 +68,9 @@ fun RoomScreen(
     ModalBottomSheetLayout(
         sheetState = controller.sheetState,
         sheetShape = shapes.roundedSheetShape,
+        sheetBackgroundColor = colors.backgroundPrimary,
         sheetContent = {
-            when (controller.screenSheet) {
+            when (val sheet = controller.screenSheet) {
                 RoomScreenSheet.RoomActionsSheet -> {
                     RoomActionsSheet(
                         onRenameRoomClicked = {
@@ -90,6 +93,21 @@ fun RoomScreen(
 
                 RoomScreenSheet.RoomMetricsSheet -> {
                     RoomMetricsSheet(metrics)
+                }
+
+                is RoomScreenSheet.NoteActionsSheet -> {
+                    NoteActionsSheet(
+                        params = sheet.params,
+                        modifier = modifier,
+                        onEditClicked = {
+                            onEditorClicked(it)
+                            controller.hideSheet()
+                        },
+                        onDeleteClicked = {
+                            viewModel.deleteNote(it)
+                            controller.hideSheet()
+                        }
+                    )
                 }
             }
         },
@@ -120,12 +138,14 @@ fun RoomScreen(
                                     notes = notes,
                                     modifier = Modifier.fillMaxSize(),
                                     isFullscreen = controller.isFullscreen,
+                                    onNoteLongPress = {
+                                        val sheet = RoomScreenSheet.NoteActionsSheet(it)
+                                        controller.showSheet(sheet)
+                                    },
                                     onMediaClicked = { note, index ->
                                         controller.onMediaItemClicked(note.media, index)
                                     },
                                     onPlayAudioClicked = onAudioClicked,
-                                    onEditNote = onEditorClicked,
-                                    onDeleteNote = viewModel::deleteNote
                                 )
                             }
                         }
