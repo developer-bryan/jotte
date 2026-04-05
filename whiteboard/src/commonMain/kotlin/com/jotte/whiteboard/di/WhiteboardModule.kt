@@ -22,7 +22,7 @@ fun provideWhiteboardModule() =
                 getWhiteboardUseCase = get(),
                 updateWhiteboardUseCase = get(),
                 mapWhiteboardPathUseCase = get(),
-                downloadMediaUseCase = get(),
+                saveFileToGalleryUseCase = get(),
                 downloadFileName = get(whiteboardDownloadFileName())
             )
         }

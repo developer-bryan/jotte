@@ -8,12 +8,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.jotte.camera.screen.color.CameraColors
 import com.jotte.camera.screen.layout.CameraLayout
 import com.jotte.camera.screen.layout.NoCameraPermissionLayout
 import com.jotte.core.permission.Permission
 import com.jotte.core.permission.rememberPermission
 import com.jotte.cxui.Res
-import com.jotte.cxui.color.CXDarkColors
 import com.jotte.cxui.composition.LocalColor
 import com.jotte.cxui.enable_camera_permissions
 import io.github.vinceglb.filekit.PlatformFile
@@ -46,7 +46,7 @@ fun CameraScreen(
     )
 
     CompositionLocalProvider(
-        value = LocalColor provides CXDarkColors(),
+        value = LocalColor provides CameraColors(),
         content = {
             if (isCameraPermissionDenied) {
                 NoCameraPermissionLayout(

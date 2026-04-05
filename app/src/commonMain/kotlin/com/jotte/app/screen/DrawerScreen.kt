@@ -39,7 +39,7 @@ internal fun DrawerScreen(
             modifier
                 .width(sizes.roomDrawerWidth)
                 .fillMaxHeight()
-                .background(colors.backgroundSecondary)
+                .background(colors.backgroundPrimary)
                 .windowInsetsPadding(WindowInsets.navigationBars),
         horizontalAlignment = Alignment.CenterHorizontally,
         content = {

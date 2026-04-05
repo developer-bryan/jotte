@@ -1,16 +1,12 @@
 package com.jotte.core.usecase
 
-import androidx.compose.runtime.staticCompositionLocalOf
 import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.exists
 import io.github.vinceglb.filekit.saveImageToGallery
 import io.github.vinceglb.filekit.toKotlinxIoPath
 
-val LocalDownloadMediaUseCase =
-    staticCompositionLocalOf<DownloadMediaUseCase> { error("missing downloader") }
-
-class DownloadMediaUseCase(val imageRegex: Regex) {
+class SaveFileToGalleryUseCase(val imageRegex: Regex) {
 
     suspend operator fun invoke(
         file: PlatformFile,

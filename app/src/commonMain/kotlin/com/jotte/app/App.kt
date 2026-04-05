@@ -17,16 +17,11 @@ import com.jotte.core.LocalLinkHandler
 import com.jotte.core.datetime.DateTimeStrings
 import com.jotte.core.di.provideCoreModule
 import com.jotte.core.di.provideDateModule
-import com.jotte.core.usecase.LocalDownloadMediaUseCase
 import com.jotte.cxui.Res
 import com.jotte.cxui.april
 import com.jotte.cxui.august
 import com.jotte.cxui.component.CXToast
-import com.jotte.cxui.composition.LocalClipboardController
-import com.jotte.cxui.composition.LocalSoundEffectPlayer
 import com.jotte.cxui.composition.LocalToastController
-import com.jotte.cxui.controller.rememberCXToastController
-import com.jotte.cxui.controller.rememberClipboardController
 import com.jotte.cxui.december
 import com.jotte.cxui.di.provideCXUIModule
 import com.jotte.cxui.february
@@ -74,9 +69,6 @@ fun App() {
     val settingsModule = remember { provideSettingsUIModule() }
     val settingsDataModule = remember { provideSettingsDataModule() }
 
-    val toastState = rememberCXToastController()
-    val clipboardState = rememberClipboardController(toastState)
-
     KoinApplication(
         application = {
             modules(
@@ -111,11 +103,7 @@ fun App() {
                 isDarkMode = isDarkMode ?: isSystemInDarkTheme(),
                 content = {
                     CompositionLocalProvider(
-                        LocalToastController.provides(toastState),
-                        LocalClipboardController.provides(clipboardState),
-                        LocalLinkHandler.provides(LinkHandler()),
-                        LocalDownloadMediaUseCase.provides(koinInject()),
-                        LocalSoundEffectPlayer.provides(koinInject()),
+                        value = LocalLinkHandler.provides(LinkHandler()),
                         content = {
                             val graphController = rememberNavController()
                             NavHost(
@@ -135,7 +123,7 @@ fun App() {
                             )
 
                             CXToast(
-                                state = toastState,
+                                state = LocalToastController.current,
                                 modifier =
                                     Modifier
                                         .padding(bottom = sizes.huge.times(2))

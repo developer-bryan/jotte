@@ -16,17 +16,24 @@ import androidx.compose.ui.unit.Density
 import com.jotte.cxui.color.CXColors
 import com.jotte.cxui.color.CXDarkColors
 import com.jotte.cxui.color.CXLightColors
+import com.jotte.cxui.composition.LocalClipboardController
 import com.jotte.cxui.composition.LocalColor
 import com.jotte.cxui.composition.LocalSize
+import com.jotte.cxui.composition.LocalSoundEffectPlayer
 import com.jotte.cxui.composition.LocalSystemTheme
+import com.jotte.cxui.composition.LocalToastController
 import com.jotte.cxui.composition.LocalTypography
 import com.jotte.cxui.composition.SystemTheme
+import com.jotte.cxui.controller.rememberCXToastController
+import com.jotte.cxui.controller.rememberClipboardController
 import com.jotte.cxui.extension.getCustomViewConfig
 import com.jotte.cxui.shape.CXShape
 import com.jotte.cxui.size.CXIconSize
 import com.jotte.cxui.size.CXSize
+import com.jotte.cxui.soundeffect.SoundEffectsPlayer
 import com.jotte.cxui.typography.CXTypography
 import com.jotte.cxui.typography.createTypographyAttributes
+import org.koin.compose.koinInject
 
 val colors: CXColors
     @Composable get() = LocalColor.current ?: CXLightColors()
@@ -70,13 +77,20 @@ fun CXTheme(
             localViewConfig.getCustomViewConfig(longPressTimeoutMillis = 150L)
         }
 
+    val toastState = rememberCXToastController()
+    val clipboardState = rememberClipboardController(toastState)
+    val soundEffectsPlayer: SoundEffectsPlayer = koinInject()
+
     CompositionLocalProvider(
         LocalColor provides colors,
         LocalSize provides size,
         LocalTypography provides typography,
         LocalSystemTheme provides systemTheme,
         LocalTextSelectionColors provides textSelectionColors,
-        LocalViewConfiguration provides customViewConfiguration
+        LocalViewConfiguration provides customViewConfiguration,
+        LocalToastController provides toastState,
+        LocalClipboardController provides clipboardState,
+        LocalSoundEffectPlayer provides soundEffectsPlayer
     ) {
 
         BoxWithConstraints(

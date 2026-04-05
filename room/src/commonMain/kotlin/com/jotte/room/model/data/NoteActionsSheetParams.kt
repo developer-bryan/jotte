@@ -5,6 +5,5 @@ import com.jotte.room.model.state.NoteState
 
 internal data class NoteActionsSheetParams(
     val noteState: NoteState,
-    val target: Any? = null,
     val bannerImage: ImageBitmap? = null
 )

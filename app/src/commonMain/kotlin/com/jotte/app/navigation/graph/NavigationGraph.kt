@@ -29,7 +29,7 @@ internal fun NavigationGraph(graphController: NavController) {
                     this.MainDestination(navController, graphController)
                     this.AudioNoteDestination(navController)
                     this.EditorDestination(navController)
-                    this.WhiteboardDestination(graphController)
+                    this.WhiteboardDestination(navController)
                 }
             )
         }
