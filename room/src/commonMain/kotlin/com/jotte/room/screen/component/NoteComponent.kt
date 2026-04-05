@@ -72,7 +72,6 @@ internal fun NoteComponent(
                     NoteActionsSheetParams(
                         noteState = noteState,
                         bannerImage = bmp,
-                        target = null
                     )
 
                 onLongPress(params)

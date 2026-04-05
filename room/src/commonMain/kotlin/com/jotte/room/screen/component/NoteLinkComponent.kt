@@ -91,7 +91,7 @@ private fun Preview() {
                         NoteState.LinkState(
                             id = "",
                             type = LinkDto.LinkType.Phone,
-                            link = "8582302231"
+                            link = "6198675309"
                         ),
                     onClick = {},
                     onLongClick = {}
