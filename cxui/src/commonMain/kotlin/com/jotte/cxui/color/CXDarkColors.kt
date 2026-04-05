@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 
 @Immutable
 open class CXDarkColors : CXColorsShared() {
-    override val backgroundPrimary: Color = Pallete.Black
+    override val backgroundPrimary: Color = Pallete.MoonRump
     override val backgroundSecondary: Color = Pallete.MidnightBlue
     override val backgroundPrimaryInverse: Color = Pallete.White
     override val backgroundSecondaryInverse: Color = Pallete.ShyBlue

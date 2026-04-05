@@ -14,6 +14,8 @@ object Pallete {
 
     val SkyBlue: Color = Color(0XFF0099F8)
 
+    val MoonRump: Color = Color(0XFF191A1D)
+
     val MidnightBlue: Color = Color(0XFF2C2E39)
 
     val Scrim: Color = Color(0X585858)
