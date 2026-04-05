@@ -17,7 +17,6 @@ import com.jotte.core.LocalLinkHandler
 import com.jotte.core.datetime.DateTimeStrings
 import com.jotte.core.di.provideCoreModule
 import com.jotte.core.di.provideDateModule
-import com.jotte.core.usecase.LocalDownloadMediaUseCase
 import com.jotte.cxui.Res
 import com.jotte.cxui.april
 import com.jotte.cxui.august
