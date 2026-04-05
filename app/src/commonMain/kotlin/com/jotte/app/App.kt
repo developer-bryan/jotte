@@ -114,7 +114,6 @@ fun App() {
                         LocalToastController.provides(toastState),
                         LocalClipboardController.provides(clipboardState),
                         LocalLinkHandler.provides(LinkHandler()),
-                        LocalDownloadMediaUseCase.provides(koinInject()),
                         LocalSoundEffectPlayer.provides(koinInject()),
                         content = {
                             val graphController = rememberNavController()

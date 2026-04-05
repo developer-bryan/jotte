@@ -5,6 +5,7 @@ package com.jotte.room.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jotte.core.datetime.usecase.GetFullDateUseCase
+import com.jotte.core.usecase.SaveFileToGalleryUseCase
 import com.jotte.cxui.soundeffect.SoundEffect
 import com.jotte.cxui.soundeffect.SoundEffectsPlayer
 import com.jotte.data.persistence.data.MediaDto
@@ -15,6 +16,7 @@ import com.jotte.data.usecase.DeleteNoteUseCase
 import com.jotte.room.model.event.RoomEvent
 import com.jotte.room.model.state.RoomMetricsState
 import com.jotte.room.usecase.MapNoteUseCase
+import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
@@ -25,7 +27,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-internal class NoteViewModel(
+internal class RoomViewModel(
     roomId: Long,
     roomRepository: RoomRepository,
     noteRepository: NoteRepository,
@@ -33,6 +35,7 @@ internal class NoteViewModel(
     private val deleteNoteUseCase: DeleteNoteUseCase,
     private val getFullDateUseCase: GetFullDateUseCase,
     private val deleteMediaUseCase: DeleteMediaUseCase,
+    private val saveFileToGalleryUseCase: SaveFileToGalleryUseCase,
     private val soundEffectsPlayer: SoundEffectsPlayer
 ) : ViewModel() {
 
@@ -91,6 +94,16 @@ internal class NoteViewModel(
                     soundEffectsPlayer.playSound(SoundEffect.SoundEffectRemoval)
                     event.send(RoomEvent.OnNoteDeleted)
                 }.onFailure { /* handle */ }
+        }
+    }
+
+    fun saveMediaToGallery(file: PlatformFile) {
+        viewModelScope.launch {
+            saveFileToGalleryUseCase(
+                file = file,
+                onSuccess = { event.trySend(RoomEvent.OnFileSavedToGallery) },
+                onFailure = { event.trySend(RoomEvent.OnFileSavedToGalleryError) }
+            )
         }
     }
 

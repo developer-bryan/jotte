@@ -2,7 +2,7 @@ package com.jotte.core.di
 
 import com.jotte.core.permission.PermissionManager
 import com.jotte.core.permission.PermissionManagerImpl
-import com.jotte.core.usecase.DownloadMediaUseCase
+import com.jotte.core.usecase.SaveFileToGalleryUseCase
 import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
 
@@ -38,5 +38,5 @@ fun provideCoreModule() =
         )
 
         single<PermissionManager> { PermissionManagerImpl() }
-        single<DownloadMediaUseCase> { DownloadMediaUseCase(get(imageRegex())) }
+        single<SaveFileToGalleryUseCase> { SaveFileToGalleryUseCase(get(imageRegex())) }
     }

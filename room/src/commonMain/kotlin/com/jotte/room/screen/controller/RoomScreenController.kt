@@ -10,19 +10,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.jotte.core.usecase.DownloadMediaUseCase
-import com.jotte.core.usecase.LocalDownloadMediaUseCase
 import com.jotte.cxui.Res
 import com.jotte.cxui.composition.LocalToastController
 import com.jotte.cxui.controller.CXPagerController
 import com.jotte.cxui.controller.CXToastController
 import com.jotte.cxui.controller.rememberPagerController
 import com.jotte.cxui.media_deleted
-import com.jotte.cxui.media_download
 import com.jotte.data.persistence.data.MediaDto
 import com.jotte.room.model.data.FilePagerItem
 import com.jotte.room.model.state.RoomScreenSheet
-import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -30,7 +26,6 @@ internal class RoomScreenController(
     val sheetState: ModalBottomSheetState,
     val filePagerController: CXPagerController<FilePagerItem>,
     private val toastState: CXToastController,
-    private val downloadMediaUseCase: DownloadMediaUseCase,
     private val scope: CoroutineScope
 ) {
 
@@ -53,16 +48,6 @@ internal class RoomScreenController(
             items = allItems.map { FilePagerItem(it) },
             initialIndex = selectedIndex
         )
-    }
-
-    fun downloadImageMedia(path: String) {
-        scope.launch {
-            downloadMediaUseCase.invoke(
-                file = PlatformFile(path),
-                onSuccess = { if (it) toastState.show(Res.string.media_download) },
-                onFailure = { toastState.showError() }
-            )
-        }
     }
 
     fun clearPagerItems() {
@@ -100,14 +85,12 @@ internal fun rememberRoomScreenController(roomId: Long): RoomScreenController {
     val pagerController = rememberPagerController<FilePagerItem>(roomId)
     val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val toastState = LocalToastController.current
-    val fileDownloader = LocalDownloadMediaUseCase.current
 
     return remember(roomId) {
         RoomScreenController(
             sheetState = sheetState,
             filePagerController = pagerController,
             toastState = toastState,
-            downloadMediaUseCase = fileDownloader,
             scope = scope
         )
     }

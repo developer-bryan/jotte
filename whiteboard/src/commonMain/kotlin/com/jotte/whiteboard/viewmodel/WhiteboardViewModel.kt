@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jotte.core.cacheFile
-import com.jotte.core.usecase.DownloadMediaUseCase
+import com.jotte.core.usecase.SaveFileToGalleryUseCase
 import com.jotte.data.usecase.GetWhiteboardUseCase
 import com.jotte.whiteboard.model.event.WhiteboardEvent
 import com.jotte.whiteboard.model.state.WhiteboardPath
@@ -29,7 +29,7 @@ internal class WhiteboardViewModel(
     private val getWhiteboardUseCase: GetWhiteboardUseCase,
     private val updateWhiteboardUseCase: UpdateWhiteboardUseCase,
     private val mapWhiteboardPathUseCase: MapWhiteboardPathUseCase,
-    private val downloadMediaUseCase: DownloadMediaUseCase,
+    private val saveFileToGalleryUseCase: SaveFileToGalleryUseCase,
     private val downloadFileName: String
 ) : ViewModel() {
 
@@ -62,7 +62,7 @@ internal class WhiteboardViewModel(
 
                 file.write(bytes)
 
-                downloadMediaUseCase.invoke(
+                saveFileToGalleryUseCase.invoke(
                     file = file,
                     onSuccess = { event.trySend(WhiteboardEvent.OnMediaDownloaded) },
                     onFailure = { event.trySend(WhiteboardEvent.OnMediaDownloadFailure) }

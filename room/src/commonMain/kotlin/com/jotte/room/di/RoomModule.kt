@@ -2,15 +2,15 @@ package com.jotte.room.di
 
 import com.jotte.core.di.imageRegex
 import com.jotte.room.usecase.MapNoteUseCase
-import com.jotte.room.viewmodel.NoteViewModel
+import com.jotte.room.viewmodel.RoomViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 fun provideRoomModule() =
     module {
 
-        viewModel<NoteViewModel> {
-            NoteViewModel(
+        viewModel<RoomViewModel> {
+            RoomViewModel(
                 roomId = get(),
                 roomRepository = get(),
                 noteRepository = get(),
@@ -18,6 +18,7 @@ fun provideRoomModule() =
                 getFullDateUseCase = get(),
                 deleteNoteUseCase = get(),
                 deleteMediaUseCase = get(),
+                saveFileToGalleryUseCase = get(),
                 soundEffectsPlayer = get()
             )
         }

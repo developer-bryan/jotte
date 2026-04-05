@@ -18,8 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.jotte.cxui.Res
 import com.jotte.cxui.component.CXMediaPager
+import com.jotte.cxui.composition.LocalToastController
 import com.jotte.cxui.default_room_name
 import com.jotte.cxui.extension.asEffect
+import com.jotte.cxui.media_download
 import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.shapes
 import com.jotte.room.model.event.RoomEvent
@@ -34,7 +36,8 @@ import com.jotte.room.screen.layout.RoomToolbar
 import com.jotte.room.screen.sheet.NoteActionsSheet
 import com.jotte.room.screen.sheet.RoomActionsSheet
 import com.jotte.room.screen.sheet.RoomMetricsSheet
-import com.jotte.room.viewmodel.NoteViewModel
+import com.jotte.room.viewmodel.RoomViewModel
+import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.coroutines.flow.receiveAsFlow
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -52,15 +55,19 @@ fun RoomScreen(
 ) {
 
     val controller = rememberRoomScreenController(roomId)
-    val viewModel = koinViewModel<NoteViewModel>(key = roomId.toString()) { parametersOf(roomId) }
+    val viewModel = koinViewModel<RoomViewModel>(key = roomId.toString()) { parametersOf(roomId) }
 
     val roomName by viewModel.roomName.collectAsState(null)
     val metrics by viewModel.roomMetricsState.collectAsState(RoomMetricsState())
     val notes by viewModel.notes.collectAsState()
 
+    val toastController = LocalToastController.current
+
     viewModel.event.receiveAsFlow().asEffect { event ->
         when (event) {
             is RoomEvent.OnMediaDeleted -> controller.onMediaDeleted(event.id)
+            RoomEvent.OnFileSavedToGallery -> toastController.show(Res.string.media_download)
+            RoomEvent.OnFileSavedToGalleryError -> toastController.showError()
             RoomEvent.OnNoteDeleted -> Unit
         }
     }
@@ -188,7 +195,10 @@ fun RoomScreen(
             CXMediaPager(
                 controller = controller.filePagerController,
                 onCloseClicked = controller::clearPagerItems,
-                onDownloadClicked = { pagerItem -> controller.downloadImageMedia(pagerItem.path) },
+                onDownloadClicked = { pagerItem ->
+                    val file = PlatformFile(pagerItem.path)
+                    viewModel.saveMediaToGallery(file)
+                },
                 onDeleteClicked = { viewModel.deleteFile(it.file) }
             )
         }
