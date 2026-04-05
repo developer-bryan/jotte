@@ -1,5 +1,6 @@
 package com.jotte.whiteboard.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.ui.graphics.rememberGraphicsLayer
 import com.jotte.core.permission.Permission
 import com.jotte.core.permission.rememberPermission
 import com.jotte.cxui.Res
+import com.jotte.cxui.color.Pallete
 import com.jotte.cxui.composition.LocalToastController
 import com.jotte.cxui.controller.rememberDialogController
 import com.jotte.cxui.exit_whiteboard_dialog_body
@@ -127,7 +129,8 @@ fun WhiteboardScreen(
                             modifier =
                                 Modifier
                                     .fillMaxWidth()
-                                    .weight(1F),
+                                    .weight(1F)
+                                    .background(Pallete.White),
                             controller = controller,
                             graphicsLayer = captureGraphicsLayer,
                             paths = paths,
