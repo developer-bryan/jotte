@@ -20,7 +20,7 @@ internal fun CXTypographySpecs.createTypography(): CXTypography =
             ),
         headerThree =
             TextStyle(
-                fontSize = this.fontSizeMedium,
+                fontSize = this.fontSizeRegular,
                 fontFamily = this.blackFont,
                 lineHeight = this.headerLineHeight,
             ),

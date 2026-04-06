@@ -19,7 +19,6 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.jotte.app.model.popup.DrawerPopupAction
 import com.jotte.cxui.Res
@@ -102,10 +101,7 @@ internal fun DrawerListItem(
                 content = {
                     CXText(
                         text = roomName,
-                        style =
-                            typography.bodyOne.copy(
-                                fontWeight = FontWeight.Black
-                            )
+                        style = typography.headerTwo
                     )
                     CXText(
                         text = modifiedOn,
