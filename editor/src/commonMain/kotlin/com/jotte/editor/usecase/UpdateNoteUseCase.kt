@@ -23,7 +23,7 @@ internal class UpdateNoteUseCase(
 
     @OptIn(ExperimentalTime::class)
     @Suppress("LongMethod")
-    suspend operator fun invoke(draft: DraftState) {
+    suspend operator fun invoke(draft: DraftState, content: String) {
         val modifiedOn = Clock.System.now().toEpochMilliseconds()
 
         checkNotNull(draft.noteId)
@@ -60,9 +60,7 @@ internal class UpdateNoteUseCase(
                 .map { it.linkId }
 
         // SET CONTENT
-        draft.content?.let {
-            updatedNote = updatedNote.copy(content = NoteDto.Content(it.value))
-        }
+        updatedNote = updatedNote.copy(content = NoteDto.Content(content))
 
         // SET AUDIO: ADD | REPLACE | REMOVE
         if (draft.audio != null) {

@@ -9,7 +9,6 @@ import com.jotte.data.persistence.data.FullNote
 import com.jotte.data.usecase.GetNoteUseCase
 import com.jotte.editor.model.event.EditorEvent
 import com.jotte.editor.model.state.DraftAudioState
-import com.jotte.editor.model.state.DraftContentState
 import com.jotte.editor.model.state.DraftLinkState
 import com.jotte.editor.model.state.DraftState
 import com.jotte.editor.usecase.CreateNoteUseCase
@@ -44,21 +43,23 @@ internal class EditorViewModel(
 
     val event = Channel<EditorEvent>(onBufferOverflow = BufferOverflow.SUSPEND)
 
+    // Data Snapshots for existing notes
+    private val _snapshot = MutableStateFlow<FullNote?>(null)
+    val snapshot: Flow<FullNote?> = _snapshot
+
     private val linksSnapshot = HashSet<String>()
 
-    private val snapshot = MutableStateFlow<FullNote?>(null)
+    // Value deltas
     private val audio = MutableStateFlow<DraftAudioState?>(null)
     private val attachments = MutableStateFlow<ArrayList<PlatformFile>>(ArrayList())
     private val links = MutableStateFlow<ArrayList<DraftLinkState>>(ArrayList())
-
-    private val mutableContentValue = MutableStateFlow("")
-    val contentValue: Flow<String> = mutableContentValue
+    private val contentValue = MutableStateFlow("")
 
     val draft =
         combine(
             flow = audio,
             flow2 = attachments,
-            flow3 = snapshot,
+            flow3 = _snapshot,
             flow4 = contentValue,
             flow5 = links,
             transform = { audio, attachments, note, contentValue, links ->
@@ -78,16 +79,10 @@ internal class EditorViewModel(
                             links.size != note.links?.size
                     }
 
-                val draftContent =
-                    contentValue
-                        .takeIf { it.isNotEmpty() }
-                        ?.let { DraftContentState(value = it) }
-
                 DraftState(
                     roomId = roomId.value,
                     noteId = noteId.value,
                     canSubmit = canSubmit,
-                    content = draftContent,
                     audio = audio,
                     media = attachments,
                     links = links
@@ -100,7 +95,7 @@ internal class EditorViewModel(
             viewModelScope.launch {
                 val note = getNoteUseCase(id)
                 val links = ArrayList<DraftLinkState>()
-                val content = note.note.content?.let { DraftContentState(it.value) }
+                val content = note.note.content
                 val audio =
                     note.note.audio?.let {
                         DraftAudioState(
@@ -121,8 +116,8 @@ internal class EditorViewModel(
                     linksSnapshot.add(link.toString())
                 }
 
-                this@EditorViewModel.snapshot.emit(note)
-                this@EditorViewModel.mutableContentValue.emit(content?.value ?: "")
+                this@EditorViewModel._snapshot.emit(note)
+                this@EditorViewModel.contentValue.emit(content?.value ?: "")
                 this@EditorViewModel.audio.emit(audio)
                 this@EditorViewModel.attachments.emit(attachments as ArrayList)
                 this@EditorViewModel.links.emit(links)
@@ -144,8 +139,8 @@ internal class EditorViewModel(
     // TODO: Check if we can remove?
     fun clearDraft() =
         viewModelScope.launch {
-            snapshot.emit(null)
-            mutableContentValue.emit("")
+            _snapshot.emit(null)
+            contentValue.emit("")
             audio.emit(null)
             attachments.emit(ArrayList())
             linksSnapshot.clear()
@@ -153,7 +148,7 @@ internal class EditorViewModel(
 
     fun setContentValue(value: String) {
         viewModelScope.launch {
-            mutableContentValue.emit(value)
+            contentValue.emit(value)
         }
     }
 
@@ -167,7 +162,10 @@ internal class EditorViewModel(
         file: PlatformFile,
         duration: Long
     ) = viewModelScope.launch {
-        val newAudio = audio.value?.copy(file, duration) ?: DraftAudioState(file, duration)
+        val newAudio = audio.value?.copy(
+            file = file,
+            duration = duration
+        ) ?: DraftAudioState(file, duration)
         audio.emit(newAudio)
     }
 
@@ -196,9 +194,9 @@ internal class EditorViewModel(
                 val draft = draft.first()
 
                 if (draft.noteId == null) {
-                    createNoteUseCase(draft)
+                    createNoteUseCase(draft, contentValue.value)
                 } else {
-                    updateNoteUseCase(draft)
+                    updateNoteUseCase(draft, contentValue.value)
                 }
 
                 event.send(EditorEvent.OnDraftSubmitted)

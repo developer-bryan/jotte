@@ -57,14 +57,14 @@ import com.jotte.editor.screen.dialog.CreateLinkDialog
 import com.jotte.editor.screen.dialog.DraftAudioTitleDialog
 import com.jotte.editor.screen.layout.AudioRecordingChip
 import com.jotte.editor.screen.layout.EditorHeader
-import com.jotte.editor.screen.layout.EditorOptionsTray
+import com.jotte.editor.screen.layout.EditorFooter
 import com.jotte.editor.viewmodel.EditorViewModel
 import com.jotte.editor.viewmodel.NoteId
 import com.jotte.editor.viewmodel.RoomId
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.extension
-import io.github.vinceglb.filekit.nameWithoutExtension
+import io.github.vinceglb.filekit.name
 import kotlinx.coroutines.flow.consumeAsFlow
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -85,24 +85,23 @@ fun EditorScreen(
             )
         }
 
-    val focusRequester = remember { FocusRequester() }
-    val focusManager = LocalFocusManager.current
-    val keyboard: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current
-    val toastController = LocalToastController.current
-
     val audioController = rememberRecordAudioController(viewModel::addAudioFile)
 
+    val richTextState = rememberRichTextState()
+
+    val focusManager = LocalFocusManager.current
+    val toastController = LocalToastController.current
+    val soundEffectsPlayer: SoundEffectsPlayer? = LocalSoundEffectPlayer.current
+    val keyboard: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current
+
+    val focusRequester = remember { FocusRequester() }
+
+    val snapshot by viewModel.snapshot.collectAsState(null)
     val draft by viewModel.draft.collectAsState(null)
-    val contentValue by viewModel.contentValue.collectAsState("")
     val isAudioRecording by audioController.isRecording.collectAsState(false)
 
-    val soundEffectsPlayer: SoundEffectsPlayer? = LocalSoundEffectPlayer.current
-
     var cameraVisible by remember { mutableStateOf(false) }
-
     var contentEditorInFocus by remember { mutableStateOf(true) }
-
-    val richTextState = rememberRichTextState()
 
     val audioFileSaver =
         rememberFileSaverPicker(
@@ -172,6 +171,12 @@ fun EditorScreen(
         }
     }
 
+    LaunchedEffect(snapshot) {
+        snapshot?.note?.content?.value?.let { html ->
+            richTextState.setHtml(html)
+        }
+    }
+
     LaunchedEffect(cameraVisible) {
         if (cameraVisible) {
             focusManager.clearFocus()
@@ -179,7 +184,7 @@ fun EditorScreen(
     }
 
     LaunchedEffect(richTextState.annotatedString) {
-        viewModel.setContentValue(richTextState.annotatedString.text)
+        viewModel.setContentValue(richTextState.toHtml())
     }
 
     Column(
@@ -218,16 +223,10 @@ fun EditorScreen(
                         onRemoveMedia = removeAttachmentDialogController::show,
                         onRenameAudio = audioTitleDialogController::show,
                         onSaveAudio = {
-                            val fileName =
-                                draft?.audio?.title
-                                    ?: draft
-                                        ?.audio
-                                        ?.file
-                                        ?.nameWithoutExtension
-                            fileName?.let {
+                            draft?.audio?.let {
                                 audioFileSaver.launch(
-                                    suggestedName = it,
-                                    extension = draft?.audio?.file?.extension
+                                    suggestedName = it.title ?: it.file.name,
+                                    extension = it.file.extension
                                 )
                             }
                         },
@@ -250,7 +249,7 @@ fun EditorScreen(
                 CompositionLocalProvider(
                     value = LocalColor provides CXDarkColors(),
                     content = {
-                        EditorOptionsTray(
+                        EditorFooter(
                             state = richTextState,
                             modifier = Modifier
                                 .padding(sizes.small)

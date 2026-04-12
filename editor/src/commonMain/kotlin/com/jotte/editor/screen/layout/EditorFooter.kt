@@ -13,8 +13,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.font.FontWeight
 import com.jotte.cxui.Res
 import com.jotte.cxui.bold_toggle_click_label
 import com.jotte.cxui.component.CXButtonIcon
@@ -27,13 +25,13 @@ import com.jotte.cxui.icon_mic
 import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.shapes
 import com.jotte.cxui.theme.sizes
-import com.jotte.cxui.theme.typography
+import com.jotte.editor.model.state.ContentSpan
 import com.jotte.editor.screen.component.ButtonOptionContentFormat
 import com.mohamedrejeb.richeditor.model.RichTextState
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun EditorOptionsTray(
+internal fun EditorFooter(
     state: RichTextState,
     modifier: Modifier = Modifier,
     contentEditorInFocus: Boolean = false,
@@ -43,20 +41,25 @@ internal fun EditorOptionsTray(
     toggleFocusButtonClicked: () -> Unit
 ) {
 
-    val colors = colors
-    val typography = typography
-
     var boldToggled by rememberSaveable { mutableStateOf(false) }
     var headerToggled by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(boldToggled) {
-        val fontWeight = if (boldToggled) FontWeight.Bold else FontWeight.Normal
-        state.toggleSpanStyle(SpanStyle(fontWeight = fontWeight))
+        val span = if (boldToggled) ContentSpan.Bold else ContentSpan.Normal
+        state.toggleSpanStyle(span.spanStyle)
+
+        if (boldToggled) {
+            headerToggled = false
+        }
     }
 
     LaunchedEffect(headerToggled) {
-        val style = if (headerToggled) typography.headerTwo else typography.bodyOne
-        state.toggleSpanStyle(style.toSpanStyle())
+        val span = if (headerToggled) ContentSpan.Header else ContentSpan.Normal
+        state.toggleSpanStyle(span.spanStyle)
+
+        if (headerToggled) {
+            boldToggled = false
+        }
     }
 
     Row(
