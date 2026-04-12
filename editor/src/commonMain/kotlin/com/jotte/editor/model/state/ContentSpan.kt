@@ -9,7 +9,7 @@ internal sealed class ContentSpan(val spanStyle: SpanStyle) {
     data object Header: ContentSpan(
         spanStyle = SpanStyle(
             fontWeight = FontWeight.Black,
-            fontSize = 18.sp
+            fontSize = 16.sp
         )
     )
 
@@ -19,12 +19,4 @@ internal sealed class ContentSpan(val spanStyle: SpanStyle) {
             fontSize = 14.sp
         )
     )
-
-    data object Normal: ContentSpan(
-        spanStyle = SpanStyle(
-            fontWeight = FontWeight.Normal,
-            fontSize = 14.sp
-        )
-    )
-
 }

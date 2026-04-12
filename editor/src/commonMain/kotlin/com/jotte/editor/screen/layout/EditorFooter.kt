@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import com.jotte.cxui.Res
 import com.jotte.cxui.bold_toggle_click_label
 import com.jotte.cxui.component.CXButtonIcon
+import com.jotte.cxui.extension.RowExtension.FillSpace
 import com.jotte.cxui.header_toggle_click_label
 import com.jotte.cxui.icon_camera
 import com.jotte.cxui.icon_chevron_down
@@ -44,22 +45,11 @@ internal fun EditorFooter(
     var boldToggled by rememberSaveable { mutableStateOf(false) }
     var headerToggled by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(boldToggled) {
-        val span = if (boldToggled) ContentSpan.Bold else ContentSpan.Normal
-        state.toggleSpanStyle(span.spanStyle)
+    LaunchedEffect(state.currentSpanStyle) {
+        val currentFontWeight = state.currentSpanStyle.fontWeight
 
-        if (boldToggled) {
-            headerToggled = false
-        }
-    }
-
-    LaunchedEffect(headerToggled) {
-        val span = if (headerToggled) ContentSpan.Header else ContentSpan.Normal
-        state.toggleSpanStyle(span.spanStyle)
-
-        if (headerToggled) {
-            boldToggled = false
-        }
+        boldToggled = (currentFontWeight == ContentSpan.Bold.spanStyle.fontWeight)
+        headerToggled = (currentFontWeight == ContentSpan.Header.spanStyle.fontWeight)
     }
 
     Row(
@@ -71,21 +61,20 @@ internal fun EditorFooter(
                     shape = shapes.roundedContentFormatterTrayShape
                 ).padding(horizontal = sizes.extraSmall),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(sizes.small),
         content = {
 
             ButtonOptionContentFormat(
                 option = 'H',
                 onClickLabel = stringResource(Res.string.header_toggle_click_label),
                 isToggled = headerToggled,
-                onClick = { headerToggled = !headerToggled }
+                onClick = { state.toggleSpanStyle(ContentSpan.Header.spanStyle) }
             )
 
             ButtonOptionContentFormat(
                 option = 'B',
                 onClickLabel = stringResource(Res.string.bold_toggle_click_label),
                 isToggled = boldToggled,
-                onClick = { boldToggled = !boldToggled }
+                onClick = { state.toggleSpanStyle(ContentSpan.Bold.spanStyle) }
             )
 
             CXButtonIcon(
@@ -102,6 +91,8 @@ internal fun EditorFooter(
                 icon = Res.drawable.icon_mic,
                 onClick = onAudioClicked
             )
+
+            FillSpace()
 
             CXButtonIcon(
                 icon = if (contentEditorInFocus) Res.drawable.icon_chevron_down else Res.drawable.icon_chevron_up,
