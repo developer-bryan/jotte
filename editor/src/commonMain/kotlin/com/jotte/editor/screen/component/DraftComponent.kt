@@ -27,15 +27,15 @@ import com.jotte.cxui.theme.sizes
 import com.jotte.editor.model.state.DraftCarouselItem
 import com.jotte.editor.model.state.DraftLinkState
 import com.jotte.editor.model.state.DraftState
+import com.mohamedrejeb.richeditor.model.RichTextState
 import io.github.vinceglb.filekit.PlatformFile
 
 @Composable
 internal fun DraftComponent(
     draft: DraftState?,
-    contentValue: String,
+    richTextState: RichTextState,
     modifier: Modifier = Modifier,
     focusRequester: FocusRequester,
-    onContentValueChanged: (newValue: String) -> Unit,
     onRemoveMedia: (file: PlatformFile) -> Unit,
     onRenameAudio: () -> Unit,
     onSaveAudio: () -> Unit,
@@ -74,13 +74,12 @@ internal fun DraftComponent(
         content = {
 
             DraftContentComponent(
-                value = contentValue,
+                state = richTextState,
                 modifier =
                     Modifier
                         .fillMaxWidth()
                         .onFocusChanged(onFocusChanged),
                 focusRequester = focusRequester,
-                onValueChanged = onContentValueChanged,
             )
 
             draft?.audio?.let {

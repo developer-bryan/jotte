@@ -1,45 +1,51 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.jotte.editor.screen.component
 
-import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.jotte.cxui.Res
 import com.jotte.cxui.component.CXText
 import com.jotte.cxui.draft_hint
-import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.typography
+import com.mohamedrejeb.richeditor.model.RichTextState
+import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
+import com.mohamedrejeb.richeditor.ui.material3.RichTextEditorDefaults
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun DraftContentComponent(
-    value: String,
+    state: RichTextState,
     modifier: Modifier = Modifier,
     focusRequester: FocusRequester,
-    onValueChanged: (newValue: String) -> Unit
 ) {
 
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
-    BasicTextField(
-        value = value,
-        modifier = modifier.focusRequester(focusRequester),
-        onValueChange = onValueChanged::invoke,
-        cursorBrush = SolidColor(colors.contentPrimary),
-        textStyle = typography.bodyOne.copy(color = colors.contentPrimary),
-        decorationBox = { innerTextField ->
-            if (value.isEmpty()) {
-                CXText(
-                    text = stringResource(Res.string.draft_hint),
-                    alpha = 0.85F,
-                    style = typography.bodyOne
-                )
-            }
-            innerTextField()
-        },
+    RichTextEditor(
+        state = state,
+        modifier = Modifier.fillMaxWidth(),
+        textStyle = typography.bodyOne,
+        colors =
+            RichTextEditorDefaults.richTextEditorColors(
+                containerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
+        contentPadding = PaddingValues(0.dp),
+        placeholder = {
+            CXText(
+                text = stringResource(Res.string.draft_hint),
+                alpha = 0.85F,
+                style = typography.bodyOne
+            )
+        }
     )
-
 }
