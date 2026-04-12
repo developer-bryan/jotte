@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.graphicsLayer
 import com.jotte.cxui.Res
@@ -43,6 +45,10 @@ internal fun DraftComponent(
     onRemoveLink: (link: DraftLinkState) -> Unit,
     onFocusChanged: (focus: FocusState) -> Unit
 ) {
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 
     val soundEffectsPlayer: SoundEffectsPlayer? = LocalSoundEffectPlayer.current
 
@@ -78,8 +84,8 @@ internal fun DraftComponent(
                 modifier =
                     Modifier
                         .fillMaxWidth()
+                        .focusRequester(focusRequester)
                         .onFocusChanged(onFocusChanged),
-                focusRequester = focusRequester,
             )
 
             draft?.audio?.let {

@@ -178,6 +178,10 @@ fun EditorScreen(
         }
     }
 
+    LaunchedEffect(richTextState.annotatedString) {
+        viewModel.setContentValue(richTextState.annotatedString.text)
+    }
+
     Column(
         modifier =
             Modifier

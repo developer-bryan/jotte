@@ -23,15 +23,12 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun DraftContentComponent(
     state: RichTextState,
-    modifier: Modifier = Modifier,
-    focusRequester: FocusRequester,
+    modifier: Modifier = Modifier
 ) {
-
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
     RichTextEditor(
         state = state,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         textStyle = typography.bodyOne,
         colors =
             RichTextEditorDefaults.richTextEditorColors(
