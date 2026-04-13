@@ -9,7 +9,6 @@ import com.jotte.data.persistence.data.FullNote
 import com.jotte.data.usecase.GetNoteUseCase
 import com.jotte.editor.model.event.EditorEvent
 import com.jotte.editor.model.state.DraftAudioState
-import com.jotte.editor.model.state.DraftLinkState
 import com.jotte.editor.model.state.DraftState
 import com.jotte.editor.usecase.CreateNoteUseCase
 import com.jotte.editor.usecase.UpdateNoteUseCase
@@ -52,7 +51,6 @@ internal class EditorViewModel(
     // Value deltas
     private val audio = MutableStateFlow<DraftAudioState?>(null)
     private val attachments = MutableStateFlow<ArrayList<PlatformFile>>(ArrayList())
-    private val links = MutableStateFlow<ArrayList<DraftLinkState>>(ArrayList())
     private val contentValue = MutableStateFlow("")
 
     val draft =
@@ -61,12 +59,11 @@ internal class EditorViewModel(
             flow2 = attachments,
             flow3 = _snapshot,
             flow4 = contentValue,
-            flow5 = links,
-            transform = { audio, attachments, note, contentValue, links ->
+            transform = { audio, attachments, note, contentValue ->
 
                 val canSubmit =
                     if (note == null) {
-                        contentValue != "" || audio != null || attachments.isNotEmpty() || links.isNotEmpty()
+                        contentValue != "" || audio != null || attachments.isNotEmpty()
                     } else {
                         note.note.content?.value != contentValue ||
                             note.note.audio?.fileName != audio?.file?.name ||
@@ -74,9 +71,7 @@ internal class EditorViewModel(
                             note.note.audio?.title != audio?.title ||
                             attachments.any { attachment ->
                                 note.media?.none { it.fileName == attachment.name } == true
-                            } ||
-                            links.any { !linksSnapshot.contains(it.toString()) } ||
-                            links.size != note.links?.size
+                            }
                     }
 
                 DraftState(
@@ -85,7 +80,6 @@ internal class EditorViewModel(
                     canSubmit = canSubmit,
                     audio = audio,
                     media = attachments,
-                    links = links
                 )
             }
         )
@@ -94,7 +88,6 @@ internal class EditorViewModel(
         noteId.value?.let { id ->
             viewModelScope.launch {
                 val note = getNoteUseCase(id)
-                val links = ArrayList<DraftLinkState>()
                 val content = note.note.content
                 val audio =
                     note.note.audio?.let {
@@ -105,22 +98,10 @@ internal class EditorViewModel(
                         )
                     }
                 val attachments = note.media?.map { FileKit.storageFile(it.fileName) }
-                note.links?.forEach {
-                    val link =
-                        DraftLinkState(
-                            id = it.linkId,
-                            link = it.link,
-                            type = it.linkType
-                        )
-                    links.add(link)
-                    linksSnapshot.add(link.toString())
-                }
-
                 this@EditorViewModel._snapshot.emit(note)
                 this@EditorViewModel.contentValue.emit(content?.value ?: "")
                 this@EditorViewModel.audio.emit(audio)
                 this@EditorViewModel.attachments.emit(attachments as ArrayList)
-                this@EditorViewModel.links.emit(links)
             }
         }
     }
@@ -174,18 +155,6 @@ internal class EditorViewModel(
         viewModelScope.launch {
             val newAudio = audio.value?.copy(title = title)
             audio.emit(newAudio)
-        }
-
-    fun addLink(link: DraftLinkState) =
-        viewModelScope.launch {
-            val newLinksList = links.value + link
-            links.emit(newLinksList as ArrayList)
-        }
-
-    fun removeLink(link: DraftLinkState) =
-        viewModelScope.launch {
-            val newLinksList = links.value - link
-            links.emit(newLinksList as ArrayList)
         }
 
     fun submit() =

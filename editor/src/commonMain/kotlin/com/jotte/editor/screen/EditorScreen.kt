@@ -235,7 +235,6 @@ fun EditorScreen(
                             }
                         },
                         onRemoveAudio = removeAudioDialogController::show,
-                        onRemoveLink = viewModel::removeLink,
                         onFocusChanged = { contentEditorInFocus = it.hasFocus }
                     )
                 }

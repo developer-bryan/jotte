@@ -3,7 +3,6 @@
 package com.jotte.data.repository
 
 import com.jotte.data.persistence.data.FullNote
-import com.jotte.data.persistence.data.LinkDto
 import com.jotte.data.persistence.data.MediaDto
 import com.jotte.data.persistence.data.NoteDto
 import kotlinx.coroutines.flow.Flow
@@ -23,19 +22,13 @@ interface NoteRepository {
 
     suspend fun deleteNote(noteIds: List<Long>): Int
 
-    suspend fun deleteLink(linkId: String): Int
-
-    suspend fun deleteLink(linkIds: List<String>): Int
-
     suspend fun insertNote(
         note: NoteDto,
-        files: List<MediaDto>,
-        links: List<LinkDto>
+        files: List<MediaDto>
     )
 
     suspend fun updateNote(
         note: NoteDto,
-        files: List<MediaDto>,
-        links: List<LinkDto>
+        files: List<MediaDto>
     )
 }

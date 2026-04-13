@@ -24,11 +24,6 @@ class DeleteNoteUseCase(
                 FileKit.storageFile(it.fileName).delete(false)
             }
 
-            note.links?.let {
-                val ids = it.map { link -> link.linkId }
-                noteRepository.deleteLink(ids)
-            }
-
             roomRepository.updateRoomModified(note.note.roomId)
             rowsDeleted > 0
         }

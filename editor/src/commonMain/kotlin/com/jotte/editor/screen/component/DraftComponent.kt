@@ -18,16 +18,9 @@ import com.jotte.cxui.Res
 import com.jotte.cxui.color.Pallete
 import com.jotte.cxui.component.CXButtonIcon
 import com.jotte.cxui.component.CXMediaCarousel
-import com.jotte.cxui.composition.LocalSoundEffectPlayer
-import com.jotte.cxui.controller.rememberDialogController
 import com.jotte.cxui.icon_trash
-import com.jotte.cxui.remove_link_dialog_body
-import com.jotte.cxui.remove_link_dialog_title
-import com.jotte.cxui.soundeffect.SoundEffect
-import com.jotte.cxui.soundeffect.SoundEffectsPlayer
 import com.jotte.cxui.theme.sizes
 import com.jotte.editor.model.state.DraftCarouselItem
-import com.jotte.editor.model.state.DraftLinkState
 import com.jotte.editor.model.state.DraftState
 import com.mohamedrejeb.richeditor.model.RichTextState
 import io.github.vinceglb.filekit.PlatformFile
@@ -42,7 +35,6 @@ internal fun DraftComponent(
     onRenameAudio: () -> Unit,
     onSaveAudio: () -> Unit,
     onRemoveAudio: () -> Unit,
-    onRemoveLink: (link: DraftLinkState) -> Unit,
     onFocusChanged: (focus: FocusState) -> Unit
 ) {
 
@@ -50,22 +42,10 @@ internal fun DraftComponent(
         focusRequester.requestFocus()
     }
 
-    val soundEffectsPlayer: SoundEffectsPlayer? = LocalSoundEffectPlayer.current
-
     val mediaCarouselItems =
         remember(draft?.media) {
             draft?.media?.map { DraftCarouselItem(it) }
         }
-
-    val removeLinkDialogController =
-        rememberDialogController<DraftLinkState>(
-            title = Res.string.remove_link_dialog_title,
-            body = Res.string.remove_link_dialog_body,
-            onPositiveButtonClick = {
-                it?.let(onRemoveLink)
-                soundEffectsPlayer?.playSound(SoundEffect.SoundEffectRemoval)
-            }
-        )
 
     Column(
         modifier =
@@ -95,13 +75,6 @@ internal fun DraftComponent(
                     onRenameClicked = onRenameAudio,
                     onSaveClicked = onSaveAudio,
                     onRemoveClicked = onRemoveAudio
-                )
-            }
-
-            draft?.links?.let {
-                DraftLinksCarousel(
-                    links = it,
-                    onRemoveLinkClicked = { removeLinkDialogController.show(it) }
                 )
             }
 

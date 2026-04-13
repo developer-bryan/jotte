@@ -2,7 +2,6 @@ package com.jotte.editor.usecase
 
 import com.jotte.core.copyCacheToStorage
 import com.jotte.core.storageFile
-import com.jotte.data.persistence.data.LinkDto
 import com.jotte.data.persistence.data.MediaDto
 import com.jotte.data.persistence.data.NoteDto
 import com.jotte.data.repository.MediaRepository
@@ -34,7 +33,6 @@ internal class UpdateNoteUseCase(
         // FETCH ORIGINAL NOTE
         val originalNote = noteRepository.queryNote(draft.noteId)
         val originalMedia = (originalNote.media ?: emptyList())
-        val originalLinks = (originalNote.links ?: emptyList())
         var updatedNote = originalNote.note.copy(modifiedOn = modifiedOn)
 
         // MARK MEDIAS THAT EXIST IN DRAFT BUT NOT ORIGINAL
@@ -46,21 +44,6 @@ internal class UpdateNoteUseCase(
         // MARK MEDIAS THAT EXIST IN ORIGINAL BUT NOT IN DRAFT
         val mediaToDelete =
             originalMedia.filter { old -> draft.media.none { new -> old.fileName == new.name } }
-
-        val links =
-            draft.links.map {
-                val link =
-                    LinkDto(
-                        link = it.link,
-                        linkType = it.type
-                    )
-                it.id?.let { id -> link.copy(linkId = id) } ?: link
-            }
-
-        val linksToRemove =
-            originalLinks
-                .filter { old -> draft.links.none { new -> old.linkId == new.id } }
-                .map { it.linkId }
 
         // SET CONTENT
         updatedNote = updatedNote.copy(content = NoteDto.Content(content))
@@ -95,15 +78,10 @@ internal class UpdateNoteUseCase(
 
         // WRITE NEW ATTACHMENTS TO FS
         newMedia.forEach { FileKit.copyCacheToStorage(it.fileName) }
-        noteRepository.updateNote(updatedNote, newMedia, links)
+        noteRepository.updateNote(updatedNote, newMedia)
 
         // REMOVE OLD MEDIA FROM DATABASE
         mediaRepository.deleteMedia(mediaToDelete)
-
-        // REMOVE OLD LINKS FROM DATABASE
-        if (linksToRemove.isNotEmpty()) {
-            noteRepository.deleteLink(linksToRemove)
-        }
 
         // REMOVE OLD MEDIA FROM FS
         mediaToDelete.forEach { FileKit.storageFile(it.fileName).delete(false) }

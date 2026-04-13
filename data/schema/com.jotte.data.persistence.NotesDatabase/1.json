@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "448a61538e58899dd3f61d0df6602883",
+    "identityHash": "1da80d09a2dc92c7f00307e9515fd856",
     "entities": [
       {
         "tableName": "rooms",
@@ -212,111 +212,6 @@
         ]
       },
       {
-        "tableName": "links",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`linkId` TEXT NOT NULL, `createdOn` INTEGER NOT NULL, `link` TEXT NOT NULL, `linkType` TEXT NOT NULL, PRIMARY KEY(`linkId`))",
-        "fields": [
-          {
-            "fieldPath": "linkId",
-            "columnName": "linkId",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "createdOn",
-            "columnName": "createdOn",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "link",
-            "columnName": "link",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "linkType",
-            "columnName": "linkType",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "linkId"
-          ]
-        },
-        "indices": [
-          {
-            "name": "index_links_linkId",
-            "unique": false,
-            "columnNames": [
-              "linkId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_links_linkId` ON `${TABLE_NAME}` (`linkId`)"
-          },
-          {
-            "name": "index_links_linkType",
-            "unique": false,
-            "columnNames": [
-              "linkType"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_links_linkType` ON `${TABLE_NAME}` (`linkType`)"
-          }
-        ]
-      },
-      {
-        "tableName": "note_link_join",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`noteId` INTEGER NOT NULL, `linkId` TEXT NOT NULL, PRIMARY KEY(`noteId`, `linkId`), FOREIGN KEY(`noteId`) REFERENCES `notes`(`noteId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`linkId`) REFERENCES `links`(`linkId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
-        "fields": [
-          {
-            "fieldPath": "noteId",
-            "columnName": "noteId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "linkId",
-            "columnName": "linkId",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "noteId",
-            "linkId"
-          ]
-        },
-        "foreignKeys": [
-          {
-            "table": "notes",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "noteId"
-            ],
-            "referencedColumns": [
-              "noteId"
-            ]
-          },
-          {
-            "table": "links",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "linkId"
-            ],
-            "referencedColumns": [
-              "linkId"
-            ]
-          }
-        ]
-      },
-      {
         "tableName": "whiteboard_dto",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `paths` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
@@ -343,7 +238,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '448a61538e58899dd3f61d0df6602883')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1da80d09a2dc92c7f00307e9515fd856')"
     ]
   }
 }

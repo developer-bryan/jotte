@@ -4,7 +4,6 @@ package com.jotte.data.repository
 
 import com.jotte.data.persistence.dao.NoteDao
 import com.jotte.data.persistence.data.FullNote
-import com.jotte.data.persistence.data.LinkDto
 import com.jotte.data.persistence.data.MediaDto
 import com.jotte.data.persistence.data.NoteDto
 import kotlinx.coroutines.flow.Flow
@@ -27,19 +26,13 @@ internal class NoteRepositoryImpl(private val dao: NoteDao) : NoteRepository {
 
     override suspend fun deleteNote(noteIds: List<Long>): Int = dao.deleteNotes(noteIds)
 
-    override suspend fun deleteLink(linkId: String): Int = dao.deleteLink(linkId)
-
-    override suspend fun deleteLink(linkIds: List<String>): Int = dao.deleteLink(linkIds)
-
     override suspend fun insertNote(
         note: NoteDto,
         files: List<MediaDto>,
-        links: List<LinkDto>
-    ) = dao.insertNote(note, files, links)
+    ) = dao.insertNote(note, files)
 
     override suspend fun updateNote(
         note: NoteDto,
         files: List<MediaDto>,
-        links: List<LinkDto>
-    ) = dao.updateNote(note, files, links)
+    ) = dao.updateNote(note, files)
 }
