@@ -6,7 +6,6 @@ internal class DraftState(
     val roomId: Long,
     val noteId: Long? = null,
     val canSubmit: Boolean = false,
-    val content: DraftContentState? = null,
     val audio: DraftAudioState? = null,
     val media: List<PlatformFile> = emptyList(),
     val links: List<DraftLinkState> = emptyList()

@@ -38,7 +38,7 @@ internal fun EditorHeader(
 
             CXText(
                 text = stringResource(Res.string.editor_header_label),
-                style = typography.headerTwo
+                style = typography.headerOne
             )
 
             FillSpace()

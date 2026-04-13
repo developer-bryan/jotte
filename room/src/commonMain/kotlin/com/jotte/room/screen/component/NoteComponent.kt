@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -37,6 +38,7 @@ import com.jotte.data.persistence.data.LinkDto
 import com.jotte.room.model.data.MediaCarouselItem
 import com.jotte.room.model.data.NoteActionsSheetParams
 import com.jotte.room.model.state.NoteState
+import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.min
@@ -57,10 +59,19 @@ internal fun NoteComponent(
     val linkHandler = LocalLinkHandler.current
     val sizes = sizes
 
+    val richTextState = rememberRichTextState()
+
     val mediaCarouselItems =
         noteState.media.map {
             MediaCarouselItem(fileName = it.fileName, mediaId = it.mediaId)
         }
+
+    LaunchedEffect(noteState.content) {
+        noteState.content?.value?.let {
+            richTextState.setHtml(it)
+            println("HTML: $it")
+        }
+    }
 
     fun hasMediaAttachments() = mediaCarouselItems.isNotEmpty()
 
@@ -135,7 +146,7 @@ internal fun NoteComponent(
                         }
                     )
 
-                    noteState.content?.let { content -> NoteContentComponent(content = content) }
+                    NoteContentComponent(richTextState)
 
                     noteState.audio?.let { audio ->
                         NoteAudioComponent(

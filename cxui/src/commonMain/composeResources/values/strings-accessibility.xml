@@ -4,4 +4,9 @@
     <string name="close_drawer">close drawer</string>
     <string name="create_new_room">create a new room</string>
     <string name="open_whiteboard">open the whiteboard</string>
+
+    <!-- editor accessibility strings -->
+    <string name="text_color_selector_click_label">open text color selector</string>
+    <string name="header_toggle_click_label">toggle a header text style</string>
+    <string name="bold_toggle_click_label">toggle a bold text style</string>
 </resources>

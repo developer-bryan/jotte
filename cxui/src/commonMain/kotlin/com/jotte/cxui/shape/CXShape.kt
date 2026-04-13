@@ -23,4 +23,5 @@ class CXShape {
         )
     val toastShape = RoundedCornerShape(8.dp)
     val roundedSettingsValueButtonShape = RoundedCornerShape(12.dp)
+    val roundedContentFormatterTrayShape = RoundedCornerShape(10.dp)
 }

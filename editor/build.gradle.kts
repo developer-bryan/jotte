@@ -22,6 +22,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
+            implementation(libs.material3)
             implementation("org.jetbrains.compose.ui:ui-tooling:1.10.0-rc02")
         }
         commonMain.dependencies {
@@ -33,6 +34,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.datetime)
             implementation(libs.compottie)
+            implementation(libs.richeditor)
             implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0-rc02")
             api(libs.coil.compose.core)
             api(libs.coil.compose)

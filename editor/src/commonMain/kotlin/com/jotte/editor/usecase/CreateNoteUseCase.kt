@@ -19,7 +19,7 @@ internal class CreateNoteUseCase(
     private val roomRepository: RoomRepository
 ) {
 
-    suspend operator fun invoke(draft: DraftState) {
+    suspend operator fun invoke(draft: DraftState, content: String) {
         val createdOn = Clock.System.now().toEpochMilliseconds()
         val files = ArrayList<MediaDto>()
         val links = ArrayList<LinkDto>()
@@ -39,7 +39,7 @@ internal class CreateNoteUseCase(
             links.add(link)
         }
 
-        val content = draft.content?.let { NoteDto.Content(it.value) }
+        val content = NoteDto.Content(content)
         val audio =
             draft.audio?.let {
                 FileKit.copyCacheToStorage(it.file.name)

@@ -60,7 +60,7 @@
     <string name="add_link">add link</string>
     <string name="hold_to_record">hold to record</string>
     <string name="release_to_stop">release to stop</string>
-    <string name="editor_header_label">what's on your mind?</string>
+    <string name="editor_header_label">editor</string>
     <string name="room_new_note_cta_label">jot anything</string>
     <string name="confirm_editor_exit_dialog_title">clear draft?</string>
     <string name="confirm_editor_exit_dialog_body">do you wish to exit and clear your unsaved draft?</string>
