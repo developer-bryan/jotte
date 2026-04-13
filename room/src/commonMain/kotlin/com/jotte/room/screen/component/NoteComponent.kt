@@ -21,7 +21,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toIntSize
-import com.jotte.core.LocalLinkHandler
 import com.jotte.cxui.Res
 import com.jotte.cxui.component.CXMediaCarousel
 import com.jotte.cxui.component.CXText
@@ -56,7 +55,6 @@ internal fun NoteComponent(
     val graphicsLayer = rememberGraphicsLayer()
     val soundEffectsPlayer = LocalSoundEffectPlayer.current
     val toastController = LocalToastController.current
-    val linkHandler = LocalLinkHandler.current
     val sizes = sizes
 
     val richTextState = rememberRichTextState()
@@ -69,7 +67,6 @@ internal fun NoteComponent(
     LaunchedEffect(noteState.content) {
         noteState.content?.value?.let {
             richTextState.setHtml(it)
-            println("HTML: $it")
         }
     }
 
@@ -162,6 +159,7 @@ internal fun NoteComponent(
                             modifier = Modifier.align(Alignment.End),
                             links = noteState.links,
                             onLinkClicked = { link ->
+                                /*
                                 when (link.type) {
                                     LinkDto.LinkType.Url ->
                                         if (!linkHandler.openUrl(link.link)) {
@@ -175,6 +173,8 @@ internal fun NoteComponent(
 
                                     LinkDto.LinkType.Email -> Unit // TODO: Handle Email
                                 }
+
+                                 */
                             },
                             onLinkLongClick = { onItemLongClick() }
                         )

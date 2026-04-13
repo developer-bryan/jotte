@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -12,11 +13,12 @@ import com.jotte.app.navigation.graph.NavigationGraph
 import com.jotte.app.navigation.graph.SettingsGraph
 import com.jotte.app.navigation.route.Route
 import com.jotte.audioplayer.di.provideAudioNoteModule
-import com.jotte.core.LinkHandler
-import com.jotte.core.LocalLinkHandler
+import com.jotte.core.link.usecase.OpenLinkUseCase
 import com.jotte.core.datetime.DateTimeStrings
 import com.jotte.core.di.provideCoreModule
 import com.jotte.core.di.provideDateModule
+import com.jotte.core.link.di.provideLinkModule
+import com.jotte.core.link.model.AppLinkUriHandler
 import com.jotte.cxui.Res
 import com.jotte.cxui.april
 import com.jotte.cxui.august
@@ -61,6 +63,7 @@ fun App() {
     val mainModule = remember { provideMainModule() }
     val dateModule = remember { provideDateModule(dateTimeStrings) }
     val coreModule = remember { provideCoreModule() }
+    val linkModule = remember { provideLinkModule() }
     val cxuiModule = remember { provideCXUIModule() }
     val roomModule = remember { provideRoomModule() }
     val audioNoteModule = remember { provideAudioNoteModule() }
@@ -74,6 +77,7 @@ fun App() {
             modules(
                 mainModule,
                 coreModule,
+                linkModule,
                 dateModule,
                 notesModule,
                 cxuiModule,
@@ -103,7 +107,7 @@ fun App() {
                 isDarkMode = isDarkMode ?: isSystemInDarkTheme(),
                 content = {
                     CompositionLocalProvider(
-                        value = LocalLinkHandler.provides(LinkHandler()),
+                        LocalUriHandler.provides(AppLinkUriHandler(OpenLinkUseCase())),
                         content = {
                             val graphController = rememberNavController()
                             NavHost(

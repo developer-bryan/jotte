@@ -53,7 +53,7 @@ import com.jotte.cxui.theme.sizes
 import com.jotte.editor.controller.rememberRecordAudioController
 import com.jotte.editor.model.event.EditorEvent
 import com.jotte.editor.screen.component.DraftComponent
-import com.jotte.editor.screen.dialog.CreateLinkDialog
+import com.jotte.editor.screen.dialog.CreateAppLinkDialog
 import com.jotte.editor.screen.dialog.DraftAudioTitleDialog
 import com.jotte.editor.screen.layout.AudioRecordingChip
 import com.jotte.editor.screen.layout.EditorFooter
@@ -147,9 +147,13 @@ fun EditorScreen(
 
     val linkEditorDialogController =
         rememberDialogController {
-            CreateLinkDialog(
-                onLinkCreated = { newLink ->
-                    viewModel.addLink(newLink)
+            CreateAppLinkDialog(
+                onLinkCreated = { appLink ->
+                    richTextState.addLink(
+                        text = appLink.name ?: appLink.link,
+                        url = appLink.uri
+                    )
+
                     this.hide()
                 }
             )
