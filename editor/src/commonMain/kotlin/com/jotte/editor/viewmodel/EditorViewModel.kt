@@ -162,10 +162,11 @@ internal class EditorViewModel(
         file: PlatformFile,
         duration: Long
     ) = viewModelScope.launch {
-        val newAudio = audio.value?.copy(
-            file = file,
-            duration = duration
-        ) ?: DraftAudioState(file, duration)
+        val newAudio =
+            audio.value?.copy(
+                file = file,
+                duration = duration
+            ) ?: DraftAudioState(file, duration)
         audio.emit(newAudio)
     }
 

@@ -19,7 +19,10 @@ internal class CreateNoteUseCase(
     private val roomRepository: RoomRepository
 ) {
 
-    suspend operator fun invoke(draft: DraftState, content: String) {
+    suspend operator fun invoke(
+        draft: DraftState,
+        content: String
+    ) {
         val createdOn = Clock.System.now().toEpochMilliseconds()
         val files = ArrayList<MediaDto>()
         val links = ArrayList<LinkDto>()

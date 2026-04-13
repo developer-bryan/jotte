@@ -56,8 +56,8 @@ import com.jotte.editor.screen.component.DraftComponent
 import com.jotte.editor.screen.dialog.CreateLinkDialog
 import com.jotte.editor.screen.dialog.DraftAudioTitleDialog
 import com.jotte.editor.screen.layout.AudioRecordingChip
-import com.jotte.editor.screen.layout.EditorHeader
 import com.jotte.editor.screen.layout.EditorFooter
+import com.jotte.editor.screen.layout.EditorHeader
 import com.jotte.editor.viewmodel.EditorViewModel
 import com.jotte.editor.viewmodel.NoteId
 import com.jotte.editor.viewmodel.RoomId
@@ -251,10 +251,11 @@ fun EditorScreen(
                     content = {
                         EditorFooter(
                             state = richTextState,
-                            modifier = Modifier
-                                .padding(sizes.small)
-                                .fillMaxWidth()
-                                .align(Alignment.CenterHorizontally),
+                            modifier =
+                                Modifier
+                                    .padding(sizes.small)
+                                    .fillMaxWidth()
+                                    .align(Alignment.CenterHorizontally),
                             contentEditorInFocus = contentEditorInFocus,
                             onLinkClicked = linkEditorDialogController::show,
                             onCameraClicked = { cameraVisible = true },

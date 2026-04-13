@@ -23,7 +23,10 @@ internal class UpdateNoteUseCase(
 
     @OptIn(ExperimentalTime::class)
     @Suppress("LongMethod")
-    suspend operator fun invoke(draft: DraftState, content: String) {
+    suspend operator fun invoke(
+        draft: DraftState,
+        content: String
+    ) {
         val modifiedOn = Clock.System.now().toEpochMilliseconds()
 
         checkNotNull(draft.noteId)
