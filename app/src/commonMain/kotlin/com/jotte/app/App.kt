@@ -13,12 +13,11 @@ import com.jotte.app.navigation.graph.NavigationGraph
 import com.jotte.app.navigation.graph.SettingsGraph
 import com.jotte.app.navigation.route.Route
 import com.jotte.audioplayer.di.provideAudioNoteModule
-import com.jotte.core.link.usecase.OpenLinkUseCase
 import com.jotte.core.datetime.DateTimeStrings
 import com.jotte.core.di.provideCoreModule
 import com.jotte.core.di.provideDateModule
 import com.jotte.core.link.di.provideLinkModule
-import com.jotte.core.link.model.AppLinkUriHandler
+import com.jotte.core.link.usecase.OpenLinkUseCase
 import com.jotte.cxui.Res
 import com.jotte.cxui.april
 import com.jotte.cxui.august
@@ -106,33 +105,28 @@ fun App() {
             CXTheme(
                 isDarkMode = isDarkMode ?: isSystemInDarkTheme(),
                 content = {
-                    CompositionLocalProvider(
-                        LocalUriHandler.provides(AppLinkUriHandler(OpenLinkUseCase())),
-                        content = {
-                            val graphController = rememberNavController()
-                            NavHost(
-                                navController = graphController,
-                                startDestination = Route.MainGraph.destination,
-                                route = "root",
-                                builder = {
-                                    composable(
-                                        route = Route.MainGraph.destination,
-                                        content = { NavigationGraph(graphController) }
-                                    )
-                                    composable(
-                                        route = Route.SettingsGraph.destination,
-                                        content = { SettingsGraph(graphController) }
-                                    )
-                                }
+                    val graphController = rememberNavController()
+                    NavHost(
+                        navController = graphController,
+                        startDestination = Route.MainGraph.destination,
+                        route = "root",
+                        builder = {
+                            composable(
+                                route = Route.MainGraph.destination,
+                                content = { NavigationGraph(graphController) }
                             )
-
-                            CXToast(
-                                state = LocalToastController.current,
-                                modifier =
-                                    Modifier
-                                        .padding(bottom = sizes.huge.times(2))
+                            composable(
+                                route = Route.SettingsGraph.destination,
+                                content = { SettingsGraph(graphController) }
                             )
                         }
+                    )
+
+                    CXToast(
+                        state = LocalToastController.current,
+                        modifier =
+                            Modifier
+                                .padding(bottom = sizes.huge.times(2))
                     )
                 }
             )
