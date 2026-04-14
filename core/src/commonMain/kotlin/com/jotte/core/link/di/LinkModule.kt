@@ -1,5 +1,6 @@
 package com.jotte.core.link.di
 
+import com.jotte.core.link.usecase.OpenLinkUseCase
 import com.jotte.core.link.usecase.ValidateAppLinkUseCase
 import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
@@ -33,5 +34,7 @@ fun provideLinkModule() =
                 emailValidationRegex = get(emailRegex())
             )
         }
+
+        factory<OpenLinkUseCase> { OpenLinkUseCase() }
 
     }
