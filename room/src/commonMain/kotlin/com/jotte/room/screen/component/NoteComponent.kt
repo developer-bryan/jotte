@@ -31,10 +31,10 @@ import com.jotte.cxui.soundeffect.SoundEffect
 import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.theme.typography
+import com.jotte.editor.model.state.rememberRichTextState
 import com.jotte.room.model.data.MediaCarouselItem
 import com.jotte.room.model.data.NoteActionsSheetParams
 import com.jotte.room.model.state.NoteState
-import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.min

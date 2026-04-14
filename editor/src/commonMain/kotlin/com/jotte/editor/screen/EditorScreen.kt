@@ -52,6 +52,7 @@ import com.jotte.cxui.soundeffect.SoundEffectsPlayer
 import com.jotte.cxui.theme.sizes
 import com.jotte.editor.controller.rememberRecordAudioController
 import com.jotte.editor.model.event.EditorEvent
+import com.jotte.editor.model.state.rememberRichTextState
 import com.jotte.editor.screen.component.DraftComponent
 import com.jotte.editor.screen.dialog.CreateAppLinkDialog
 import com.jotte.editor.screen.dialog.DraftAudioTitleDialog
@@ -61,7 +62,6 @@ import com.jotte.editor.screen.layout.EditorHeader
 import com.jotte.editor.viewmodel.EditorViewModel
 import com.jotte.editor.viewmodel.NoteId
 import com.jotte.editor.viewmodel.RoomId
-import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.extension
 import io.github.vinceglb.filekit.name
