@@ -16,7 +16,7 @@ fun rememberRichTextUriHandler(): UriHandler {
     val toastController = LocalToastController.current
 
     return remember {
-        object: UriHandler {
+        object : UriHandler {
             override fun openUri(uri: String) {
                 val didOpen = openLinkUseCase(uri)
 

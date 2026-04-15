@@ -10,11 +10,12 @@ class ValidateAppLinkUseCase(
 ) {
 
     operator fun invoke(link: AppLink): Boolean {
-        val regex = when (link.scheme) {
-            is AppLinkScheme.Web -> urlValidationRegex
-            is AppLinkScheme.Phone -> phoneValidationRegex
-            is AppLinkScheme.Email -> emailValidationRegex
-        }
+        val regex =
+            when (link.scheme) {
+                is AppLinkScheme.Web -> urlValidationRegex
+                is AppLinkScheme.Phone -> phoneValidationRegex
+                is AppLinkScheme.Email -> emailValidationRegex
+            }
 
         return link.link.isNotEmpty() && regex.matches(link.link)
     }

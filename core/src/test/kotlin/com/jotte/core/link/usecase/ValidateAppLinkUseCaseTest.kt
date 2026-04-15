@@ -1,12 +1,11 @@
 package com.jotte.core.link.usecase
 
-import org.junit.Test
-
 import com.jotte.core.link.di.provideLinkModule
 import com.jotte.core.link.model.AppLink
 import com.jotte.core.link.model.AppLinkScheme
 import org.junit.After
 import org.junit.Before
+import org.junit.Test
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
@@ -17,21 +16,23 @@ class ValidateAppLinkUseCaseTest : KoinTest {
 
     val validateAppLinkUseCase: ValidateAppLinkUseCase by inject<ValidateAppLinkUseCase>()
 
-    val urls = listOf(
-        "www.jotte.net",
-        "example.com/api/v1/users",
-        "test.com/products/123",
-        "sample.org/search?q=hello&page=1",
-        "demo.net/auth/login"
-    )
+    val urls =
+        listOf(
+            "www.jotte.net",
+            "example.com/api/v1/users",
+            "test.com/products/123",
+            "sample.org/search?q=hello&page=1",
+            "demo.net/auth/login"
+        )
 
-    val malformedUrls = listOf(
-        "www.jotte-net",
-        "example .com/api/v1/users",
-        "test-com/products/123",
-        "sample.org/search?",
-        "demo.net/auth/login//"
-    )
+    val malformedUrls =
+        listOf(
+            "www.jotte-net",
+            "example .com/api/v1/users",
+            "test-com/products/123",
+            "sample.org/search?",
+            "demo.net/auth/login//"
+        )
 
     val phones =
         listOf(
@@ -65,11 +66,12 @@ class ValidateAppLinkUseCaseTest : KoinTest {
     @Test
     fun `matches links`() {
         urls.forEach { url ->
-            val appLink = AppLink(
-                name = null,
-                scheme = AppLinkScheme.Web,
-                link = url
-            )
+            val appLink =
+                AppLink(
+                    name = null,
+                    scheme = AppLinkScheme.Web,
+                    link = url
+                )
 
             val isMatch = validateAppLinkUseCase(appLink)
             assert(isMatch)
@@ -80,11 +82,12 @@ class ValidateAppLinkUseCaseTest : KoinTest {
     @kotlin.test.Test
     fun `malformed URLs do not match`() {
         malformedUrls.forEach { url ->
-            val appLink = AppLink(
-                name = null,
-                scheme = AppLinkScheme.Web,
-                link = url
-            )
+            val appLink =
+                AppLink(
+                    name = null,
+                    scheme = AppLinkScheme.Web,
+                    link = url
+                )
 
             val isMatch = validateAppLinkUseCase(appLink)
             assertFalse(isMatch)
@@ -94,11 +97,12 @@ class ValidateAppLinkUseCaseTest : KoinTest {
     @Test
     fun `matches phone numbers`() {
         phones.forEach { phoneNumber ->
-            val appLink = AppLink(
-                name = null,
-                scheme = AppLinkScheme.Phone,
-                link = phoneNumber
-            )
+            val appLink =
+                AppLink(
+                    name = null,
+                    scheme = AppLinkScheme.Phone,
+                    link = phoneNumber
+                )
 
             val isMatch = validateAppLinkUseCase(appLink)
             assert(isMatch)
@@ -108,11 +112,12 @@ class ValidateAppLinkUseCaseTest : KoinTest {
     @Test
     fun `matches emails`() {
         emails.forEach { email ->
-            val appLink = AppLink(
-                name = null,
-                scheme = AppLinkScheme.Email,
-                link = email
-            )
+            val appLink =
+                AppLink(
+                    name = null,
+                    scheme = AppLinkScheme.Email,
+                    link = email
+                )
 
             val isMatch = validateAppLinkUseCase(appLink)
             assert(isMatch)

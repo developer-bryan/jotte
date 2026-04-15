@@ -6,7 +6,9 @@ import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
 
 fun urlRegex() = StringQualifier("namedUrlPattern")
+
 fun phoneRegex() = StringQualifier("namedPhonePattern")
+
 fun emailRegex() = StringQualifier("namedEmailPattern")
 
 fun provideLinkModule() =

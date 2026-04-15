@@ -4,7 +4,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -17,7 +16,6 @@ import com.jotte.core.datetime.DateTimeStrings
 import com.jotte.core.di.provideCoreModule
 import com.jotte.core.di.provideDateModule
 import com.jotte.core.link.di.provideLinkModule
-import com.jotte.core.link.usecase.OpenLinkUseCase
 import com.jotte.cxui.Res
 import com.jotte.cxui.april
 import com.jotte.cxui.august

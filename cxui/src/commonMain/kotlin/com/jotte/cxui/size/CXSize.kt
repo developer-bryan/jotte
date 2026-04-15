@@ -26,5 +26,6 @@ data class CXSize internal constructor(
     val reducedAlpha: Float = 0.75F,
     val noteContentMaxWidthPercentage: Float = 0.95F,
     val aspectRatio43: Float = 0.75F,
-    val aspectRatio916: Float = 0.56F
+    val aspectRatio916: Float = 0.56F,
+    val richTextListIndent: Int = 26
 )

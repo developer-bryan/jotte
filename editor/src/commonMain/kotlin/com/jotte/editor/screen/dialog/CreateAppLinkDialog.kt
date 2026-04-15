@@ -194,9 +194,10 @@ private fun SchemeSelector(
             )
             DropdownMenu(
                 expanded = menuVisible,
-                modifier = Modifier
-                    .widthIn(min = 220.dp)
-                    .background(colors.backgroundPrimary),
+                modifier =
+                    Modifier
+                        .widthIn(min = 220.dp)
+                        .background(colors.backgroundPrimary),
                 onDismissRequest = { menuVisible = false },
                 properties = PopupProperties(focusable = true),
                 content = {

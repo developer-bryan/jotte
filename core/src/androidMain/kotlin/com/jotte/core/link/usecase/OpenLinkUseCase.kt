@@ -7,6 +7,7 @@ import com.jotte.core.link.model.AppLinkScheme
 
 actual class OpenLinkUseCase {
 
+    @Suppress("TooGenericExceptionCaught")
     actual operator fun invoke(uri: String): Boolean =
         try {
             val context = ApplicationProvider.getApplication()!!
@@ -29,6 +30,6 @@ actual class OpenLinkUseCase {
             this.scheme?.contains(AppLinkScheme.Web.scheme) == true -> Intent.ACTION_DIAL
             this.scheme?.contains(AppLinkScheme.Phone.scheme) == true -> Intent.ACTION_VIEW
             this.scheme?.contains(AppLinkScheme.Email.scheme) == true -> Intent.ACTION_SENDTO
-            else -> throw IllegalStateException("Missing scheme")
+            else -> error("Missing scheme")
         }
 }
