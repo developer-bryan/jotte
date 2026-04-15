@@ -3,7 +3,6 @@
 package com.jotte.editor.usecase
 
 import com.jotte.core.copyCacheToStorage
-import com.jotte.data.persistence.data.LinkDto
 import com.jotte.data.persistence.data.MediaDto
 import com.jotte.data.persistence.data.NoteDto
 import com.jotte.data.repository.NoteRepository
@@ -25,21 +24,11 @@ internal class CreateNoteUseCase(
     ) {
         val createdOn = Clock.System.now().toEpochMilliseconds()
         val files = ArrayList<MediaDto>()
-        val links = ArrayList<LinkDto>()
 
         draft.media.map {
             FileKit.copyCacheToStorage(it.name)
             val file = MediaDto(fileName = it.name)
             files.add(file)
-        }
-
-        draft.links.map {
-            val link =
-                LinkDto(
-                    link = it.link,
-                    linkType = it.type
-                )
-            links.add(link)
         }
 
         val content = NoteDto.Content(content)
@@ -62,7 +51,7 @@ internal class CreateNoteUseCase(
                 modifiedOn = createdOn
             )
 
-        noteRepository.insertNote(note, files, links)
+        noteRepository.insertNote(note, files)
         roomRepository.updateRoomModified(draft.roomId)
     }
 

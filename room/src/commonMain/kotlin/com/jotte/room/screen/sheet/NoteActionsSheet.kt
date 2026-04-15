@@ -33,6 +33,7 @@ import com.jotte.cxui.theme.shapes
 import com.jotte.cxui.theme.sizes
 import com.jotte.room.model.data.NoteActionsSheetParams
 import com.jotte.room.model.state.NoteState
+import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import io.github.vinceglb.filekit.extension
 import io.github.vinceglb.filekit.name
 import org.jetbrains.compose.resources.stringResource
@@ -48,6 +49,8 @@ internal fun NoteActionsSheet(
 
     val clipboardController = LocalClipboardController.current
     val toastController = LocalToastController.current
+
+    val richTextState = rememberRichTextState()
 
     val deleteNoteDialogController =
         rememberDialogController<NoteState>(
@@ -65,7 +68,8 @@ internal fun NoteActionsSheet(
 
     fun copyNoteContentToClipboard() {
         params.noteState.content?.value?.let {
-            clipboardController.copyToClipboard(it)
+            richTextState.setHtml(it)
+            clipboardController.copyToClipboard(richTextState.annotatedString.text)
         }
     }
 

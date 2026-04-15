@@ -7,6 +7,5 @@ internal class DraftState(
     val noteId: Long? = null,
     val canSubmit: Boolean = false,
     val audio: DraftAudioState? = null,
-    val media: List<PlatformFile> = emptyList(),
-    val links: List<DraftLinkState> = emptyList()
+    val media: List<PlatformFile> = emptyList()
 )

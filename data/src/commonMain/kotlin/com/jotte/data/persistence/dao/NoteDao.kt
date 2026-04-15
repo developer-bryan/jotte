@@ -5,10 +5,8 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import com.jotte.data.persistence.data.FullNote
-import com.jotte.data.persistence.data.LinkDto
 import com.jotte.data.persistence.data.MediaDto
 import com.jotte.data.persistence.data.NoteDto
-import com.jotte.data.persistence.data.join.LinkJoin
 import com.jotte.data.persistence.data.join.MediaJoin
 import kotlinx.coroutines.flow.Flow
 
@@ -33,16 +31,6 @@ interface NoteDao {
     @Query("DELETE FROM notes WHERE noteId = :noteId")
     suspend fun deleteNote(noteId: Long): Int
 
-    @Query("DELETE FROM note_link_join WHERE linkId = :linkId")
-    suspend fun deleteLink(linkId: String): Int
-
-    @Transaction
-    suspend fun deleteLink(linkIds: List<String>): Int =
-        linkIds.fold(
-            initial = 0,
-            operation = { acc, value -> acc + deleteLink(value) }
-        )
-
     @Upsert
     suspend fun insertNote(note: NoteDto): Long
 
@@ -51,12 +39,6 @@ interface NoteDao {
 
     @Upsert
     suspend fun insertFileJoin(file: MediaJoin): Long
-
-    @Upsert
-    suspend fun insertLink(link: LinkDto): Long
-
-    @Upsert
-    suspend fun insertLinkJoin(linkJoin: LinkJoin): Long
 
     @Transaction
     suspend fun deleteNotes(noteIds: List<Long>): Int =
@@ -68,8 +50,7 @@ interface NoteDao {
     @Transaction
     suspend fun insertNote(
         note: NoteDto,
-        files: List<MediaDto>,
-        links: List<LinkDto>
+        files: List<MediaDto>
     ) {
         val noteId = insertNote(note)
         files.forEach {
@@ -77,29 +58,18 @@ interface NoteDao {
             val join = MediaJoin(noteId, it.mediaId)
             insertFileJoin(join)
         }
-        links.forEach {
-            insertLink(it)
-            val join = LinkJoin(noteId, it.linkId)
-            insertLinkJoin(join)
-        }
     }
 
     @Transaction
     suspend fun updateNote(
         note: NoteDto,
-        files: List<MediaDto>,
-        links: List<LinkDto>
+        files: List<MediaDto>
     ) {
         insertNote(note)
         files.forEach {
             insertFile(it)
             val join = MediaJoin(note.noteId, it.mediaId)
             insertFileJoin(join)
-        }
-        links.forEach {
-            insertLink(it)
-            val join = LinkJoin(note.noteId, it.linkId)
-            insertLinkJoin(join)
         }
     }
 

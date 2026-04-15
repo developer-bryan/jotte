@@ -12,11 +12,10 @@ import com.jotte.app.navigation.graph.NavigationGraph
 import com.jotte.app.navigation.graph.SettingsGraph
 import com.jotte.app.navigation.route.Route
 import com.jotte.audioplayer.di.provideAudioNoteModule
-import com.jotte.core.LinkHandler
-import com.jotte.core.LocalLinkHandler
 import com.jotte.core.datetime.DateTimeStrings
 import com.jotte.core.di.provideCoreModule
 import com.jotte.core.di.provideDateModule
+import com.jotte.core.link.di.provideLinkModule
 import com.jotte.cxui.Res
 import com.jotte.cxui.april
 import com.jotte.cxui.august
@@ -61,6 +60,7 @@ fun App() {
     val mainModule = remember { provideMainModule() }
     val dateModule = remember { provideDateModule(dateTimeStrings) }
     val coreModule = remember { provideCoreModule() }
+    val linkModule = remember { provideLinkModule() }
     val cxuiModule = remember { provideCXUIModule() }
     val roomModule = remember { provideRoomModule() }
     val audioNoteModule = remember { provideAudioNoteModule() }
@@ -74,6 +74,7 @@ fun App() {
             modules(
                 mainModule,
                 coreModule,
+                linkModule,
                 dateModule,
                 notesModule,
                 cxuiModule,
@@ -102,33 +103,28 @@ fun App() {
             CXTheme(
                 isDarkMode = isDarkMode ?: isSystemInDarkTheme(),
                 content = {
-                    CompositionLocalProvider(
-                        value = LocalLinkHandler.provides(LinkHandler()),
-                        content = {
-                            val graphController = rememberNavController()
-                            NavHost(
-                                navController = graphController,
-                                startDestination = Route.MainGraph.destination,
-                                route = "root",
-                                builder = {
-                                    composable(
-                                        route = Route.MainGraph.destination,
-                                        content = { NavigationGraph(graphController) }
-                                    )
-                                    composable(
-                                        route = Route.SettingsGraph.destination,
-                                        content = { SettingsGraph(graphController) }
-                                    )
-                                }
+                    val graphController = rememberNavController()
+                    NavHost(
+                        navController = graphController,
+                        startDestination = Route.MainGraph.destination,
+                        route = "root",
+                        builder = {
+                            composable(
+                                route = Route.MainGraph.destination,
+                                content = { NavigationGraph(graphController) }
                             )
-
-                            CXToast(
-                                state = LocalToastController.current,
-                                modifier =
-                                    Modifier
-                                        .padding(bottom = sizes.huge.times(2))
+                            composable(
+                                route = Route.SettingsGraph.destination,
+                                content = { SettingsGraph(graphController) }
                             )
                         }
+                    )
+
+                    CXToast(
+                        state = LocalToastController.current,
+                        modifier =
+                            Modifier
+                                .padding(bottom = sizes.huge.times(2))
                     )
                 }
             )

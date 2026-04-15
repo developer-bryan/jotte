@@ -21,24 +21,20 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toIntSize
-import com.jotte.core.LocalLinkHandler
 import com.jotte.cxui.Res
 import com.jotte.cxui.component.CXMediaCarousel
 import com.jotte.cxui.component.CXText
 import com.jotte.cxui.composition.LocalSoundEffectPlayer
-import com.jotte.cxui.composition.LocalToastController
-import com.jotte.cxui.invalid_link_msg
 import com.jotte.cxui.modifier.captureBitmap
 import com.jotte.cxui.note_long_click_desc
 import com.jotte.cxui.soundeffect.SoundEffect
 import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.theme.typography
-import com.jotte.data.persistence.data.LinkDto
+import com.jotte.editor.model.state.rememberRichTextState
 import com.jotte.room.model.data.MediaCarouselItem
 import com.jotte.room.model.data.NoteActionsSheetParams
 import com.jotte.room.model.state.NoteState
-import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.min
@@ -55,8 +51,6 @@ internal fun NoteComponent(
     val scope = rememberCoroutineScope()
     val graphicsLayer = rememberGraphicsLayer()
     val soundEffectsPlayer = LocalSoundEffectPlayer.current
-    val toastController = LocalToastController.current
-    val linkHandler = LocalLinkHandler.current
     val sizes = sizes
 
     val richTextState = rememberRichTextState()
@@ -69,7 +63,6 @@ internal fun NoteComponent(
     LaunchedEffect(noteState.content) {
         noteState.content?.value?.let {
             richTextState.setHtml(it)
-            println("HTML: $it")
         }
     }
 
@@ -154,29 +147,6 @@ internal fun NoteComponent(
                             modifier = Modifier.align(Alignment.End),
                             onClick = { onPlayAudioClicked(audio.id) },
                             onLongClick = { onItemLongClick() }
-                        )
-                    }
-
-                    if (noteState.links.isNotEmpty()) {
-                        NoteLinksCarousel(
-                            modifier = Modifier.align(Alignment.End),
-                            links = noteState.links,
-                            onLinkClicked = { link ->
-                                when (link.type) {
-                                    LinkDto.LinkType.Url ->
-                                        if (!linkHandler.openUrl(link.link)) {
-                                            toastController.show(Res.string.invalid_link_msg)
-                                        }
-
-                                    LinkDto.LinkType.Phone ->
-                                        if (!linkHandler.handlePhoneNumber(link.link)) {
-                                            toastController.show(Res.string.invalid_link_msg)
-                                        }
-
-                                    LinkDto.LinkType.Email -> Unit // TODO: Handle Email
-                                }
-                            },
-                            onLinkLongClick = { onItemLongClick() }
                         )
                     }
 

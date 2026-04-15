@@ -14,10 +14,12 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.DropdownMenu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,9 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.PopupProperties
-import com.jotte.core.di.emailRegex
-import com.jotte.core.di.phoneRegex
-import com.jotte.core.di.urlRegex
+import com.jotte.core.link.model.AppLink
+import com.jotte.core.link.model.AppLinkScheme
+import com.jotte.core.link.usecase.ValidateAppLinkUseCase
 import com.jotte.cxui.Res
 import com.jotte.cxui.add
 import com.jotte.cxui.component.CXButton
@@ -49,43 +51,58 @@ import com.jotte.cxui.theme.colors
 import com.jotte.cxui.theme.shapes
 import com.jotte.cxui.theme.sizes
 import com.jotte.cxui.theme.typography
-import com.jotte.data.persistence.data.LinkDto
-import com.jotte.editor.model.state.DraftLinkState
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 @Composable
-internal fun DialogController<Nothing>.CreateLinkDialog(
+internal fun DialogController<Nothing>.CreateAppLinkDialog(
     modifier: Modifier = Modifier,
-    urlRegex: String = koinInject(urlRegex()),
-    phoneRegex: String = koinInject(phoneRegex()),
-    emailRegex: String = koinInject(emailRegex()),
-    onLinkCreated: (DraftLinkState) -> Unit,
+    validator: ValidateAppLinkUseCase = koinInject(),
+    onLinkCreated: (link: AppLink) -> Unit,
 ) {
 
-    var type by remember { mutableStateOf(LinkDto.LinkType.Url) }
-    var value by remember(type) { mutableStateOf("") }
-    val valueIconResource by derivedStateOf {
-        when (type) {
-            LinkDto.LinkType.Url -> Res.drawable.icon_link
-            LinkDto.LinkType.Phone -> Res.drawable.icon_phone
-            LinkDto.LinkType.Email -> Res.drawable.icon_email
-        }
+    var name by rememberSaveable { mutableStateOf<String?>(null) }
+    var scheme by rememberSaveable { mutableStateOf<AppLinkScheme>(AppLinkScheme.Web) }
+    var value by rememberSaveable { mutableStateOf("") }
+
+    var appLink by remember(scheme, value) {
+        val link =
+            AppLink(
+                name = name,
+                link = value,
+                scheme = scheme
+            )
+
+        mutableStateOf(link)
     }
-    val valuePlaceholderResource by derivedStateOf {
-        when (type) {
-            LinkDto.LinkType.Url -> Res.string.link_dialog_url_value_placeholder
-            LinkDto.LinkType.Phone -> Res.string.link_dialog_phone_value_placeholder
-            LinkDto.LinkType.Email -> Res.string.link_dialog_email_value_placeholder
-        }
-    }
-    val saveEnabled by derivedStateOf {
-        value.isNotEmpty() &&
-            when (type) {
-                LinkDto.LinkType.Url -> urlRegex.toRegex().matches(value)
-                LinkDto.LinkType.Phone -> phoneRegex.toRegex().matches(value)
-                LinkDto.LinkType.Email -> emailRegex.toRegex().matches(value)
+
+    val valueIconResource by remember {
+        derivedStateOf {
+            when (scheme) {
+                AppLinkScheme.Web -> Res.drawable.icon_link
+                AppLinkScheme.Phone -> Res.drawable.icon_phone
+                AppLinkScheme.Email -> Res.drawable.icon_email
             }
+        }
+    }
+
+    val valuePlaceholderResource by remember {
+        derivedStateOf {
+            when (scheme) {
+                AppLinkScheme.Web -> Res.string.link_dialog_url_value_placeholder
+                AppLinkScheme.Phone -> Res.string.link_dialog_phone_value_placeholder
+                AppLinkScheme.Email -> Res.string.link_dialog_email_value_placeholder
+            }
+        }
+    }
+
+    val saveEnabled by remember(appLink) {
+        derivedStateOf { validator(appLink) }
+    }
+
+    LaunchedEffect(scheme) {
+        value = ""
+        name = null
     }
 
     Dialog(
@@ -114,9 +131,9 @@ internal fun DialogController<Nothing>.CreateLinkDialog(
 
                     Space { medium }
 
-                    LinkTypeSelector(
-                        currentLinkType = type,
-                        onLinkTypeSelected = { type = it }
+                    SchemeSelector(
+                        currentScheme = scheme,
+                        onSchemeSelected = { scheme = it }
                     )
 
                     Space { small }
@@ -134,12 +151,7 @@ internal fun DialogController<Nothing>.CreateLinkDialog(
                         enabled = saveEnabled,
                         text = stringResource(Res.string.add),
                         onClick = {
-                            val link =
-                                DraftLinkState(
-                                    link = value,
-                                    type = type
-                                )
-                            onLinkCreated(link)
+                            onLinkCreated(appLink)
                         }
                     )
                 }
@@ -150,10 +162,10 @@ internal fun DialogController<Nothing>.CreateLinkDialog(
 }
 
 @Composable
-private fun LinkTypeSelector(
-    currentLinkType: LinkDto.LinkType,
+private fun SchemeSelector(
+    currentScheme: AppLinkScheme,
     modifier: Modifier = Modifier,
-    onLinkTypeSelected: (linkType: LinkDto.LinkType) -> Unit
+    onSchemeSelected: (scheme: AppLinkScheme) -> Unit
 ) {
 
     var menuVisible by remember { mutableStateOf(false) }
@@ -174,7 +186,7 @@ private fun LinkTypeSelector(
                 verticalAlignment = Alignment.CenterVertically,
                 content = {
                     CXText(
-                        text = currentLinkType.name,
+                        text = currentScheme.scheme,
                         style = typography.bodyOne
                     )
                     CXIcon(Res.drawable.icon_chevron_down)
@@ -182,20 +194,35 @@ private fun LinkTypeSelector(
             )
             DropdownMenu(
                 expanded = menuVisible,
-                modifier = Modifier.widthIn(min = 220.dp),
+                modifier =
+                    Modifier
+                        .widthIn(min = 220.dp)
+                        .background(colors.backgroundPrimary),
                 onDismissRequest = { menuVisible = false },
                 properties = PopupProperties(focusable = true),
                 content = {
                     Column {
-                        LinkDto.LinkType.entries.forEach {
-                            CXButtonOption(
-                                label = it.name,
-                                onClick = {
-                                    menuVisible = false
-                                    onLinkTypeSelected(it)
-                                }
-                            )
-                        }
+                        CXButtonOption(
+                            label = AppLinkScheme.Web.scheme,
+                            onClick = {
+                                menuVisible = false
+                                onSchemeSelected(AppLinkScheme.Web)
+                            }
+                        )
+                        CXButtonOption(
+                            label = AppLinkScheme.Phone.scheme,
+                            onClick = {
+                                menuVisible = false
+                                onSchemeSelected(AppLinkScheme.Phone)
+                            }
+                        )
+                        CXButtonOption(
+                            label = AppLinkScheme.Email.scheme,
+                            onClick = {
+                                menuVisible = false
+                                onSchemeSelected(AppLinkScheme.Email)
+                            }
+                        )
                     }
                 }
             )

@@ -44,13 +44,12 @@ class DeleteAudioUseCase(
             val noteId = note.note.noteId
             val roomId = note.note.roomId
             val media = note.media ?: emptyList()
-            val links = note.links ?: emptyList()
 
             if (shouldDeleteNote) {
                 deleteNoteUseCase(noteId)
             } else {
                 val updatedNote = note.note.copy(audio = null)
-                noteRepository.insertNote(updatedNote, media, links)
+                noteRepository.insertNote(updatedNote, media)
             }
 
             audioFile.delete(false)
