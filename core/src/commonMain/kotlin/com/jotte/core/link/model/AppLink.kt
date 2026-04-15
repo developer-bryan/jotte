@@ -1,9 +1,9 @@
 package com.jotte.core.link.model
 
 data class AppLink(
-    val name: String?,
     val link: String,
-    val scheme: AppLinkScheme
+    val scheme: AppLinkScheme,
+    val name: String? = null
 ) {
 
     val uri: String
